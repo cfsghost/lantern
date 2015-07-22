@@ -1,0 +1,31 @@
+{
+  "name": "lantern",
+  "version": "1.0.0",
+  "description": "Template for website",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cfsghost/lantern.git"
+  },
+  "keywords": [
+    "web"
+  ],
+  "author": "Fred Chien <cfsghost@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cfsghost/lantern/issues"
+  },
+  "homepage": "https://github.com/cfsghost/lantern",
+  "devDependencies": {
+    "jsx-loader": ">=0.13.2",
+    "node-libs-browser": ">=0.5.2",
+    "webpack": ">=1.10.1",
+    "webpack-dev-server": ">=1.10.1"
+  },
+  "dependencies": {
+    "react": ">=0.13.3"
+  }
+}
