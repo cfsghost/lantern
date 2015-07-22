@@ -1,0 +1,2 @@
+# lantern
+Template for website
