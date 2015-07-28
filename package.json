@@ -4,7 +4,10 @@
   "description": "Template for website",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run serve | npm run dev",
+    "serve": "./node_modules/.bin/http-server -p 8080",
+    "dev": "webpack-dev-server --progress --colors --port 8090"
   },
   "repository": {
     "type": "git",
@@ -20,12 +23,27 @@
   },
   "homepage": "https://github.com/cfsghost/lantern",
   "devDependencies": {
+    "css-loader": ">=0.15.6",
+    "file-loader": "^0.8.4",
     "jsx-loader": ">=0.13.2",
+    "less": ">=2.5.1",
+    "less-loader": ">=2.2.0",
     "node-libs-browser": ">=0.5.2",
+    "style-loader": ">=0.12.3",
+    "url-loader": "^0.5.6",
     "webpack": ">=1.10.1",
     "webpack-dev-server": ">=1.10.1"
   },
   "dependencies": {
-    "react": ">=0.13.3"
+    "jade": ">=1.11.0",
+    "koa": ">=0.21.0",
+    "koa-bodyparser": ">=2.0.0",
+    "koa-router": ">=5.1.2",
+    "koa-session": ">=3.3.1",
+    "koa-static": ">=1.4.9",
+    "koa-views": ">=3.1.0",
+    "react": ">=0.13.3",
+    "react-router": ">=0.13.3",
+    "react-tools": ">=0.13.3"
   }
 }
