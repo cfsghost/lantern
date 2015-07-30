@@ -5,8 +5,9 @@ var DefaultRoute = Router.DefaultRoute;
 var RouteHandler = Router.RouteHandler;
 var Link = Router.Link;
 
-var App = React.createClass({
-  render: function () {
+//var App = React.createClass({
+class App extends React.Component {
+  render() {
     return (
 		<div>
 			<div className={'ui top fixed inverted menu'}>
@@ -18,7 +19,7 @@ var App = React.createClass({
 		</div>
     );
   }
-});
+};
 /*
         <header className={"cf"}>
           <h1>Lantern</h1>

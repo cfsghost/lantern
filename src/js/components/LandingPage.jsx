@@ -10,6 +10,9 @@ var reactLogo = require('../../images/react-logo.png');
 var caseIcon = require('../../images/case-icon.png');
 var techIcon = require('../../images/tech-icon.png');
 
+// Avatar
+var avatar1 = require('../../images/avatar-1.png');
+
 var descStyle = {
 	fontSize: '1.5em'
 };
@@ -38,7 +41,7 @@ class LandingPage extends React.Component {
 							<div className={'column'}>
 								<div className={'ui basic very padded left aligned segment'}>
 									<h1>Make Web Application Quicker</h1>
-									<p style={descStyle}>Lantern is an template that helps creating an isomorphic web application with modern technologies.</p>
+									<p style={descStyle}>Lantern is a template that helps creating an isomorphic web application with modern technologies.</p>
 								</div>
 							</div>
 							<div className={'column'}>
@@ -80,18 +83,19 @@ class LandingPage extends React.Component {
 							<div className={'column'}>
 								<div className={'ui basic very padded left aligned segment'}>
 									<h1>Modern Technologies</h1>
-									<p style={descStyle}>Lantern is using Node.js, Koa, React, Semantic UI and Webpack.</p>
+									<p style={descStyle}>Lantern is using ES6, Node.js, Koa, React, Semantic UI and Webpack.</p>
 								</div>
 							</div>
 						</div>
 					</div>
 				</section>
 
-				<div className={'ui basic very padded inverted segment'}>
-					<div className={'ui three column inverted divided grid'}>
+				<div className={'ui basic very padded segment'}>
+					<div className={'ui three column divided grid'}>
 
 						<div className={'middle aligned column'}>
-							<div className={'ui basic center aligned inverted segment'}>
+							<img className={'ui circular image'} src={avatar1} />
+							<div className={'ui basic center aligned segment'}>
 								<h1>Lantern</h1>
 							</div>
 						</div>
