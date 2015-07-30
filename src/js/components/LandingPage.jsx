@@ -12,6 +12,8 @@ var techIcon = require('../../images/tech-icon.png');
 
 // Avatar
 var avatar1 = require('../../images/avatar-1.png');
+var avatar2 = require('../../images/avatar-2.png');
+var avatar3 = require('../../images/avatar-3.png');
 
 var descStyle = {
 	fontSize: '1.5em'
@@ -94,19 +96,41 @@ class LandingPage extends React.Component {
 					<div className={'ui three column divided grid'}>
 
 						<div className={'middle aligned column'}>
-							<img className={'ui circular image'} src={avatar1} />
 							<div className={'ui basic center aligned segment'}>
-								<h1>Lantern</h1>
+								<h2 className={'ui center aligned icon header'}>
+									<img className={'ui small circular image'} src={avatar1} />
+									<br />
+									<br />
+									<div>Fred Chien</div>
+									<div className={'sub header'}>Founder</div>
+								</h2>
+							</div>
+						</div>
+
+						<div className={'middle aligned column'}>
+							<div className={'ui basic center aligned segment'}>
+								<h2 className={'ui center aligned icon header'}>
+									<img className={'ui small circular image'} src={avatar2} />
+									<br />
+									<br />
+									<div>Leon Lin</div>
+									<div className={'sub header'}>Founder</div>
+								</h2>
+							</div>
+						</div>
+
+						<div className={'middle aligned column'}>
+							<div className={'ui basic center aligned segment'}>
+								<h2 className={'ui center aligned icon header'}>
+									<img className={'ui small circular image'} src={avatar3} />
+									<br />
+									<br />
+									<div>Unknown</div>
+									<div className={'sub header'}>Founder</div>
+								</h2>
 							</div>
 						</div>
 						
-						<div className={'column'}>
-							<h4 className={'ui inverted header'}>Social</h4>
-						</div>
-
-						<div className={'column'}>
-							<img className={'ui image'} src={nodejsLogo} />
-						</div>
 					</div>
 				</div>
 
