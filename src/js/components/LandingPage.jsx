@@ -92,47 +92,49 @@ class LandingPage extends React.Component {
 					</div>
 				</section>
 
-				<div className={'ui basic very padded segment'}>
-					<div className={'ui three column divided grid'}>
+				<section style={sectionStyle}>
+					<div className={'ui basic very padded segment'}>
+						<div className={'ui three column divided grid'}>
 
-						<div className={'middle aligned column'}>
-							<div className={'ui basic center aligned segment'}>
-								<h2 className={'ui center aligned icon header'}>
-									<img className={'ui small circular image'} src={avatar1} />
-									<br />
-									<br />
-									<div>Fred Chien</div>
-									<div className={'sub header'}>Founder</div>
-								</h2>
+							<div className={'middle aligned column'}>
+								<div className={'ui basic center aligned segment'}>
+									<h2 className={'ui center aligned icon header'}>
+										<img className={'ui small circular image'} src={avatar1} />
+										<br />
+										<br />
+										<div>Fred Chien</div>
+										<div className={'sub header'}>Founder</div>
+									</h2>
+								</div>
 							</div>
-						</div>
 
-						<div className={'middle aligned column'}>
-							<div className={'ui basic center aligned segment'}>
-								<h2 className={'ui center aligned icon header'}>
-									<img className={'ui small circular image'} src={avatar2} />
-									<br />
-									<br />
-									<div>Leon Lin</div>
-									<div className={'sub header'}>Founder</div>
-								</h2>
+							<div className={'middle aligned column'}>
+								<div className={'ui basic center aligned segment'}>
+									<h2 className={'ui center aligned icon header'}>
+										<img className={'ui small circular image'} src={avatar2} />
+										<br />
+										<br />
+										<div>Leon Lin</div>
+										<div className={'sub header'}>Founder</div>
+									</h2>
+								</div>
 							</div>
-						</div>
 
-						<div className={'middle aligned column'}>
-							<div className={'ui basic center aligned segment'}>
-								<h2 className={'ui center aligned icon header'}>
-									<img className={'ui small circular image'} src={avatar3} />
-									<br />
-									<br />
-									<div>Unknown</div>
-									<div className={'sub header'}>Founder</div>
-								</h2>
+							<div className={'middle aligned column'}>
+								<div className={'ui basic center aligned segment'}>
+									<h2 className={'ui center aligned icon header'}>
+										<img className={'ui small circular image'} src={avatar3} />
+										<br />
+										<br />
+										<div>Unknown</div>
+										<div className={'sub header'}>Founder</div>
+									</h2>
+								</div>
 							</div>
+							
 						</div>
-						
 					</div>
-				</div>
+				</section>
 
 				<div className={'ui basic inverted center aligned segment'}>
 					<span>Copyright &copy; 2015 Lantern Project. All Rights Reserved.</span>

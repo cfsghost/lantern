@@ -12,6 +12,12 @@ class App extends React.Component {
 		<div>
 			<div className={'ui top fixed inverted menu'}>
 				<div className={'item'}>Lantern</div>
+				<div className={'right menu'}>
+					<div className={'item'}>
+					<i className={'sign in icon'} />
+					Sign In
+					</div>
+				</div>
 			</div>
 			<section className={"content markdown-body"}>
 				<RouteHandler/>
