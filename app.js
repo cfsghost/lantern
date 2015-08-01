@@ -9,7 +9,13 @@ var session = require('koa-session');
 // React
 var React = require('react');
 var ReactRouter = require('react-router');
-var routes = require('./src/js/routes.jsx');
+require('node-jsx').install({
+	harmony: true,
+	extension: '.jsx'
+});
+//var routes = require('./src/js/routes.jsx');
+//var routes = require('./server/app.js');
+var routes = require('./public/assets/routes.js');
 
 var app = koa();
 
@@ -43,7 +49,7 @@ function getContent(app, routePath) {
 		ReactRouter.run(routes, routePath, function(Handler) {
 			var content = React.renderToString(React.createElement(Handler));
 
-			done(null, done);
+			done(null, content);
 		});
 	};
 }
@@ -51,7 +57,13 @@ function getContent(app, routePath) {
 // Routes
 var router = new Router();
 router.get('/', function *() {
-	var content = yield getContent(this, '/');
+//	var content = yield getContent(this, '/');
+	var content = '';
+	yield this.render('index', { content: content });
+});
+router.get('/signin', function *() {
+//	var content = yield getContent(this, '/signin');
+	var content = '';
 	yield this.render('index', { content: content });
 });
 app.use(router.middleware());
