@@ -44,7 +44,8 @@
     "koa-views": ">=3.1.0",
     "node-jsx": "^0.13.3",
     "react": ">=0.13.3",
-    "react-router": ">=0.13.3",
+    "react-async": "^2.1.0",
+    "react-router-component": "^0.26.0",
     "react-tools": ">=0.13.3"
   }
 }

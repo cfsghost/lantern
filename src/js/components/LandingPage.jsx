@@ -1,5 +1,6 @@
 var React = require('react');
-var Link = require('react-router').Link;
+//var Link = require('react-router').Link;
+var Header = require('./Header.jsx');
 
 var nodejsLogo = require('../../images/nodejs-logo.png');
 var webpackLogo = require('../../images/webpack-logo.png');
@@ -28,6 +29,8 @@ class LandingPage extends React.Component {
 	render() {
 		return (
 			<div>
+				<Header />
+
 				<div className={'ui basic center aligned segment landing-page-header'}>
 					<h1 className={'ui inverted header'}>
 						<span>Lantern</span>

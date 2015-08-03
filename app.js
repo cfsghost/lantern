@@ -8,14 +8,16 @@ var session = require('koa-session');
 
 // React
 var React = require('react');
-var ReactRouter = require('react-router');
+/*
 require('node-jsx').install({
 	harmony: true,
 	extension: '.jsx'
 });
+*/
 //var routes = require('./src/js/routes.jsx');
 //var routes = require('./server/app.js');
-var routes = require('./public/assets/routes.js');
+//var routes = require('./public/assets/routes.js');
+var ReactApp = require('./public/assets/server.js');
 
 var app = koa();
 
@@ -44,26 +46,26 @@ app.use(function *(next) {
 });
 
 // Get content which is rendered by react
-function getContent(app, routePath) {
-	return function(done) {
-		ReactRouter.run(routes, routePath, function(Handler) {
-			var content = React.renderToString(React.createElement(Handler));
+function getContent(routePath, query) {
 
-			done(null, content);
-		});
+	return function(done) {
+		var content = React.renderToString(React.createElement(ReactApp, { path: routePath }));
+
+		done(null, content);
 	};
 }
 
 // Routes
 var router = new Router();
 router.get('/', function *() {
-//	var content = yield getContent(this, '/');
-	var content = '';
+	var content = yield getContent(this.request.path, this.query);
+//	var content = '';
 	yield this.render('index', { content: content });
 });
 router.get('/signin', function *() {
+	var content = yield getContent(this.request.path, this.query);
 //	var content = yield getContent(this, '/signin');
-	var content = '';
+//	var content = '';
 	yield this.render('index', { content: content });
 });
 app.use(router.middleware());

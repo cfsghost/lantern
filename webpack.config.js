@@ -30,7 +30,7 @@ module.exports = [
 			libraryTarget: 'commonjs2',
 			path: __dirname + '/public/assets/',
 			publicPath: '/assets/',
-			filename: 'routes.js'
+			filename: 'server.js'
 			//filename: __dirname + '/server/app.js'
 		},
 		module: {
