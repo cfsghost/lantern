@@ -18,6 +18,5 @@ class SignInPage extends React.Component {
 		);
 	}
 }
-//					<img src='https://download.unsplash.com/photo-1433840496881-cbd845929862' />
 
 module.exports = SignInPage;

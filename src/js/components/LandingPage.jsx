@@ -1,5 +1,4 @@
 var React = require('react');
-//var Link = require('react-router').Link;
 var Header = require('./Header.jsx');
 
 var nodejsLogo = require('../../images/nodejs-logo.png');
@@ -146,6 +145,5 @@ class LandingPage extends React.Component {
 		);
 	}
 }
-//					<img src='https://download.unsplash.com/photo-1433840496881-cbd845929862' />
 
 module.exports = LandingPage;

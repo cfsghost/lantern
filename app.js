@@ -8,15 +8,6 @@ var session = require('koa-session');
 
 // React
 var React = require('react');
-/*
-require('node-jsx').install({
-	harmony: true,
-	extension: '.jsx'
-});
-*/
-//var routes = require('./src/js/routes.jsx');
-//var routes = require('./server/app.js');
-//var routes = require('./public/assets/routes.js');
 var ReactApp = require('./public/assets/server.js');
 
 var app = koa();
@@ -59,13 +50,10 @@ function getContent(routePath, query) {
 var router = new Router();
 router.get('/', function *() {
 	var content = yield getContent(this.request.path, this.query);
-//	var content = '';
 	yield this.render('index', { content: content });
 });
 router.get('/signin', function *() {
 	var content = yield getContent(this.request.path, this.query);
-//	var content = yield getContent(this, '/signin');
-//	var content = '';
 	yield this.render('index', { content: content });
 });
 app.use(router.middleware());
