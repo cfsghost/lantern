@@ -2,7 +2,7 @@ module.exports = [
 	{
 		name: 'Browser',
 		entry: {
-			app: './src/js/browser.js'
+			app: './src/js/browser.jsx'
 		},
 		output: {
 			path: __dirname + '/public/assets/',
@@ -11,7 +11,7 @@ module.exports = [
 		},
 		module: {
 			loaders: [
-				{ test: /\.jsx?$/, loaders: ['jsx?harmony'] },
+				{ test: /\.jsx?$/, loader: 'babel-loader?optional[]=runtime&stage=0', exclude: /(node_modules|bower_components)/ },
 				{ test: /\.less$/, loader: 'style!css!less' },
 				{ test: /\.png$/,  loader: "url-loader?prefix=img/&limit=5000" },
 				{ test: /\.jpg$/,  loader: "url-loader?prefix=img/&limit=5000" },
@@ -35,7 +35,8 @@ module.exports = [
 		},
 		module: {
 			loaders: [
-				{ test: /\.jsx?$/, loaders: ['jsx?harmony'] },
+				{ test: /\.jsx?$/, loader: 'babel-loader?optional[]=runtime&stage=0', exclude: /(node_modules|bower_components)/ },
+				//{ test: /\.jsx$/, loaders: ['jsx?harmony'] },
 				{ test: /\.less$/, loader: 'style!css!less' },
 				{ test: /\.png$/,  loader: "url-loader?prefix=img/&limit=5000" },
 				{ test: /\.jpg$/,  loader: "url-loader?prefix=img/&limit=5000" },

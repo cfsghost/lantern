@@ -23,9 +23,11 @@
   },
   "homepage": "https://github.com/cfsghost/lantern",
   "devDependencies": {
+    "babel-core": "^5.8.22",
+    "babel-loader": "^5.3.2",
+    "babel-runtime": "^5.8.20",
     "css-loader": ">=0.15.6",
     "file-loader": "^0.8.4",
-    "jsx-loader": ">=0.13.2",
     "less": ">=2.5.1",
     "less-loader": ">=2.2.0",
     "node-libs-browser": ">=0.5.2",
@@ -34,6 +36,8 @@
     "webpack": ">=1.10.1"
   },
   "dependencies": {
+    "fluky": "^0.1.3",
+    "fluxerjs": "0.0.2",
     "jade": ">=1.11.0",
     "koa": ">=0.21.0",
     "koa-bodyparser": ">=2.0.0",

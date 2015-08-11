@@ -1,11 +1,16 @@
 var React = require('react');
 var Link = require('react-router-component').Link;
+var Fluky = require('fluky');
 
 var Header = require('./Header.jsx');
 
 class SignInPage extends React.Component {
 
 	componentWillMount() {
+	}
+
+	signIn = () => {
+		Fluky.dispatch('action.User.signIn');
 	}
 
 	render() {
@@ -37,7 +42,7 @@ class SignInPage extends React.Component {
 										</div>
 									</div>
 									<div className='field'>
-										<button className='ui teal button'>Sign In</button>
+										<button className='ui teal button' onClick={this.signIn}>Sign In</button>
 									</div>
 									<div className='field ui teal message'>
 										No Account yet? <Link href='/signup'>Sign Up</Link>
