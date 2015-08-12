@@ -6,13 +6,34 @@ var Header = require('./Header.jsx');
 
 class SignInPage extends React.Component {
 
-	componentWillMount() {
+	static contextTypes = {
+		router: React.PropTypes.object
+	};
+
+	componentWillMount = () => {
+		Fluky.on('store.User', Fluky.bindListener(this.onChange));
+	}
+
+	componentDidUnmount = () => {
+		Fluky.off('store.User', this.onChange);
 	}
 
 	signIn = () => {
 		Fluky.dispatch('action.User.signIn',
 			this.refs.email.getDOMNode().value,
 			this.refs.password.getDOMNode().value);
+	}
+
+	onChange = () => {
+
+		Fluky.dispatch('store.User.getState', function(user) {
+
+			// No need to sign in if logined already
+			if (user.logined) {
+				this.context.router.navigate('/');
+				return;
+			}
+		}.bind(this));
 	}
 
 	render() {
