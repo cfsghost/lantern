@@ -56,6 +56,10 @@ router.get('/signin', function *() {
 	var content = yield getContent(this.request.path, this.query);
 	yield this.render('index', { content: content });
 });
+router.post('/signin', function *() {
+	console.log(this.request.body);
+	this.body = 'TEST';
+});
 app.use(router.middleware());
 
 app.listen(3001, function() {

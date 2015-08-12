@@ -1,3 +1,5 @@
+var webpack = require('webpack');
+
 module.exports = [
 	{
 		name: 'Browser',
@@ -11,6 +13,7 @@ module.exports = [
 		},
 		module: {
 			loaders: [
+				{ test: /\.json$/, loader: 'json-loader' },
 				{ test: /\.jsx?$/, loader: 'babel-loader?optional[]=runtime&stage=0', exclude: /(node_modules|bower_components)/ },
 				{ test: /\.less$/, loader: 'style!css!less' },
 				{ test: /\.png$/,  loader: "url-loader?prefix=img/&limit=5000" },
@@ -31,12 +34,17 @@ module.exports = [
 			path: __dirname + '/public/assets/',
 			publicPath: '/assets/',
 			filename: 'server.js'
-			//filename: __dirname + '/server/app.js'
 		},
+		node: {
+			__filename: true
+		},
+		plugins: [
+			new webpack.DefinePlugin({ 'global.GENTLY': false })
+		],
 		module: {
 			loaders: [
+				{ test: /\.json$/, loader: 'json-loader' },
 				{ test: /\.jsx?$/, loader: 'babel-loader?optional[]=runtime&stage=0', exclude: /(node_modules|bower_components)/ },
-				//{ test: /\.jsx$/, loaders: ['jsx?harmony'] },
 				{ test: /\.less$/, loader: 'style!css!less' },
 				{ test: /\.png$/,  loader: "url-loader?prefix=img/&limit=5000" },
 				{ test: /\.jpg$/,  loader: "url-loader?prefix=img/&limit=5000" },

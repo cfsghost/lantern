@@ -10,7 +10,9 @@ class SignInPage extends React.Component {
 	}
 
 	signIn = () => {
-		Fluky.dispatch('action.User.signIn');
+		Fluky.dispatch('action.User.signIn',
+			this.refs.email.getDOMNode().value,
+			this.refs.password.getDOMNode().value);
 	}
 
 	render() {
@@ -32,13 +34,13 @@ class SignInPage extends React.Component {
 									<div className='field'>
 										<div className={'ui left icon input'}>
 											<i className={'user icon'} />
-											<input type='text' name='email' placeholder='E-mail address' autoFocus={true} />
+											<input type='text' ref='email' name='email' placeholder='E-mail address' autoFocus={true} />
 										</div>
 									</div>
 									<div className='field'>
 										<div className={'ui left icon input'}>
 											<i className={'lock icon'} />
-											<input type='password' name='password' placeholder='Password' />
+											<input type='password' ref='password' name='password' placeholder='Password' />
 										</div>
 									</div>
 									<div className='field'>
