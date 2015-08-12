@@ -4,6 +4,7 @@ import request from 'superagent';
 export default function *() {
 
 	var store = {
+		name: 'Nobody',
 		username: null,
 		email: null,
 		logined: false

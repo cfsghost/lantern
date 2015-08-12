@@ -9,9 +9,9 @@ class Header extends React.Component {
 		super();
 
 		this.state = {
-			logined: false,
-			username: null,
-			email: null
+			user: {
+				logined: false
+			}
 		};
 	}
 
@@ -27,27 +27,38 @@ class Header extends React.Component {
 
 		Fluky.dispatch('store.User.getState', function(user) {
 			this.setState({
-				logined: user.logined || false,
-				username: user.username || null,
-				email: user.email || null
+				user: user
 			});
 		}.bind(this));
 	}
 
 	render() {
+
+		var loginState;
+		if (this.state.user.logined) {
+			loginState = (
+				<div className={'item'}>
+					<i className={'sign up icon'} />
+					{this.state.user.name}
+				</div>
+			);
+		} else {
+			loginState = (
+				<Link href='/signin'>
+					<div className={'item'}>
+						<i className={'sign in icon'} />
+						Sign In
+					</div>
+				</Link>
+			);
+		}
+
 		return (
 			<div className={'ui top fixed inverted menu'}>
 				<Link href='/'>
 					<div className={'item'}>Lantern</div>
 				</Link>
-				<div className={'right menu'}>
-					<Link href='/signin'>
-						<div className={'item'}>
-							<i className={'sign in icon'} />
-							Sign In
-						</div>
-					</Link>
-				</div>
+				<div className={'right menu'}>{loginState}</div>
 			</div>
 		);
 	}
