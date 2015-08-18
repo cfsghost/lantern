@@ -8,16 +8,16 @@ var Stores = require('./stores');
 Fluky.load(Stores);
 
 // Handlers for routing
-var LandingPage = require('./components/LandingPage.jsx');
-var SignInPage = require('./components/SignInPage.jsx');
+import Routes from './routes.js';
 
 class Routr extends React.Component {
 
 	render() {
 		return (
 			<Locations path={this.props.path}>
-				<Location path='/' handler={LandingPage} />
-				<Location path='/signin' handler={SignInPage} />
+				{Routes.map(function(route, key) {
+					return <Location path={route.path} handler={route.handler} key={key} />
+				})}
 			</Locations>
 		);
 	}

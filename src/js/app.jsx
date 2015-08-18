@@ -1,5 +1,4 @@
 var React = require('react');
-var Fluky = require('fluky');
 var Routr = require('./routes.jsx');
 
 class App extends React.Component {

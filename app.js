@@ -5,6 +5,7 @@ var bodyParser = require('koa-bodyparser');
 var views = require('koa-views');
 var serve = require('koa-static');
 var session = require('koa-session');
+var passport = require('koa-passport');
 
 // React
 var React = require('react');
@@ -30,6 +31,13 @@ app.use(views(__dirname + '/views', {
 app.keys = [ '!@*()#(@*$^@!(#ASDHO' ];
 app.use(session(app));
 
+// Initializing passport
+/*
+Passport.init(passport);
+Passport.local(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+*/
 // Initializing locals to make template be able to get
 app.use(function *(next) {
 	this.state.user = this.req.user || undefined;

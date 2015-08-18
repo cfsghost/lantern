@@ -3,7 +3,7 @@ import request from 'superagent';
 
 export default function *() {
 
-	var store = {
+	var store = this.state.User = {
 		name: 'Nobody',
 		username: null,
 		email: null,
