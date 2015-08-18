@@ -1,0 +1,13 @@
+{
+	"server": {
+		"port": 3001
+	},
+	"session": {
+		"keys": [
+			"YOUneverKnowWhoYOUaRe1234567890"
+		]
+	},
+	"database": {
+		"uri": "mongodb://localhost:27017/lantern"
+	}
+}

@@ -11,6 +11,16 @@ var passport = require('koa-passport');
 var React = require('react');
 var ReactApp = require('./public/assets/server.js');
 
+// Libraries
+var Passport = require('./lib/passport');
+
+// Loading settings
+var settings = require('./lib/config.js');
+if (!settings) {
+	console.error('Failed to load settings');
+	process.exit(1);
+}
+
 var app = koa();
 
 // Static file path
@@ -28,16 +38,15 @@ app.use(views(__dirname + '/views', {
 }));
 
 // Initializing session mechanism
-app.keys = [ '!@*()#(@*$^@!(#ASDHO' ];
+app.keys = settings.general.session.keys || [];
 app.use(session(app));
 
 // Initializing passport
-/*
 Passport.init(passport);
 Passport.local(passport);
 app.use(passport.initialize());
 app.use(passport.session());
-*/
+
 // Initializing locals to make template be able to get
 app.use(function *(next) {
 	this.state.user = this.req.user || undefined;
@@ -73,6 +82,6 @@ router.post('/signin', function *() {
 });
 app.use(router.middleware());
 
-app.listen(3001, function() {
+app.listen(settings.general.server.port, function() {
 	console.log('server is ready');
 });
