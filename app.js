@@ -48,7 +48,7 @@ app.use(function *(next) {
 function getContent(routePath, query) {
 
 	return function(done) {
-		var content = React.renderToString(React.createElement(ReactApp, { path: routePath }));
+		var content = React.renderToString(React.createElement(ReactApp.main, { path: routePath }));
 
 		done(null, content);
 	};
@@ -56,14 +56,17 @@ function getContent(routePath, query) {
 
 // Routes
 var router = new Router();
-router.get('/', function *() {
-	var content = yield getContent(this.request.path, this.query);
-	yield this.render('index', { content: content });
-});
-router.get('/signin', function *() {
-	var content = yield getContent(this.request.path, this.query);
-	yield this.render('index', { content: content });
-});
+
+// Initializing routes for front-end rendering
+for (var index in ReactApp.routes) {
+	var route = ReactApp.routes[index];
+
+	router.get(route.path, function *() {
+		var content = yield getContent(this.request.path, this.query);
+		yield this.render('index', { content: content });
+	});
+}
+
 router.post('/signin', function *() {
 	console.log(this.request.body);
 	this.body = 'TEST';

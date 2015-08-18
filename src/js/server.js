@@ -6,4 +6,7 @@ Fluky.setInitialState({
 	User: {}
 });
 
-module.exports = App;
+module.exports = {
+	main: App,
+	routes: require('./routes.js')
+};
