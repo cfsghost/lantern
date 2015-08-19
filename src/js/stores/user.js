@@ -32,6 +32,7 @@ export default function *() {
 				}
 
 				// Updating store
+				store.status = 'normal';
 				store.logined = true;
 				store.username = username;
 				store.email = username;
@@ -61,6 +62,7 @@ export default function *() {
 
 				case 200:
 					// Updating store
+					store.status = 'normal';
 					store.logined = true;
 					store.name = name;
 					store.username = email;
