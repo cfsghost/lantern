@@ -73,6 +73,27 @@ var router = new Router();
 for (var index in ReactApp.routes) {
 	var route = ReactApp.routes[index];
 
+	// NotFound Page
+	if (!route.path) {
+		app.use(function *pageNotFound(next) {
+			yield next;
+
+			if (this.status != 404)
+				return;
+
+			if (this.body || !this.idempotent)
+				return;
+
+			// Rendering
+			var content = yield getContent(this.request.path, this.query);
+			yield this.render('index', { content: content });
+
+			// Do not trigger koa's 404 handling
+			this.message = null;
+		})
+		continue;
+	}
+
 	router.get(route.path, function *() {
 		var content = yield getContent(this.request.path, this.query);
 		yield this.render('index', { content: content });
