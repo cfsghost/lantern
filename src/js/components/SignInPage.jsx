@@ -65,7 +65,7 @@ class SignInPage extends React.Component {
 			message = (
 				<div className='ui negative icon message'>
 					<i className={'warning sign icon'} />
-					<div className='context'>
+					<div className='content'>
 						<div className='header'>Failed to Sign In</div>
 						<p>Please check your email and password then try again</p>
 					</div>
