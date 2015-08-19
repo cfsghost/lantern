@@ -10,6 +10,14 @@ class SignInPage extends React.Component {
 		router: React.PropTypes.object
 	};
 
+	constructor() {
+		super();
+
+		this.state = {
+			error: false
+		};
+	}
+
 	componentWillMount = () => {
 		Fluky.on('store.User', Fluky.bindListener(this.onChange));
 	}
@@ -33,10 +41,38 @@ class SignInPage extends React.Component {
 //				this.context.router.navigate('/');
 				return;
 			}
+
+			if (user.status == 'login-failed') {
+
+				// Clear password inputbox
+				this.refs.password.getDOMNode().value = ''; 
+
+				// Focus on email inputbox
+				this.refs.email.getDOMNode().select();
+
+				this.setState({
+					error: true
+				});
+			}
 		}.bind(this));
 	}
 
 	render() {
+		var message;
+		var fieldClass = 'field';
+		if (this.state.error) {
+			fieldClass += ' error';
+			message = (
+				<div className='ui negative icon message'>
+					<i className={'warning sign icon'} />
+					<div className='context'>
+						<div className='header'>Failed to Sign In</div>
+						<p>Please check your email and password then try again</p>
+					</div>
+				</div>
+			);
+		}
+
 		return (
 			<div>
 				<Header />
@@ -51,14 +87,17 @@ class SignInPage extends React.Component {
 								<div className='content'>Sign In</div>
 							</h1>
 							<div className={'ui basic segment'}>
+								{message}
+
 								<div className='ui form'>
-									<div className='field'>
+
+									<div className={fieldClass}>
 										<div className={'ui left icon input'}>
 											<i className={'user icon'} />
 											<input type='text' ref='email' name='email' placeholder='E-mail address' autoFocus={true} />
 										</div>
 									</div>
-									<div className='field'>
+									<div className={fieldClass}>
 										<div className={'ui left icon input'}>
 											<i className={'lock icon'} />
 											<input type='password' ref='password' name='password' placeholder='Password' />

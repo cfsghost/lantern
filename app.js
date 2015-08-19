@@ -6,12 +6,14 @@ var views = require('koa-views');
 var serve = require('koa-static');
 var session = require('koa-session');
 var passport = require('koa-passport');
+var co = require('co');
 
 // React
 var React = require('react');
 var ReactApp = require('./public/assets/server.js');
 
 // Libraries
+var Database = require('./lib/database');
 var Passport = require('./lib/passport');
 
 // Loading settings
@@ -29,6 +31,12 @@ app.use(serve(path.join(__dirname, 'public')));
 // Enabling BODY
 app.use(bodyParser());
 
+// Initializing authenication
+Passport.init(passport);
+Passport.local(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Create render
 app.use(views(__dirname + '/views', {
 	ext: 'jade',
@@ -40,12 +48,6 @@ app.use(views(__dirname + '/views', {
 // Initializing session mechanism
 app.keys = settings.general.session.keys || [];
 app.use(session(app));
-
-// Initializing passport
-Passport.init(passport);
-Passport.local(passport);
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Initializing locals to make template be able to get
 app.use(function *(next) {
@@ -78,6 +80,11 @@ for (var index in ReactApp.routes) {
 }
 app.use(router.middleware());
 
-app.listen(settings.general.server.port, function() {
-	console.log('server is ready');
+co(function *() {
+	// Initializing database
+	yield Database.init();
+
+	app.listen(settings.general.server.port, function() {
+		console.log('server is ready');
+	});
 });

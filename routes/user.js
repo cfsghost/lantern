@@ -8,18 +8,32 @@ router.get('/signout', function *() {
 	this.redirect('/');
 });
 
-router.post('/signin', function *() {
-	var targetUrl = this.query.target || '/';
+router.post('/signin', function *(next) {
+	var ctx = this;
 
 	// Using own user database
 	yield passport.authenticate('local', function *(err, user, info) {
+		if (err) {
+			ctx.status = 500;
+			ctx.body = {
+				success: false
+			};
+			return;
+		}
+
 		if (!user) {
-			this.redirect('/signin?err=1&target=' + targetUrl);
+			ctx.status = 401;
+			ctx.body = {
+				success: false
+			};
 			return;
 		}
 
 		// Store login information in session
-		yield this.login(user);
-		this.redirect(targetUrl);
-	}.bind(this)).call(this, next);
+		yield ctx.login(user);
+
+		ctx.body = {
+			success: true
+		};
+	}).call(this, next);
 });
