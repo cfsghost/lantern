@@ -10,6 +10,11 @@ html
 		script(src='//cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js')
 		script(src='//cdn.jsdelivr.net/semantic-ui/2.0.7/semantic.min.js')
 
+		script.
+			window.Fluky = {
+				state: !{JSON.stringify(state)}
+			};
+
 		block head
 
 	body

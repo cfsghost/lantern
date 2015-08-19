@@ -1,3 +1,4 @@
+var Fluky = require('fluky');
 var React = require('react');
 var Routr = require('./routes.jsx');
 

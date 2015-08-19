@@ -9,8 +9,27 @@ router.get('/signout', function *() {
 	this.redirect('/');
 });
 
+router.get('/state', function *() {
+	this.logout();
+	this.redirect('/');
+});
+
 router.post('/signin', function *(next) {
 	var ctx = this;
+
+	yield ctx.login({
+		id: 123,
+		name: 'Fred Chien',
+		email: this.request.body.username,
+		login_time: Date.now(),
+		logined: true
+	});
+
+	ctx.body = {
+		success: true
+	};
+	return;
+
 
 	// Using own user database
 	yield passport.authenticate('local', function *(err, user, info) {

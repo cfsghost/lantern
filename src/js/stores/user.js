@@ -3,16 +3,19 @@ import request from 'superagent';
 
 export default function *() {
 
-	var store = this.state.User = {
-		status: 'normal',
-		name: 'Nobody',
-		username: null,
-		email: null,
-		logined: false
-	};
+	// Initializing user store
+	if (!this.state.User) {
+		this.state.User = {
+			status: 'normal',
+			name: 'Nobody',
+			username: null,
+			email: null,
+			logined: false
+		};
+	}
 
 	this.on('store.User.getState', function *(callback) {
-		callback(store);
+		callback(this.state.User);
 	});
 
 	this.on('store.User.signIn', function *(username, password) {
@@ -24,6 +27,7 @@ export default function *() {
 				password: password
 			})
 			.end(function(err, res) {
+				var store = this.state.User;
 				if (res.status == 401) {
 					store.status = 'login-failed';
 
@@ -51,6 +55,8 @@ export default function *() {
 				name: name
 			})
 			.end(function(err, res) {
+				var store = this.state.User;
+
 				switch(res.status) {
 				case 500:
 					store.status = 'signup-error';

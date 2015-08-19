@@ -8,5 +8,6 @@ Fluky.setInitialState({
 
 module.exports = {
 	main: App,
-	routes: require('./routes.js')
+	routes: require('./routes.js'),
+	context: Fluky
 };
