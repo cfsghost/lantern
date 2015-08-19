@@ -64,9 +64,10 @@ function getContent(routePath, query) {
 }
 
 // Routes
-var router = new Router();
+app.use(require('./routes/user').middleware());
 
 // Initializing routes for front-end rendering
+var router = new Router();
 for (var index in ReactApp.routes) {
 	var route = ReactApp.routes[index];
 
@@ -75,11 +76,6 @@ for (var index in ReactApp.routes) {
 		yield this.render('index', { content: content });
 	});
 }
-
-router.post('/signin', function *() {
-	console.log(this.request.body);
-	this.body = 'TEST';
-});
 app.use(router.middleware());
 
 app.listen(settings.general.server.port, function() {
