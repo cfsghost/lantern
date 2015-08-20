@@ -31,7 +31,6 @@ class Header extends React.Component {
 
 	onChange = () => {
 
-		console.log('test');
 		Fluky.dispatch('store.User.getState', function(user) {
 			this.setState({
 				user: user

@@ -26,7 +26,14 @@ router.post('/signin', function *(next) {
 	});
 
 	ctx.body = {
-		success: true
+		success: true,
+		data: {
+			name: 'Fred Chien',
+			email: this.request.body.username,
+			logined: true,
+			login_time: Date.now(),
+			avatar_hash: require('crypto').createHash('md5').update(this.request.body.username).digest('hex')
+		}
 	};
 	return;
 

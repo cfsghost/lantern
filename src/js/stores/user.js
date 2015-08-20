@@ -40,6 +40,9 @@ export default function *() {
 				store.logined = true;
 				store.username = username;
 				store.email = username;
+				store.name = res.body.data.name;
+				store.login_time = res.body.data.login_time;
+				store.avatar_hash = res.body.data.avatar_hash;
 
 				this.dispatch('store.User', 'change');
 			}.bind(this));
@@ -73,7 +76,8 @@ export default function *() {
 					store.name = name;
 					store.username = email;
 					store.email = email;
-					store.login_time = res.body.login_time;
+					store.login_time = res.body.data.login_time;
+					store.avatar_hash = res.body.data.avatar_hash;
 					break;
 				}
 
