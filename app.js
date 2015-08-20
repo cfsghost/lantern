@@ -94,13 +94,16 @@ for (var index in ReactApp.routes) {
 		continue;
 	}
 
+	// Register path for pages
 	router.get(route.path, function *() {
+
 		// Reset initial state with session for new page
 		ReactApp.context.setInitialState({
-			User: this.state.user
+			User: this.state.user || {}
 		});
 		ReactApp.context.state.User.logined = this.isAuthenticated();
 
+		// Rendering page and pass state to client-side
 		var content = yield getContent(this.request.path, this.query);
 		yield this.render('index', { content: content, state: ReactApp.context.state });
 	});

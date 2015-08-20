@@ -16,7 +16,7 @@ router.get('/state', function *() {
 
 router.post('/signin', function *(next) {
 	var ctx = this;
-
+// Fake for testing
 	yield ctx.login({
 		id: 123,
 		name: 'Fred Chien',
