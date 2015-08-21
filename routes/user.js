@@ -1,6 +1,8 @@
+var crypto = require('crypto');
 var Router = require('koa-router');
 var passport = require('koa-passport');
 var Member = require('../lib/member');
+var Passport = require('../lib/passport');
 
 var router = module.exports = new Router();
 
@@ -16,27 +18,6 @@ router.get('/state', function *() {
 
 router.post('/signin', function *(next) {
 	var ctx = this;
-// Fake for testing
-	yield ctx.login({
-		id: 123,
-		name: 'Fred Chien',
-		email: this.request.body.username,
-		login_time: Date.now(),
-		logined: true
-	});
-
-	ctx.body = {
-		success: true,
-		data: {
-			name: 'Fred Chien',
-			email: this.request.body.username,
-			logined: true,
-			login_time: Date.now(),
-			avatar_hash: require('crypto').createHash('md5').update(this.request.body.username).digest('hex')
-		}
-	};
-	return;
-
 
 	// Using own user database
 	yield passport.authenticate('local', function *(err, user, info) {
@@ -57,10 +38,12 @@ router.post('/signin', function *(next) {
 		}
 
 		// Store login information in session
-		yield ctx.login(user);
+		var m = yield Passport.login(ctx, user);
 
+		// Return result to client
 		ctx.body = {
-			success: true
+			success: true,
+			data: m
 		};
 	}).call(this, next);
 });
@@ -73,6 +56,19 @@ router.post('/signup', function *() {
 	// Check fields
 	if (!name || !password || !email) {
 		this.status = 400;
+		return;
+	}
+
+	// Check whether user exists or not
+	try {
+		var ret = yield Member.list({ email: email })
+		if (ret.count) {
+			this.status = 400;
+			return;
+		}
+	} catch(e) {
+		console.log(e);
+		this.status = 500;
 		return;
 	}
 
@@ -90,13 +86,11 @@ router.post('/signup', function *() {
 	}
 
 	// Store login information in session
-	var m = {
-		name: member.name,
-		username: member.email,
-		email: member.email,
-		login_time: Date.now()
-	};
-	this.login(m);
+	var m = yield Passport.login(ctx, member);
 
-	this.body = m;
+	// Return result to client
+	this.body = {
+		success: true,
+		data: m
+	};
 });

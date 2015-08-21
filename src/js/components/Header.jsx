@@ -18,6 +18,10 @@ class Header extends React.Component {
 
 	componentWillMount = () => {
 		Fluky.on('store.User', Fluky.bindListener(this.onChange));
+	}
+
+	componentDidMount = () => {
+		// Get initial state
 		Fluky.dispatch('store.User.getState', function(user) {
 			this.setState({
 				user: user
@@ -49,7 +53,6 @@ class Header extends React.Component {
 
 		var loginState;
 		if (this.state.user.logined) {
-			console.log(this.state.user);
 			loginState = (
 				<div className={'right menu'}>
 					<div className='ui dropdown item'>

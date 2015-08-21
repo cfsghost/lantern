@@ -90,7 +90,7 @@ for (var index in ReactApp.routes) {
 
 			// Do not trigger koa's 404 handling
 			this.message = null;
-		})
+		});
 		continue;
 	}
 
@@ -102,7 +102,7 @@ for (var index in ReactApp.routes) {
 			User: this.state.user || {}
 		});
 		ReactApp.context.state.User.logined = this.isAuthenticated();
-
+console.log(this.state.user);
 		// Rendering page and pass state to client-side
 		var content = yield getContent(this.request.path, this.query);
 		yield this.render('index', { content: content, state: ReactApp.context.state });

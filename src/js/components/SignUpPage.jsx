@@ -167,6 +167,14 @@ class SignUpPage extends React.Component {
 
 								<div className='ui form'>
 
+									<div className={nameClasses}>
+										<label>Display Name</label>
+										<div className={'ui left icon input'}>
+											<i className={'user icon'} />
+											<input type='text' ref='name' name='name' placeholder='Fred Chien' />
+										</div>
+									</div>
+
 									<div className={emailClasses}>
 										<label>E-mail Address</label>
 										<div className={'ui left icon input'}>
@@ -175,13 +183,6 @@ class SignUpPage extends React.Component {
 										</div>
 									</div>
 
-									<div className={nameClasses}>
-										<label>Display Name</label>
-										<div className={'ui left icon input'}>
-											<i className={'user icon'} />
-											<input type='text' ref='name' name='name' placeholder='Fred Chien' />
-										</div>
-									</div>
 									<div className={passwordClasses}>
 										<label>Password</label>
 										<div className={'ui left icon input'}>
@@ -189,6 +190,7 @@ class SignUpPage extends React.Component {
 											<input type='password' ref='password' name='password' />
 										</div>
 									</div>
+
 									<div className={confirmClasses}>
 										<label>Confirm</label>
 										<div className={'ui left icon input'}>
@@ -196,6 +198,7 @@ class SignUpPage extends React.Component {
 											<input type='password' ref='confirm_password' name='confirm_password' />
 										</div>
 									</div>
+
 									<div className='field'>
 										<button className='ui teal button' onClick={this.signUp}>Register</button>
 									</div>

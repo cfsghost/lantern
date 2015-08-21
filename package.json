@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "co": "^4.6.0",
-    "fluky": "^0.1.6",
+    "fluky": "^0.1.7",
     "jade": ">=1.11.0",
     "koa": ">=0.21.0",
     "koa-bodyparser": ">=2.0.0",
