@@ -22,7 +22,7 @@ class SignInPage extends React.Component {
 		Fluky.on('store.User', Fluky.bindListener(this.onChange));
 	}
 
-	componentDidUnmount = () => {
+	componentWillUnmount = () => {
 		Fluky.off('store.User', this.onChange);
 	}
 

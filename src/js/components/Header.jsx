@@ -18,9 +18,7 @@ class Header extends React.Component {
 
 	componentWillMount = () => {
 		Fluky.on('store.User', Fluky.bindListener(this.onChange));
-	}
 
-	componentDidMount = () => {
 		// Get initial state
 		Fluky.dispatch('store.User.getState', function(user) {
 			this.setState({
@@ -29,7 +27,7 @@ class Header extends React.Component {
 		}.bind(this));
 	}
 
-	componentDidUnmount = () => {
+	componentWillUnmount = () => {
 		Fluky.off('store.User', this.onChange);
 	}
 
