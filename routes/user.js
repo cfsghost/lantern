@@ -61,8 +61,8 @@ router.post('/signup', function *() {
 
 	// Check whether user exists or not
 	try {
-		var ret = yield Member.list({ email: email })
-		if (ret.count) {
+		var ret = yield Member.getMemberByEmail(email);
+		if (ret) {
 			this.status = 400;
 			return;
 		}
@@ -93,4 +93,55 @@ router.post('/signup', function *() {
 		success: true,
 		data: m
 	};
+});
+
+router.get('/auth/github', function *() {
+	yield passport.authenticate('github', { scope: [ 'user:email' ] });
+});
+
+router.get('/auth/github/callback', function *() {
+	var ctx = this;
+
+	try {
+		yield passport.authenticate('github', { failureRedirect: '/signin' }, function *(err, user) {
+
+			// Create a account in our user database
+			// Check whether user exists or not
+			try {
+				var m = yield Member.getMemberByEmail(user.email);
+				if (m) {
+
+					// Store login information in session
+					yield Passport.login(ctx, m);
+
+					// Successful authentication
+					ctx.redirect('/');
+					return;
+				}
+			} catch(e) {
+				throw e;
+			}
+
+			// Create a new member with no password
+			try {
+				var member = yield Member.create({
+					name: user.name,
+					email: user.email
+				});
+			} catch(e) {
+				throw e;
+			}
+
+			// Store login information in session
+			var m = yield Passport.login(ctx, member);
+
+			// Successful authentication
+			ctx.redirect('/');
+		});
+
+	} catch(e) {
+		console.log(e);
+		ctx.status = 500;
+		return;
+	}
 });

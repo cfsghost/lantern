@@ -1,5 +1,7 @@
 {
 	"server": {
+		"secure": false,
+		"external_host": "localhost",
 		"port": 3001
 	},
 	"session": {
@@ -9,5 +11,11 @@
 	},
 	"database": {
 		"uri": "mongodb://localhost:27017/lantern"
+	},
+	"authorization": {
+		"github": {
+			"clientID": "f338ce33075757bfa59e",
+			"clientSecret": "571c81750b388c6233ffe060e491f822e617b402"
+		}
 	}
 }

@@ -34,6 +34,7 @@ app.use(bodyParser());
 // Initializing authenication
 Passport.init(passport);
 Passport.local(passport);
+Passport.github(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
