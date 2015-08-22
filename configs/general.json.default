@@ -27,6 +27,11 @@
 			"enabled": true,
 			"clientID": "1062945721841-5hm41ltvoahmepdi822v40iue8hufgeq.apps.googleusercontent.com",
 			"clientSecret": "y_QDeNpKoQS-P2u8SegRGiXE"
+		},
+		"linkedin": {
+			"enabled": true,
+			"clientID": "757uag6nqoq4r8",
+			"clientSecret": "0nx4svG7uesLlPai"
 		}
 	}
 }

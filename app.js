@@ -44,6 +44,9 @@ if (settings.general.authorization.facebook.enabled)
 if (settings.general.authorization.google.enabled)
 	Passport.google(passport);
 
+if (settings.general.authorization.linkedin.enabled)
+	Passport.linkedin(passport);
+
 app.use(passport.initialize());
 app.use(passport.session());
 

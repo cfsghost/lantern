@@ -107,6 +107,10 @@ router.get('/auth/google', function *() {
 	yield passport.authenticate('google', { scope: [ 'https://www.googleapis.com/auth/plus.login', 'email' ] });
 });
 
+router.get('/auth/linkedin', function *() {
+	yield passport.authenticate('linkedin');
+});
+
 router.get('/auth/:serviceName/callback', function *() {
 	var ctx = this;
 
