@@ -119,6 +119,11 @@ router.get('/auth/:serviceName/callback', function *() {
 			if (err)
 				throw err;
 
+			if (!user) {
+				ctx.redirect('/');
+				return;
+			}
+
 			// Create a account in our user database
 			// Check whether user exists or not
 			try {
