@@ -51,6 +51,7 @@
     "node-jsx": "^0.13.3",
     "passport-facebook": "^2.0.0",
     "passport-github2": "^0.1.9",
+    "passport-google-oauth": "^0.2.0",
     "passport-local": "^1.0.0",
     "react": ">=0.13.3",
     "react-async": "^2.1.0",

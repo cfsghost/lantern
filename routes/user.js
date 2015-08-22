@@ -100,7 +100,11 @@ router.get('/auth/github', function *() {
 });
 
 router.get('/auth/facebook', function *() {
-	yield passport.authenticate('facebook', { scope: ['email'] });
+	yield passport.authenticate('facebook', { scope: [ 'email' ] });
+});
+
+router.get('/auth/google', function *() {
+	yield passport.authenticate('google', { scope: [ 'https://www.googleapis.com/auth/plus.login', 'email' ] });
 });
 
 router.get('/auth/:serviceName/callback', function *() {
@@ -108,6 +112,8 @@ router.get('/auth/:serviceName/callback', function *() {
 
 	try {
 		yield passport.authenticate(this.params.serviceName, { failureRedirect: '/signin' }, function *(err, user) {
+			if (err)
+				throw err;
 
 			// Create a account in our user database
 			// Check whether user exists or not

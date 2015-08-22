@@ -131,9 +131,9 @@ class SignInPage extends React.Component {
 									<a href='/auth/github' className='ui github icon button'>
 										<i className='github icon' />
 									</a>
-									<button className='ui google plus icon button'>
+									<a href='/auth/google' className='ui google plus icon button'>
 										<i className='google plus icon' />
-									</button>
+									</a>
 									<button className='ui linkedin icon button'>
 										<i className='linkedin icon' />
 									</button>

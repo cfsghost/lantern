@@ -22,6 +22,11 @@
 			"enabled": true,
 			"clientID": "511679122323080",
 			"clientSecret": "ffec2c1f7ea4b0e32ff31af0d0e275d6"
+		},
+		"google": {
+			"enabled": true,
+			"clientID": "1062945721841-5hm41ltvoahmepdi822v40iue8hufgeq.apps.googleusercontent.com",
+			"clientSecret": "y_QDeNpKoQS-P2u8SegRGiXE"
 		}
 	}
 }

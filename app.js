@@ -41,6 +41,9 @@ if (settings.general.authorization.github.enabled)
 if (settings.general.authorization.facebook.enabled)
 	Passport.facebook(passport);
 
+if (settings.general.authorization.google.enabled)
+	Passport.google(passport);
+
 app.use(passport.initialize());
 app.use(passport.session());
 
