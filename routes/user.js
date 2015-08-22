@@ -99,11 +99,15 @@ router.get('/auth/github', function *() {
 	yield passport.authenticate('github', { scope: [ 'user:email' ] });
 });
 
-router.get('/auth/github/callback', function *() {
+router.get('/auth/facebook', function *() {
+	yield passport.authenticate('facebook', { scope: ['email'] });
+});
+
+router.get('/auth/:serviceName/callback', function *() {
 	var ctx = this;
 
 	try {
-		yield passport.authenticate('github', { failureRedirect: '/signin' }, function *(err, user) {
+		yield passport.authenticate(this.params.serviceName, { failureRedirect: '/signin' }, function *(err, user) {
 
 			// Create a account in our user database
 			// Check whether user exists or not

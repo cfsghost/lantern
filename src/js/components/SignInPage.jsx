@@ -125,9 +125,9 @@ class SignInPage extends React.Component {
 
 							<div className={'ui center aligned basic segment'}>
 								<div className='ui buttons'>
-									<button className='ui facebook icon button'>
+									<a href='/auth/facebook' className='ui facebook icon button'>
 										<i className='facebook icon' />
-									</button>
+									</a>
 									<a href='/auth/github' className='ui github icon button'>
 										<i className='github icon' />
 									</a>

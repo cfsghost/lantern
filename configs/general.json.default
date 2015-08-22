@@ -14,8 +14,14 @@
 	},
 	"authorization": {
 		"github": {
+			"enabled": true,
 			"clientID": "f338ce33075757bfa59e",
 			"clientSecret": "571c81750b388c6233ffe060e491f822e617b402"
+		},
+		"facebook": {
+			"enabled": true,
+			"clientID": "511679122323080",
+			"clientSecret": "ffec2c1f7ea4b0e32ff31af0d0e275d6"
 		}
 	}
 }

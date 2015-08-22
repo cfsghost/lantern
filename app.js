@@ -34,7 +34,13 @@ app.use(bodyParser());
 // Initializing authenication
 Passport.init(passport);
 Passport.local(passport);
-Passport.github(passport);
+
+if (settings.general.authorization.github.enabled)
+	Passport.github(passport);
+
+if (settings.general.authorization.facebook.enabled)
+	Passport.facebook(passport);
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -103,7 +109,7 @@ for (var index in ReactApp.routes) {
 			User: this.state.user || {}
 		});
 		ReactApp.context.state.User.logined = this.isAuthenticated();
-console.log(this.state.user);
+
 		// Rendering page and pass state to client-side
 		var content = yield getContent(this.request.path, this.query);
 		yield this.render('index', { content: content, state: ReactApp.context.state });
