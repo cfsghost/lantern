@@ -94,6 +94,7 @@ class SignInPage extends React.Component {
 								<i className='sign in icon' />
 								<div className='content'>Sign In</div>
 							</h1>
+
 							<div className={'ui basic segment'}>
 								{message}
 
@@ -119,6 +120,26 @@ class SignInPage extends React.Component {
 									</div>
 								</div>
 							</div>
+
+							<div className='ui horizontal divider header'>Or Login With</div>
+
+							<div className={'ui center aligned basic segment'}>
+								<div className='ui buttons'>
+									<button className='ui facebook icon button'>
+										<i className='facebook icon' />
+									</button>
+									<button className='ui github icon button'>
+										<i className='github icon' />
+									</button>
+									<button className='ui google plus icon button'>
+										<i className='google plus icon' />
+									</button>
+									<button className='ui linkedin icon button'>
+										<i className='linkedin icon' />
+									</button>
+								</div>
+							</div>
+
 						</div>
 
 					</div>
