@@ -10,8 +10,8 @@ class SignInPage extends React.Component {
 		router: React.PropTypes.object
 	};
 
-	constructor() {
-		super();
+	constructor(props, context) {
+		super(props, context);
 
 		this.state = {
 			error: false
@@ -57,6 +57,14 @@ class SignInPage extends React.Component {
 		}.bind(this));
 	}
 
+	onKeyDown = (event) => {
+
+		// Key code for enter
+		if (event.keyCode === 13) {
+			this.signIn();
+		}
+	}
+
 	render() {
 		var message;
 		var fieldClass = 'field';
@@ -100,7 +108,7 @@ class SignInPage extends React.Component {
 									<div className={fieldClass}>
 										<div className={'ui left icon input'}>
 											<i className={'lock icon'} />
-											<input type='password' ref='password' name='password' placeholder='Password' />
+											<input type='password' ref='password' name='password' placeholder='Password' onKeyDown={this.onKeyDown} />
 										</div>
 									</div>
 									<div className='field'>
