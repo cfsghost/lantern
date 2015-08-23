@@ -57,9 +57,9 @@ class Header extends React.Component {
 						<span><Avatar hash={this.state.user.avatar_hash} size={20} /> <span>{this.state.user.name}</span></span>
 						<i className='dropdown icon'></i>
 						<div className='menu'>
-							<a href='/profile' className='item'>
+							<a href='/settings' className='item'>
 								<i className='settings icon'></i>
-								Profile
+								Settings
 							</a>
 							<div className='ui fitted divider'></div>
 							<a href='/signout' className='item'>
