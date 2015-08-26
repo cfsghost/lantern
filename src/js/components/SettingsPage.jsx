@@ -1,14 +1,34 @@
 var React = require('react');
-var Link = require('react-router-component').Link;
+//var { Locations, Location, Link } = require('react-router-component');
 var Fluky = require('fluky');
 
 var Header = require('./Header.jsx');
 var ProfileMenu = require('./ProfileMenu.jsx');
 var UserProfile = require('./UserProfile.jsx');
 
+class SettingsRouter extends React.Component {
+
+	static propTypes = {
+		category: React.PropTypes.string
+	};
+
+	static contextTypes = {
+		path: React.PropTypes.string,
+		router: React.PropTypes.object
+	};
+
+	render() {
+		switch(this.props.category) {
+		case 'profile':
+			return <UserProfile />;
+		}
+	}
+}
+
 class SettingsPage extends React.Component {
 
 	static contextTypes = {
+		path: React.PropTypes.string,
 		router: React.PropTypes.object
 	};
 
@@ -55,6 +75,9 @@ class SettingsPage extends React.Component {
 			);
 		}
 
+		this.context.router.navigate('/');
+		console.log(this.context.router);
+
 		return (
 			<div>
 				<Header />
@@ -66,13 +89,17 @@ class SettingsPage extends React.Component {
 						</div>
 
 						<div className='thirteen wide computer column'>
-							<UserProfile />
 						</div>
 					</div>
 				</div>
 			</div>
 		);
 	}
-}
+	/*
+							<Locations path={this.context.path}>
+								<Location path='/settings/:category' handler={SettingsRouter} />
+							</Locations>
+*/
+							}
 
 module.exports = SettingsPage;

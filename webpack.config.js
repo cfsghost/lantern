@@ -41,6 +41,9 @@ module.exports = [
 		plugins: [
 			new webpack.DefinePlugin({ 'global.GENTLY': false })
 		],
+		externals: {
+			react: 'React'
+		},
 		module: {
 			loaders: [
 				{ test: /\.json$/, loader: 'json-loader' },

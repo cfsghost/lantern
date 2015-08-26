@@ -9,7 +9,7 @@ var passport = require('koa-passport');
 var co = require('co');
 
 // React
-var React = require('react');
+//var React = require('react');
 var ReactApp = require('./public/assets/server.js');
 
 // Libraries
@@ -72,9 +72,10 @@ app.use(function *(next) {
 function getContent(routePath, query) {
 
 	return function(done) {
-		var content = React.renderToString(React.createElement(ReactApp.main, { path: routePath }));
+		ReactApp.render(routePath, done);
+//		var content = ReactApp.React.renderToString(ReactApp.React.createElement(ReactApp.main, { path: routePath }));
 
-		done(null, content);
+//		done(null, content);
 	};
 }
 

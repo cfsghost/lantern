@@ -7,7 +7,8 @@ var Header = require('./Header.jsx');
 class SignUpPage extends React.Component {
 
 	static contextTypes = {
-		router: React.PropTypes.object
+		router: React.PropTypes.object,
+		path: React.PropTypes.string
 	};
 
 	constructor() {
@@ -148,6 +149,8 @@ class SignUpPage extends React.Component {
 				confirmClasses += ' error';
 			}
 		}
+
+		console.log('SignUp', this.context);
 
 		return (
 			<div>

@@ -1,6 +1,8 @@
 var React = require('react');
-var ReactRouter = require('react-router-component');
-var Link = ReactRouter.Link;
+//var ReactRouter = require('react-router-component');
+import Router from 'react-router';
+var { Route, RouteHandler, NotFoundRoute, Link } = Router;
+//var Link = ReactRouter.Link;
 var Fluky = require('fluky');
 var Avatar = require('./Avatar.jsx');
 
@@ -57,10 +59,10 @@ class Header extends React.Component {
 						<span><Avatar hash={this.state.user.avatar_hash} size={20} /> <span>{this.state.user.name}</span></span>
 						<i className='dropdown icon'></i>
 						<div className='menu'>
-							<a href='/settings' className='item'>
+							<Link to='/settings' className='item'>
 								<i className='settings icon'></i>
 								Settings
-							</a>
+							</Link>
 							<div className='ui fitted divider'></div>
 							<a href='/signout' className='item'>
 								<i className='sign out icon'></i>
@@ -73,7 +75,7 @@ class Header extends React.Component {
 		} else {
 			loginState = (
 				<div className={'right menu'}>
-					<Link href='/signin'>
+					<Link to='/signin'>
 						<div className={'item'}>
 							<i className={'sign in icon'} />
 							Sign In
@@ -85,7 +87,7 @@ class Header extends React.Component {
 
 		return (
 			<div className={'ui top fixed inverted menu'}>
-				<Link href='/' className={'item'}>
+				<Link to='/' className={'item'}>
 					<div>Lantern</div>
 				</Link>
 				{loginState}

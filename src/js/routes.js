@@ -22,7 +22,7 @@ module.exports = [
 		handler: SignUpPage
 	},
 	{
-		path: '/settings',
+		path: '/settings/:category',
 		handler: SettingsPage
 	}
 ];

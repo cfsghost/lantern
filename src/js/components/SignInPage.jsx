@@ -1,13 +1,15 @@
-var React = require('react');
-var Link = require('react-router-component').Link;
-var Fluky = require('fluky');
+import React from 'react';
+import reactMixin from 'react-mixin';
+import Fluky from 'fluky';
+import Router from 'react-router';
+var { Route, RouteHandler, NotFoundRoute, Link } = Router;
 
-var Header = require('./Header.jsx');
+import Header from './Header.jsx';
 
 class SignInPage extends React.Component {
 
 	static contextTypes = {
-		router: React.PropTypes.object
+		router: React.PropTypes.func.isRequired
 	};
 
 	constructor(props, context) {
@@ -38,7 +40,7 @@ class SignInPage extends React.Component {
 
 			// No need to sign in if logined already
 			if (user.logined) {
-				this.context.router.navigate('/');
+				this.context.router.translationTo('/');
 				return;
 			}
 
@@ -116,7 +118,7 @@ class SignInPage extends React.Component {
 										<button className='ui teal button' onClick={this.signIn}>Sign In</button>
 									</div>
 									<div className='field ui teal message'>
-										No Account yet? <Link href='/signup'>Sign Up</Link>
+										No Account yet? <Link to='/signup'>Sign Up</Link>
 									</div>
 								</div>
 							</div>
