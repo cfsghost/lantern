@@ -1,10 +1,8 @@
-var React = require('react');
-//var ReactRouter = require('react-router-component');
+import React from 'react';
 import Router from 'react-router';
 var { Route, RouteHandler, NotFoundRoute, Link } = Router;
-//var Link = ReactRouter.Link;
-var Fluky = require('fluky');
-var Avatar = require('./Avatar.jsx');
+import Fluky from 'fluky';
+import Avatar from './Avatar.jsx';
 
 class Header extends React.Component {
 
@@ -96,4 +94,4 @@ class Header extends React.Component {
 	}
 };
 
-module.exports = Header;
+export default Header;

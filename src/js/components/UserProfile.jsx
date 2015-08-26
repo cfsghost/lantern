@@ -1,5 +1,4 @@
 var React = require('react');
-var Link = require('react-router-component').Link;
 var Fluky = require('fluky');
 
 class UserProfile extends React.Component {

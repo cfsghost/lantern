@@ -1,10 +1,9 @@
-var React = require('react');
-//var { Locations, Location, Link } = require('react-router-component');
-var Fluky = require('fluky');
+import React from 'react';
+import Fluky from 'fluky';
 
-var Header = require('./Header.jsx');
-var ProfileMenu = require('./ProfileMenu.jsx');
-var UserProfile = require('./UserProfile.jsx');
+import Header from './Header.jsx';
+import ProfileMenu from './ProfileMenu.jsx';
+import UserProfile from './UserProfile.jsx';
 
 class SettingsRouter extends React.Component {
 
