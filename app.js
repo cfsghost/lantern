@@ -77,6 +77,7 @@ function getContent(routePath, query) {
 }
 
 // Routes
+app.use(require('./routes/auth').middleware());
 app.use(require('./routes/user').middleware());
 
 co(function *() {

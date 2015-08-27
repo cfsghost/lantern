@@ -18,6 +18,53 @@ export default function *() {
 		callback(this.state.User);
 	});
 
+	this.on('store.User.syncProfile', function *() {
+
+		request
+			.get('/user/profile')
+			.end(function(err, res) {
+				if (err)
+					return;
+
+				if (res.status != 200) {
+					return;
+				}
+
+				if (res.body.success) {
+					var store = this.state.User;
+					store.name = res.body.member.name;
+					store.email = res.body.member.email;
+				}
+
+				this.dispatch('store.User', 'change');
+			}.bind(this));
+	});
+
+	this.on('store.User.updateProfile', function *(name) {
+
+		request
+			.post('/user/profile')
+			.send({
+				name: name
+			})
+			.end(function(err, res) {
+				if (err)
+					return;
+
+				if (res.status != 200) {
+					return;
+				}
+
+				if (res.body.success) {
+					var store = this.state.User;
+					store.name = res.body.member.name;
+					store.email = res.body.member.email;
+				}
+
+				this.dispatch('store.User', 'change');
+			}.bind(this));
+	});
+
 	this.on('store.User.signIn', function *(username, password) {
 
 		request

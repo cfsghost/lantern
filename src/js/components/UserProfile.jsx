@@ -7,12 +7,16 @@ class UserProfile extends React.Component {
 		super(props, context);
 
 		this.state = {
-			error: false
+			busy: false,
+			error: false,
+			name: '',
+			email: ''
 		};
 	}
 
 	componentWillMount = () => {
 		Fluky.on('store.User', Fluky.bindListener(this.onChange));
+		Fluky.dispatch('store.User.syncProfile');
 	}
 
 	componentWillUnmount = () => {
@@ -24,13 +28,29 @@ class UserProfile extends React.Component {
 	}
 
 	onChange = () => {
+
+		Fluky.dispatch('store.User.getState', function(user) {
+			this.setState({
+				name: user.name,
+				email: user.email,
+				busy: false
+			});
+		}.bind(this));
 	}
 
 	updateProfile = () => {
+		if (this.state.busy)
+			return;
+
+		this.setState({
+			busy: true
+		});
+
+		Fluky.dispatch('store.User.updateProfile', this.state.name);
 	}
 
 	render() {
-		var emailClasses = 'required field';
+		var emailClasses = 'field';
 		var nameClasses = 'required field';
 		var message;
 		var fieldClass = 'field';
@@ -65,22 +85,32 @@ class UserProfile extends React.Component {
 						<div className='ui very padded segment'>
 							<div className={nameClasses}>
 								<label>Display Name</label>
-								<div className={'ui left icon input'}>
-									<i className={'user icon'} />
-									<input type='text' ref='name' name='name' placeholder='Fred Chien' />
+								<div className={'ui left input'}>
+									<input
+										type='text'
+										ref='name'
+										name='name'
+										placeholder='Fred Chien'
+										value={this.state.name}
+										onChange={(event) => this.setState({ name: event.target.value }) } />
 								</div>
 							</div>
 
 							<div className={emailClasses}>
 								<label>E-mail Address</label>
-								<div className={'ui left icon input'}>
-									<i className={'mail icon'} />
-									<input type='text' ref='email' name='email' placeholder='fred@example.com' />
+								<div className={'ui left input'}>
+									<input
+										type='text'
+										ref='email'
+										name='email'
+										placeholder='fred@example.com'
+										value={this.state.email}
+										readOnly />
 								</div>
 							</div>
 
 							<div className='field'>
-								<button className='ui teal button' onClick={this.updateProfile}>Update Profile</button>
+								<button className={'ui teal' + (this.state.busy ? ' loading' : '') + ' button' } onClick={this.updateProfile}>Update Profile</button>
 							</div>
 
 						</div>
