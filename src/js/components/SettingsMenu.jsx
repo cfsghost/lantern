@@ -1,5 +1,8 @@
 import React from 'react';
+import Router from 'react-router';
 import Fluky from 'fluky';
+
+var Link = Router.Link;
 
 class SettingsMenu extends React.Component {
 
@@ -33,9 +36,9 @@ class SettingsMenu extends React.Component {
 	render() {
 
 		return (
-			<div className='ui right floated secondary vertical pointing menu'>
-				<a className='active item'>Profile</a>
-				<a className='item'>Account Settings</a>
+			<div className='ui right floated teal secondary vertical pointing menu'>
+				<Link to='/settings/profile' className='item'>Profile</Link>
+				<Link to='/settings/account' className='item'>Account Settings</Link>
 			</div>
 		);
 	}

@@ -85,7 +85,7 @@ class Header extends React.Component {
 
 		return (
 			<div className={'ui top fixed inverted menu'}>
-				<Link to='/' className={'item'}>
+				<Link to='/' className={'item'} activeClassName=''>
 					<div>Lantern</div>
 				</Link>
 				{loginState}

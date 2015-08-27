@@ -4,12 +4,18 @@ import Fluky from 'fluky';
 import Header from './Header.jsx';
 import SettingsMenu from './SettingsMenu.jsx';
 import UserProfile from './UserProfile.jsx';
+import AccountSettings from './AccountSettings.jsx';
 
 class SettingsRouter extends React.Component {
 
 	render() {
-		if (this.props.category)
+		if (this.props.category == 'profile')
 			return <UserProfile />
+
+		if (this.props.category == 'account')
+			return <AccountSettings />
+
+		return <div />;
 	}
 }
 
@@ -43,36 +49,17 @@ class SettingsPage extends React.Component {
 	}
 
 	render() {
-		var emailClasses = 'required field';
-		var nameClasses = 'required field';
-		var passwordClasses = 'required field';
-		var confirmClasses = 'required field';
-		var message;
-		var fieldClass = 'field';
-		if (this.state.error) {
-			fieldClass += ' error';
-			message = (
-				<div className='ui negative icon message'>
-					<i className={'warning sign icon'} />
-					<div className='content'>
-						<div className='header'>Failed to Sign In</div>
-						<p>Please check your email and password then try again</p>
-					</div>
-				</div>
-			);
-		}
-
 		return (
 			<div>
 				<Header />
 				<div className={'ui basic segment'}>
 					<div className='ui hidden divider'></div>
-					<div className='ui grid'>
-						<div className='computer only three wide column'>
+					<div className='ui stackable grid'>
+						<div className='computer only four wide column'>
 							<SettingsMenu category={this.context.router.getCurrentParams().category} />
 						</div>
 
-						<div className='thirteen wide computer column'>
+						<div className='twelve wide computer sixteen wide tablet column'>
 							<SettingsRouter category={this.context.router.getCurrentParams().category} />
 						</div>
 					</div>
