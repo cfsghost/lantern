@@ -58,7 +58,7 @@ class AccountSettings extends React.Component {
 					</h1>
 
 					<div className='ui segments'>
-						<div className='ui teal inverted segment'>
+						<div className='ui secondary segment'>
 							<h5 className='ui header'>Change Password</h5>
 						</div>
 
