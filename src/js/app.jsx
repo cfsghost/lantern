@@ -2,7 +2,7 @@ var Fluky = require('fluky');
 var React = require('react');
 //var Routr = require('./routes.jsx');
 import Router from 'react-router';
-var { Route, RouteHandler, NotFoundRoute, Link } = Router;
+var { Route, RouteHandler, NotFoundRoute, Redirect } = Router;
 
 // Initializing fluky framework
 var Fluky = require('fluky');
@@ -50,6 +50,9 @@ export default (
 		{Routes.map(function(route, key) {
 			if (!route.path)
 				return <NotFoundRoute handler={route.handler} key={key} />
+
+			if (route.redirect)
+				return <Redirect from={route.path} to={route.redirect} key={key} />
 
 			return <Route path={route.path} handler={route.handler} key={key} />
 		})}

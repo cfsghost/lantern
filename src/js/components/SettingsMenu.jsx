@@ -1,11 +1,10 @@
-var React = require('react');
-var Link = require('react-router-component').Link;
-var Fluky = require('fluky');
+import React from 'react';
+import Fluky from 'fluky';
 
-class ProfileMenu extends React.Component {
+class SettingsMenu extends React.Component {
 
 	static contextTypes = {
-		router: React.PropTypes.object
+		router: React.PropTypes.func.isRequired
 	};
 
 	constructor(props, context) {
@@ -42,4 +41,4 @@ class ProfileMenu extends React.Component {
 	}
 }
 
-module.exports = ProfileMenu;
+export default SettingsMenu;

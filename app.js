@@ -82,49 +82,60 @@ function getContent(routePath, query) {
 // Routes
 app.use(require('./routes/user').middleware());
 
-// Initializing routes for front-end rendering
-var router = new Router();
-for (var index in ReactApp.routes) {
-	var route = ReactApp.routes[index];
-
-	// NotFound Page
-	if (!route.path) {
-		app.use(function *pageNotFound(next) {
-			yield next;
-
-			if (this.status != 404)
-				return;
-
-			if (this.body || !this.idempotent)
-				return;
-
-			// Rendering
-			var content = yield getContent(this.request.path, this.query);
-			yield this.render('index', { content: content });
-
-			// Do not trigger koa's 404 handling
-			this.message = null;
-		});
-		continue;
-	}
-
-	// Register path for pages
-	router.get(route.path, function *() {
-
-		// Reset initial state with session for new page
-		ReactApp.context.setInitialState({
-			User: this.state.user || {}
-		});
-		ReactApp.context.state.User.logined = this.isAuthenticated();
-
-		// Rendering page and pass state to client-side
-		var content = yield getContent(this.request.path, this.query);
-		yield this.render('index', { content: content, state: ReactApp.context.state });
-	});
-}
-app.use(router.middleware());
-
 co(function *() {
+
+	// Initializing routes for front-end rendering
+	var router = new Router();
+	for (var index in ReactApp.routes) {
+		var route = ReactApp.routes[index];
+
+		// NotFound Page
+		if (!route.path) {
+			app.use(function *pageNotFound(next) {
+				yield next;
+
+				if (this.status != 404)
+					return;
+
+				if (this.body || !this.idempotent)
+					return;
+
+				// Rendering
+				var content = yield getContent(this.request.path, this.query);
+				yield this.render('index', { content: content });
+
+				// Do not trigger koa's 404 handling
+				this.message = null;
+			});
+			continue;
+		}
+
+		// Redirect
+		if (route.redirect) {
+			(function(route) {
+				router.get(route.path, function *() {
+					this.redirect(route.redirect);
+				});
+			})(route);
+			continue;
+		}
+
+		// Register path for pages
+		router.get(route.path, function *() {
+
+			// Reset initial state with session for new page
+			ReactApp.context.setInitialState({
+				User: this.state.user || {}
+			});
+			ReactApp.context.state.User.logined = this.isAuthenticated();
+
+			// Rendering page and pass state to client-side
+			var content = yield getContent(this.request.path, this.query);
+			yield this.render('index', { content: content, state: ReactApp.context.state });
+		});
+	}
+	app.use(router.middleware());
+
 	// Initializing database
 	yield Database.init();
 

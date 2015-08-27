@@ -2,33 +2,21 @@ import React from 'react';
 import Fluky from 'fluky';
 
 import Header from './Header.jsx';
-import ProfileMenu from './ProfileMenu.jsx';
+import SettingsMenu from './SettingsMenu.jsx';
 import UserProfile from './UserProfile.jsx';
 
 class SettingsRouter extends React.Component {
 
-	static propTypes = {
-		category: React.PropTypes.string
-	};
-
-	static contextTypes = {
-		path: React.PropTypes.string,
-		router: React.PropTypes.object
-	};
-
 	render() {
-		switch(this.props.category) {
-		case 'profile':
-			return <UserProfile />;
-		}
+		if (this.props.category)
+			return <UserProfile />
 	}
 }
 
 class SettingsPage extends React.Component {
 
 	static contextTypes = {
-		path: React.PropTypes.string,
-		router: React.PropTypes.object
+		router: React.PropTypes.func.isRequired
 	};
 
 	constructor(props, context) {
@@ -74,9 +62,6 @@ class SettingsPage extends React.Component {
 			);
 		}
 
-		this.context.router.navigate('/');
-		console.log(this.context.router);
-
 		return (
 			<div>
 				<Header />
@@ -84,21 +69,17 @@ class SettingsPage extends React.Component {
 					<div className='ui hidden divider'></div>
 					<div className='ui grid'>
 						<div className='computer only three wide column'>
-							<ProfileMenu />
+							<SettingsMenu category={this.context.router.getCurrentParams().category} />
 						</div>
 
 						<div className='thirteen wide computer column'>
+							<SettingsRouter category={this.context.router.getCurrentParams().category} />
 						</div>
 					</div>
 				</div>
 			</div>
 		);
 	}
-	/*
-							<Locations path={this.context.path}>
-								<Location path='/settings/:category' handler={SettingsRouter} />
-							</Locations>
-*/
-							}
+}
 
 module.exports = SettingsPage;

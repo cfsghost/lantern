@@ -1,5 +1,5 @@
-var React = require('react');
-var Fluky = require('fluky');
+import React from 'react';
+import Fluky from 'fluky';
 
 class UserProfile extends React.Component {
 
@@ -47,7 +47,6 @@ class UserProfile extends React.Component {
 		}
 
 		return (
-
 			<div className='ui form'>
 
 				<div className={nameClasses}>
