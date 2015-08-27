@@ -83,6 +83,15 @@ class UserProfile extends React.Component {
 						</div>
 
 						<div className='ui very padded segment'>
+							{((ctx) => {
+								if (ctx.state.busy)
+									return (
+										<div className='ui active dimmer'>
+											<div className='ui text loader'>Saving</div>
+										</div>
+									);
+							})(this)}
+
 							<div className={nameClasses}>
 								<label>Display Name</label>
 								<div className={'ui left input'}>
