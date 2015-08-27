@@ -152,4 +152,4 @@ class SignInPage extends React.Component {
 	}
 }
 
-module.exports = SignInPage;
+export default SignInPage;
