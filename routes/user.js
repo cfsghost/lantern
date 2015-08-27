@@ -49,3 +49,23 @@ router.post('/user/profile', Middleware.requireAuthorized, function *() {
 		member: m
 	};
 });
+
+router.post('/user/password', Middleware.requireAuthorized, function *() {
+
+	if (!this.request.body.password) {
+		this.status = 401;
+		return;
+	}
+
+	// Update password
+	try {
+		var success = yield Member.changePassword(this.state.user.id, this.request.body.password);
+	} catch(e) {
+		this.status = 500;
+		return;
+	}
+
+	this.body = {
+		success: success
+	};
+});

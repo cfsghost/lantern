@@ -65,6 +65,39 @@ export default function *() {
 			}.bind(this));
 	});
 
+	this.on('store.User.updatePassword', function *(password, callback) {
+
+		request
+			.post('/user/password')
+			.send({
+				password: password
+			})
+			.end(function(err, res) {
+
+				if (err) {
+					if (callback)
+						return callback({
+							msg: 'Cannot connect to server'
+						});
+
+					return;
+				}
+
+				if (res.status != 200) {
+					if (callback)
+						return callback({
+							msg: 'Server Error'
+						});
+
+					return;
+				}
+
+				if (callback)
+					return callback(null, res.body.success);
+
+			}.bind(this));
+	});
+
 	this.on('store.User.signIn', function *(username, password) {
 
 		request

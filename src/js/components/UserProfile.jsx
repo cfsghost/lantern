@@ -16,7 +16,7 @@ class UserProfile extends React.Component {
 
 	componentWillMount = () => {
 		Fluky.on('store.User', Fluky.bindListener(this.onChange));
-		Fluky.dispatch('store.User.syncProfile');
+		Fluky.dispatch('action.User.syncProfile');
 	}
 
 	componentWillUnmount = () => {
@@ -29,7 +29,7 @@ class UserProfile extends React.Component {
 
 	onChange = () => {
 
-		Fluky.dispatch('store.User.getState', function(user) {
+		Fluky.dispatch('action.User.getState', function(user) {
 			this.setState({
 				name: user.name,
 				email: user.email,
@@ -46,7 +46,7 @@ class UserProfile extends React.Component {
 			busy: true
 		});
 
-		Fluky.dispatch('store.User.updateProfile', this.state.name);
+		Fluky.dispatch('action.User.updateProfile', this.state.name);
 	}
 
 	render() {
