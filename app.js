@@ -73,9 +73,6 @@ function getContent(routePath, query) {
 
 	return function(done) {
 		ReactApp.render(routePath, done);
-//		var content = ReactApp.React.renderToString(ReactApp.React.createElement(ReactApp.main, { path: routePath }));
-
-//		done(null, content);
 	};
 }
 
