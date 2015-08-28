@@ -118,7 +118,8 @@ class SignInPage extends React.Component {
 										<button className='ui teal button' onClick={this.signIn}>Sign In</button>
 									</div>
 									<div className='field ui teal message'>
-										No Account yet? <Link to='/signup'>Sign Up</Link>
+										<div><Link to='/forgot'>Forgot your password?</Link></div>
+										<div>No Account yet? <Link to='/signup'>Sign Up</Link></div>
 									</div>
 								</div>
 							</div>
