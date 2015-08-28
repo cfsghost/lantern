@@ -1,4 +1,7 @@
 {
+	"service": {
+		"name": "Lantern"
+	},
 	"server": {
 		"secure": false,
 		"external_host": "localhost",

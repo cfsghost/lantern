@@ -100,7 +100,10 @@ co(function *() {
 
 				// Rendering
 				var content = yield getContent(this.request.path, this.query);
-				yield this.render('index', { content: content });
+				yield this.render('index', {
+					title: settings.general.service.name,
+					content: content
+				});
 
 				// Do not trigger koa's 404 handling
 				this.message = null;
@@ -129,7 +132,11 @@ co(function *() {
 
 			// Rendering page and pass state to client-side
 			var content = yield getContent(this.request.path, this.query);
-			yield this.render('index', { content: content, state: ReactApp.context.state });
+			yield this.render('index', {
+				title: settings.general.service.name,
+				content: content,
+				state: ReactApp.context.state
+			});
 		});
 	}
 	app.use(router.middleware());
