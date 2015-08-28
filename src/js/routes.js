@@ -1,4 +1,5 @@
 var LandingPage = require('./components/LandingPage.jsx');
+var ForgotPage = require('./components/ForgotPage.jsx');
 var SignInPage = require('./components/SignInPage.jsx');
 var SignUpPage = require('./components/SignUpPage.jsx');
 var SettingsPage = require('./components/SettingsPage.jsx');
@@ -16,6 +17,10 @@ module.exports = [
 	{
 		path: '/signin',
 		handler: SignInPage
+	},
+	{
+		path: '/forgot',
+		handler: ForgotPage
 	},
 	{
 		path: '/signup',
