@@ -93,7 +93,7 @@ class ForgotPage extends React.Component {
 					<div className='ui two column centered grid'>
 						<div className='column'>
 							<h1 className='ui header'>
-								<i className='help circle icon' />
+								<i className='lock icon' />
 								<div className='content'>Forgot Password?</div>
 							</h1>
 
