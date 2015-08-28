@@ -30,13 +30,20 @@ class ChangePassword extends React.Component {
 		Fluky.dispatch('action.User.updatePassword',
 				this.refs.password.getDOMNode().value, function(err, success) {
 
-					this.setState({
+					var state = {
 						showMessages: true,
-						error: err ? true : false,
-						msg: err ? err.msg : '',
-						busy: false,
-						updateSuccess: success || false
-					});
+						busy: false
+					};
+
+					if (err) {
+						state.error = true;
+						state.msg = err;
+					} else if (success) {
+						state.updateSuccess = true;
+						state.msg = 'The new password will be used next time the logs in';
+					}
+
+					this.setState(state);
 
 					// Clear input
 					this.refs.password.getDOMNode().value = '';
@@ -102,7 +109,7 @@ class ChangePassword extends React.Component {
 						if (ctx.state.busy)
 							return (
 								<div className='ui active dimmer'>
-									<div className='ui text loader'>Saving</div>
+									<div className='ui text loader'>Updating</div>
 								</div>
 							);
 					})(this)}

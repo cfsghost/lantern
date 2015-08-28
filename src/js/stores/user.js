@@ -76,18 +76,14 @@ export default function *() {
 
 				if (err) {
 					if (callback)
-						return callback({
-							msg: 'Cannot connect to server'
-						});
+						return callback('ERR_CONNECT');
 
 					return;
 				}
 
 				if (res.status != 200) {
 					if (callback)
-						return callback({
-							msg: 'Server Error'
-						});
+						return callback('ERR_SERVER');
 
 					return;
 				}
