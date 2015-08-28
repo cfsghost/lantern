@@ -7,6 +7,11 @@
 		"external_host": "localhost",
 		"port": 3001
 	},
+	"mailer": {
+		"service": "Gmail",
+		"user": "youruser@gmail.com",
+		"password": "yourpassword"
+	},
 	"session": {
 		"keys": [
 			"YOUneverKnowWhoYOUaRe1234567890"
