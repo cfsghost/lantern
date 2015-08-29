@@ -9,10 +9,10 @@ var passport = require('koa-passport');
 var co = require('co');
 
 // React
-//var React = require('react');
 var ReactApp = require('./public/assets/server.js');
 
 // Libraries
+var Mailer = require('./lib/mailer');
 var Database = require('./lib/database');
 var Passport = require('./lib/passport');
 
@@ -82,6 +82,10 @@ app.use(require('./routes/user').middleware());
 
 co(function *() {
 
+	// Initializing APIs
+	yield Mailer.init();
+	yield Database.init();
+
 	// Initializing routes for front-end rendering
 	var router = new Router();
 	for (var index in ReactApp.routes) {
@@ -140,9 +144,6 @@ co(function *() {
 		});
 	}
 	app.use(router.middleware());
-
-	// Initializing database
-	yield Database.init();
 
 	app.listen(settings.general.server.port, function() {
 		console.log('server is ready');

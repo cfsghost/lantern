@@ -76,20 +76,53 @@ export default function *() {
 
 				if (err) {
 					if (callback)
-						return callback('ERR_CONNECT');
+						return callback('ERR_CONNECT', false);
 
 					return;
 				}
 
 				if (res.status != 200) {
 					if (callback)
-						return callback('ERR_SERVER');
+						return callback('ERR_SERVER', false);
 
 					return;
 				}
 
 				if (callback)
 					return callback(null, res.body.success);
+
+			}.bind(this));
+	});
+
+	this.on('store.User.forgotPassword', function *(email, callback) {
+
+		request
+			.post('/user/forgot')
+			.send({
+				email: email
+			})
+			.end(function(err, res) {
+
+				if (err) {
+					if (callback)
+						return callback('ERR_CONNECT', false);
+
+					return;
+				}
+
+				switch(res.status) {
+				case 200:
+					if (callback)
+						return callback(null, true);
+
+					return;
+
+				default:
+					if (callback)
+						return callback('ERR_SERVER', false);
+
+					return;
+				}
 
 			}.bind(this));
 	});

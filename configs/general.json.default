@@ -9,8 +9,16 @@
 	},
 	"mailer": {
 		"service": "Gmail",
-		"user": "youruser@gmail.com",
-		"password": "yourpassword"
+		"auth": {
+			"user": "youruser@gmail.com",
+			"clientId": "1062945721841-gv9knqff750pt1jfdnlnppqp18i8df68.apps.googleusercontent.com",
+			"clientSecret": "BBcspOhl_prNwcxOQtEKVtbe",
+			"refreshToken": "1/rvU5OkrToA7AujYucB9dagEHT4KoBbiXzP31aaJWweVIgOrJDtdun6zK6XiATCKT"
+		},
+		"sender": {
+			"name": "Lantern Service",
+			"address": "service@yourdomain.com"
+		}
 	},
 	"session": {
 		"keys": [

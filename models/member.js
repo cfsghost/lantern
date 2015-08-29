@@ -11,6 +11,7 @@ var Member = new mongoose.Schema({
 	phone: String,
 	idno: String,
 	tokens: [ String ],
+	rule_tokens: [{ name: String, token: String, expired: Date }],
 	created: { type: Date, default: Date.now },
 	updated: { type: Date, default: Date.now }
 });

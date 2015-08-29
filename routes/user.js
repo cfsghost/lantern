@@ -1,8 +1,11 @@
 var Router = require('koa-router');
 var passport = require('koa-passport');
+var settings = require('../lib/config');
 var Member = require('../lib/member');
 var Passport = require('../lib/passport');
 var Middleware = require('../lib/middleware');
+var Mailer = require('../lib/mailer');
+var Utils = require('../lib/utils');
 
 var router = module.exports = new Router();
 
@@ -68,4 +71,51 @@ router.post('/user/password', Middleware.requireAuthorized, function *() {
 	this.body = {
 		success: success
 	};
+});
+
+
+router.post('/user/forgot', function *() {
+
+	if (!this.request.body.email) {
+		this.status = 401;
+		return;
+	}
+/*
+	var userId = '123';
+	var token = 'qqq';
+console.log('forgot');
+
+	return;
+*/
+	// Setup a rule "reset_password"
+	try {
+		var result = yield Member.setupRuleTokenByEmail(this.request.body.email, 'reset_password', Date.now());
+		if (!result) {
+			this.status = 401;
+			return;
+		}
+	} catch(e) {
+		this.status = 500;
+		return;
+	}
+
+	try {
+		// Prepare content
+		var subject = 'You requested a new ' + settings.general.service.name + ' password';
+		var content = [
+			'<p>You\'re receiving this e-mail because you requested a password reset for your user account at ',
+			settings.general.service.name + '.</p>',
+			'<p>Please go to the following link and choose a new password:</p>',
+			'<p><a href=\'' + Utils.getExternalUrl() + '/reset_password/' + result.id + '/' + result.token + '\'>',
+			Utils.getExternalUrl() + '/reset_password/' + result.id + '/' + result.token + '</a></p>'
+		];
+
+		// Send confirmation mail to user
+		yield Mailer.sendMailFromService(this.request.body.email, subject, content.join(''));
+	} catch(e) {
+		this.status = 500;
+		return;
+	}
+
+	this.status = 200;
 });
