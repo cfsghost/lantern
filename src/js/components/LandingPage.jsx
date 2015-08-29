@@ -27,7 +27,7 @@ var sectionStyle = {
 class LandingPage extends React.Component {
 	render() {
 		return (
-			<div>
+			<div className='main-page'>
 				<Header />
 
 				<div className={'ui basic center aligned segment landing-page-header'}>

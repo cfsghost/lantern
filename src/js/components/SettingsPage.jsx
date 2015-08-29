@@ -50,9 +50,10 @@ class SettingsPage extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div className='main-page'>
 				<Header />
 				<div className={'ui basic segment'}>
+					<div className='ui hidden divider'></div>
 					<div className='ui hidden divider'></div>
 					<div className='ui stackable grid'>
 						<div className='computer only four wide column'>
