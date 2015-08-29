@@ -80,13 +80,7 @@ router.post('/user/forgot', function *() {
 		this.status = 401;
 		return;
 	}
-/*
-	var userId = '123';
-	var token = 'qqq';
-console.log('forgot');
 
-	return;
-*/
 	// Setup a rule "reset_password"
 	try {
 		var result = yield Member.setupRuleTokenByEmail(this.request.body.email, 'reset_password', Date.now());
