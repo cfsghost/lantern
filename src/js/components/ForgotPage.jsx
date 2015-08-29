@@ -38,6 +38,7 @@ class ForgotPage extends React.Component {
 		super(props, context);
 
 		this.state = {
+			busy: false,
 			error: false,
 			success: false,
 			readyToSubmit: false
@@ -45,10 +46,16 @@ class ForgotPage extends React.Component {
 	}
 
 	submit = () => {
+
+		this.setState({
+			busy: true
+		});
+		
 		Fluky.dispatch('action.User.forgotPassword',
 			this.refs.email.getDOMNode().value, function(err, success) {
 
 				this.setState({
+					busy: false,
 					error: err ? true : false,
 					success: success
 				});
@@ -101,6 +108,15 @@ class ForgotPage extends React.Component {
 					</h1>
 
 					<div className={'ui basic segment'}>
+						{((ctx) => {
+							if (ctx.state.busy)
+								return (
+									<div className='ui active inverted dimmer'>
+										<div className='ui text loader'>Updating</div>
+									</div>
+								);
+						})(this)}
+
 						{message}
 
 						<div className='ui form'>
