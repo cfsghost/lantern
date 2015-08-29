@@ -51,6 +51,7 @@
     "node-jsx": "^0.13.3",
     "nodemailer": "^1.4.0",
     "nodemailer-smtp-pool": "^1.1.1",
+    "numeral": "^1.5.3",
     "passport-facebook": "^2.0.0",
     "passport-github2": "^0.1.9",
     "passport-google-oauth": "^0.2.0",
