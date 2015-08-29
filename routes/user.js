@@ -113,3 +113,23 @@ router.post('/user/forgot', function *() {
 
 	this.status = 200;
 });
+
+router.post('/user/reset_password', function *() {
+
+	if (!this.request.body.id || !this.request.body.token || !this.request.body.password) {
+		this.status = 401;
+		return;
+	}
+
+	// Update password
+	try {
+		var success = yield Member.changePasswordWithToken(this.request.body.id, this.request.body.token, this.request.body.password);
+	} catch(e) {
+		this.status = 500;
+		return;
+	}
+
+	this.body = {
+		success: success
+	};
+});

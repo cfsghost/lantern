@@ -127,6 +127,41 @@ export default function *() {
 			}.bind(this));
 	});
 
+	this.on('store.User.resetPassword', function *(id, token, password, callback) {
+
+		request
+			.post('/user/reset_password')
+			.send({
+				id: id,
+				token: token,
+				password: password
+			})
+			.end(function(err, res) {
+
+				if (err) {
+					if (callback)
+						return callback('ERR_CONNECT', false);
+
+					return;
+				}
+
+				switch(res.status) {
+				case 200:
+					if (callback)
+						return callback(null, true);
+
+					return;
+
+				default:
+					if (callback)
+						return callback('ERR_SERVER', false);
+
+					return;
+				}
+
+			}.bind(this));
+	});
+
 	this.on('store.User.signIn', function *(username, password) {
 
 		request
