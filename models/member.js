@@ -12,6 +12,7 @@ var Member = new mongoose.Schema({
 	idno: String,
 	tokens: [ String ],
 	rule_tokens: [{ name: String, token: String, expired: Date }],
+	disabled: { type: Boolean, default: false },
 	created: { type: Date, default: Date.now },
 	updated: { type: Date, default: Date.now }
 });
