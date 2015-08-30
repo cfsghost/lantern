@@ -3,7 +3,7 @@ import request from 'superagent';
 
 export default function *() {
 
-	// Initializing user store
+	// Initializing user store if state doesn't exist
 	if (!this.state.User) {
 		this.state.User = {
 			status: 'normal',
