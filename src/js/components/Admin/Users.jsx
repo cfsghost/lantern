@@ -20,6 +20,39 @@ class UserItem extends React.Component {
 	}
 }
 
+class PageNavigator extends React.Component {
+
+	render() {
+		var posClass;
+
+		if (this.props.top)
+			posClass = 'top';
+
+		if (this.props.bottom)
+			posClass = 'bottom';
+
+		var pageItems = [];
+		for (var index = 1; index <= this.props.pageCount; index++) {
+			if (index == this.props.page)
+				pageItems.push(<div className='item active' key={index}>{index}</div>);
+			else
+				pageItems.push(<div className='item' key={index}>{index}</div>);
+		}
+
+		return (
+			<div className={'ui ' + posClass + ' attached teal inverted borderless pagination menu'}>
+				<a className='icon item'>
+					<i className='left chevron icon' />
+				</a>
+				{pageItems}
+				<a className='icon item'>
+					<i className='right chevron icon' />
+				</a>
+			</div>
+		);
+	}
+}
+
 class Users extends React.Component {
 
 	constructor(props, context) {
@@ -47,7 +80,7 @@ class Users extends React.Component {
 	}
 
 	componentDidUpdate = () => {
-//		$(this.refs.sidebar.getDOMNode()).sidebar();
+		//$(this.refs.search_field.getDOMNode()).dropdown();
 	}
 
 	onChange = () => {
@@ -106,33 +139,51 @@ class Users extends React.Component {
 
 		return (
 			<div className='ui basic segment'>
-				<div className='ui form'>
-					<h1 className='ui header'>
-						<div className='content'>
-							Users
-							<div className='sub header'>User management</div>
+
+				<div className='ui stackable grid'>
+					<div className='four wide computer sixteen wide tablet column'>
+						<h1 className='ui header'>
+							<div className='content'>
+								Users
+								<div className='sub header'>User management</div>
+							</div>
+						</h1>
+					</div>
+
+					<div className='eight wide computer sixteen wide tablet right floated right aligned column'>
+						<div className='ui left action icon input'>
+							<select className='ui selection dropdown'>
+								<option value='name'>Name</option>
+								<option value='email'>E-mail</option>
+							</select>
+							<input type='text' placeholder='Search...' />
+							<i className='search link icon'></i>
 						</div>
-					</h1>
-
-						<div className='ui top attached secondary segment'>
-							<h5 className='ui header'>Users</h5>
-						</div>
-
-
-						<table className='ui bottom attached striped table'>
-							<thead>
-								<tr>
-									<th className='three wide'>Name</th>
-									<th>E-mail</th>
-									<th className='two wide'>Registered</th>
-								</tr>
-							</thead>
-							<tbody>
-								{users}
-							</tbody>
-						</table>
-
+					</div>
 				</div>
+
+					<div className='ui icon menu'>
+						<div className='item'>
+							<i className='add user icon'></i>
+						</div>
+					</div>
+
+					<PageNavigator page={this.state.page} pageCount={this.state.pageCount} top={true} />
+
+					<table className='ui attached striped table'>
+						<thead>
+							<tr>
+								<th className='three wide'>Name</th>
+								<th>E-mail</th>
+								<th className='two wide'>Registered</th>
+							</tr>
+						</thead>
+						<tbody>
+							{users}
+						</tbody>
+					</table>
+
+					<PageNavigator page={this.state.page} pageCount={this.state.pageCount} bottom={true} />
 			</div>
 		);
 	}
