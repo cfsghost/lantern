@@ -90,27 +90,26 @@ class SignUpPage extends React.Component {
 
 	onChange = () => {
 
-		Fluky.dispatch('store.User.getState', function(user) {
+		var user = Fluky.getState('User');
 
-			// No need to sign in if logined already
-			if (user.logined) {
-				this.context.router.navigate('/');
-				return;
-			}
+		// No need to sign in if logined already
+		if (user.logined) {
+			this.context.router.navigate('/');
+			return;
+		}
 
-			if (user.status == 'login-failed') {
+		if (user.status == 'login-failed') {
 
-				// Clear password inputbox
-				this.refs.password.getDOMNode().value = ''; 
+			// Clear password inputbox
+			this.refs.password.getDOMNode().value = ''; 
 
-				// Focus on email inputbox
-				this.refs.email.getDOMNode().select();
+			// Focus on email inputbox
+			this.refs.email.getDOMNode().select();
 
-				this.setState({
-					error: true
-				});
-			}
-		}.bind(this));
+			this.setState({
+				error: true
+			});
+		}
 	}
 
 	render() {

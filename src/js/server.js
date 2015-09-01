@@ -27,21 +27,33 @@ var render = function(reqPath, state) {
 				Fluky.disabledEventHandler = true;
 				var html = React.renderToStaticMarkup(comp);
 
-				callback(null, html);
+				callback(null, {
+					content: html,
+					state: Fluky.state
+				});
 			}
 
 			// Wait until everything's done
 			Fluky.on('idle', done);
 
 			// Initializing layout
-			React.renderToStaticMarkup(comp);
+			var html = React.renderToStaticMarkup(comp);
+			setImmediate(function() {
+
+				// There is no task
+				if (!Fluky._refs) {
+					Fluky.off('idle', done);
+					callback(null, {
+						content: html,
+						state: Fluky.state
+					});
+				}
+			});
 		});
 	};
 };
 
 module.exports = {
 	routes: require('./routes.js'),
-	render: render,
-	context: Fluky,
-	React: React
+	render: render
 };

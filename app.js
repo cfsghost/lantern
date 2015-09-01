@@ -135,12 +135,12 @@ co(function *() {
 			curState.User.logined = this.isAuthenticated();
 
 			// Rendering page and pass state to client-side
-			var content = yield ReactApp.render(this.request.path, curState);
+			var page = yield ReactApp.render(this.request.path, curState);
 
 			yield this.render('index', {
 				title: settings.general.service.name,
-				content: content,
-				state: ReactApp.context.state
+				content: page.content,
+				state: page.state
 			});
 		});
 	}

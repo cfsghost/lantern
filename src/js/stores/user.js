@@ -3,19 +3,17 @@ import request from 'superagent';
 
 export default function *() {
 
-	// Initializing user store if state doesn't exist
-	if (!this.state.User) {
-		this.state.User = {
-			status: 'normal',
-			name: 'Nobody',
-			username: null,
-			email: null,
-			logined: false
-		};
-	}
+	// Getting current state. Initialize state if state doesn't exist.
+	var store = this.getState('User', {
+		status: 'normal',
+		name: 'Nobody',
+		username: null,
+		email: null,
+		logined: false
+	});
 
 	this.on('store.User.getState', function *(callback) {
-		callback(this.state.User);
+		callback(this.getState('User'));
 	});
 
 	this.on('store.User.syncProfile', function *() {
@@ -56,7 +54,7 @@ export default function *() {
 				}
 
 				if (res.body.success) {
-					var store = this.state.User;
+					var store = this.getState('User');
 					store.name = res.body.member.name;
 					store.email = res.body.member.email;
 				}
@@ -171,7 +169,7 @@ export default function *() {
 				password: password
 			})
 			.end(function(err, res) {
-				var store = this.state.User;
+				var store = this.getState('User');
 				if (res.status == 401) {
 					store.status = 'login-failed';
 
@@ -202,7 +200,7 @@ export default function *() {
 				name: name
 			})
 			.end(function(err, res) {
-				var store = this.state.User;
+				var store = this.getState('User');
 
 				switch(res.status) {
 				case 500:

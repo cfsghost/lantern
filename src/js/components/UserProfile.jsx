@@ -29,13 +29,12 @@ class UserProfile extends React.Component {
 
 	onChange = () => {
 
-		Fluky.dispatch('action.User.getState', function(user) {
-			this.setState({
-				name: user.name,
-				email: user.email,
-				busy: false
-			});
-		}.bind(this));
+		var user = Fluky.getState('User');
+		this.setState({
+			name: user.name,
+			email: user.email,
+			busy: false
+		});
 	}
 
 	updateProfile = () => {
