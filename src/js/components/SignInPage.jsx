@@ -40,7 +40,7 @@ class SignInPage extends React.Component {
 
 		// No need to sign in if logined already
 		if (user.logined) {
-			this.context.router.translationTo('/');
+			this.context.router.transitionTo('/');
 			return;
 		}
 

@@ -97,7 +97,7 @@ co(function *() {
 				if (this.status != 404)
 					return;
 
-				if (this.body || !this.idempotent)
+				if (this.json || this.body || !this.idempotent)
 					return;
 
 				// Rendering
@@ -131,7 +131,8 @@ co(function *() {
 			delete require.cache[require.resolve('./public/assets/server.js')];
 			var ReactApp = require('./public/assets/server.js');
 			ReactApp.init({
-				externalUrl: Utils.getExternalUrl()
+				externalUrl: Utils.getExternalUrl(),
+				cookie: this.req.headers.cookie
 			});
 
 			// Reset initial state with session for new page
@@ -142,7 +143,6 @@ co(function *() {
 
 			// Rendering page and pass state to client-side
 			var page = yield ReactApp.render(this.request.path, curState);
-
 			yield this.render('index', {
 				title: settings.general.service.name,
 				content: page.content,

@@ -7,8 +7,9 @@ var { Route, RouteHandler, NotFoundRoute, Redirect } = Router;
 // Initializing fluky framework
 var Fluky = require('fluky');
 var Stores = require('./stores');
+var Extensions = require('./extensions');
 
-Fluky.load(Stores);
+Fluky.load(Stores, Extensions);
 
 class App extends React.Component {
 

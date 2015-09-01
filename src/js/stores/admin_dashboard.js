@@ -1,4 +1,3 @@
-import request from 'superagent';
 
 export default function *() {
 
@@ -18,19 +17,24 @@ export default function *() {
 
 	this.on('store.Admin.Dashboard.query', function *() {
 
-		// Getting user list by calling API
-		var res = yield request.get('http://localhost:3001/admin/api/dashboard');
+		try {
+			// Getting user list by calling API
+			var res = yield this.request
+				.get('/admin/api/dashboard')
+				.query();
 
-		if (res.status != 200) {
-			return;
+			if (res.status != 200) {
+				return;
+			}
+
+			// Update state
+			var state = this.getState('Admin.Dashboard');
+			state.service = res.body.service;
+			state.user = res.body.user;
+			state.admin = res.body.admin;
+
+			this.dispatch('store.Admin.Dashboard', 'change');
+		} catch(e) {
 		}
-
-		// Update state
-		var state = this.getState('Admin.Dashboard');
-		state.service = res.body.service;
-		state.user = res.body.user;
-		state.admin = res.body.admin;
-
-		this.dispatch('store.Admin.Dashboard', 'change');
 	});
 };

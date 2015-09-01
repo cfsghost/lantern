@@ -6,11 +6,13 @@ class UserProfile extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 
+		var state = Fluky.getState('User');
+
 		this.state = {
 			busy: false,
 			error: false,
-			name: '',
-			email: ''
+			name: state.name,
+			email: state.email
 		};
 	}
 
@@ -23,13 +25,10 @@ class UserProfile extends React.Component {
 		Fluky.off('store.User', this.onChange);
 	}
 
-	componentDidUpdate = () => {
-//		$(this.refs.sidebar.getDOMNode()).sidebar();
-	}
-
 	onChange = () => {
 
 		var user = Fluky.getState('User');
+
 		this.setState({
 			name: user.name,
 			email: user.email,

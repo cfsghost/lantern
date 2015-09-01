@@ -1,6 +1,4 @@
 
-import request from 'superagent';
-
 export default function *() {
 
 	// Getting current state. Initialize state if state doesn't exist.
@@ -12,218 +10,208 @@ export default function *() {
 		logined: false
 	});
 
-	this.on('store.User.getState', function *(callback) {
-		callback(this.getState('User'));
-	});
-
 	this.on('store.User.syncProfile', function *() {
 
-		request
-			.get('/user/profile')
-			.end(function(err, res) {
-				if (err)
-					return;
+		try {
+			var res = yield this.request
+				.get('/user/profile')
+				.query();
 
-				if (res.status != 200) {
-					return;
-				}
+			if (res.status != 200) {
+				return;
+			}
 
-				if (res.body.success) {
-					var store = this.state.User;
-					store.name = res.body.member.name;
-					store.email = res.body.member.email;
-				}
+			if (res.body.success) {
+				// Update store
+				var store = this.getState('User');
+				store.name = res.body.member.name;
+				store.email = res.body.member.email;
+			}
 
-				this.dispatch('store.User', 'change');
-			}.bind(this));
+			this.dispatch('store.User', 'change');
+		} catch(e) {
+			console.log(e);
+		}
 	});
 
 	this.on('store.User.updateProfile', function *(name) {
 
-		request
-			.post('/user/profile')
-			.send({
-				name: name
-			})
-			.end(function(err, res) {
-				if (err)
-					return;
+		try {
+			var res = yield this.request
+				.post('/user/profile')
+				.send({
+					name: name
+				});
 
-				if (res.status != 200) {
-					return;
-				}
+			if (res.status != 200) {
+				return;
+			}
 
-				if (res.body.success) {
-					var store = this.getState('User');
-					store.name = res.body.member.name;
-					store.email = res.body.member.email;
-				}
+			if (res.body.success) {
+				var store = this.getState('User');
+				store.name = res.body.member.name;
+				store.email = res.body.member.email;
+			}
 
-				this.dispatch('store.User', 'change');
-			}.bind(this));
+			this.dispatch('store.User', 'change');
+		} catch(e) {
+			console.log(e);
+		}
 	});
 
 	this.on('store.User.updatePassword', function *(password, callback) {
 
-		request
-			.post('/user/password')
-			.send({
-				password: password
-			})
-			.end(function(err, res) {
+		try {
+			var res = yield this.request
+				.post('/user/password')
+				.send({
+					password: password
+				});
 
-				if (err) {
-					if (callback)
-						return callback('ERR_CONNECT', false);
-
-					return;
-				}
-
-				if (res.status != 200) {
-					if (callback)
-						return callback('ERR_SERVER', false);
-
-					return;
-				}
-
+			if (res.status != 200) {
 				if (callback)
-					return callback(null, res.body.success);
+					return callback('ERR_SERVER', false);
 
-			}.bind(this));
+				return;
+			}
+
+			if (callback)
+				return callback(null, res.body.success);
+
+		} catch(e) {
+			if (callback)
+				callback('ERR_CONNECT', false);
+		}
 	});
 
 	this.on('store.User.forgotPassword', function *(email, callback) {
 
-		request
-			.post('/user/forgot')
-			.send({
-				email: email
-			})
-			.end(function(err, res) {
+		try {
+			var res = yield this.request
+				.post('/user/forgot')
+				.send({
+					email: email
+				});
 
-				if (err) {
-					if (callback)
-						return callback('ERR_CONNECT', false);
+			switch(res.status) {
+			case 200:
+				if (callback)
+					return callback(null, true);
 
-					return;
-				}
+				return;
 
-				switch(res.status) {
-				case 200:
-					if (callback)
-						return callback(null, true);
+			default:
+				if (callback)
+					return callback('ERR_SERVER', false);
 
-					return;
+				return;
+			}
 
-				default:
-					if (callback)
-						return callback('ERR_SERVER', false);
-
-					return;
-				}
-
-			}.bind(this));
+		} catch(e) {
+			if (callback)
+				callback('ERR_CONNECT', false);
+		}
 	});
 
 	this.on('store.User.resetPassword', function *(id, token, password, callback) {
 
-		request
-			.post('/user/reset_password')
-			.send({
-				id: id,
-				token: token,
-				password: password
-			})
-			.end(function(err, res) {
+		try {
+			var res = yield this.request
+				.post('/user/reset_password')
+				.send({
+					id: id,
+					token: token,
+					password: password
+				});
 
-				if (err) {
-					if (callback)
-						return callback('ERR_CONNECT', false);
+			switch(res.status) {
+			case 200:
+				if (callback)
+					return callback(null, true);
 
-					return;
-				}
+				return;
 
-				switch(res.status) {
-				case 200:
-					if (callback)
-						return callback(null, true);
+			default:
+				if (callback)
+					return callback('ERR_SERVER', false);
 
-					return;
+				return;
+			}
 
-				default:
-					if (callback)
-						return callback('ERR_SERVER', false);
-
-					return;
-				}
-
-			}.bind(this));
+		} catch(e) {
+			if (callback)
+				callback('ERR_CONNECT', false);
+		}
 	});
 
 	this.on('store.User.signIn', function *(username, password) {
 
-		request
-			.post('/signin')
-			.send({
-				username: username,
-				password: password
-			})
-			.end(function(err, res) {
-				var store = this.getState('User');
-				if (res.status == 401) {
-					store.status = 'login-failed';
+		try {
+			var res = yield this.request
+				.post('/signin')
+				.send({
+					username: username,
+					password: password
+				});
 
-					this.dispatch('store.User', 'change');
-					return;
-				}
-
-				// Updating store
-				store.status = 'normal';
-				store.logined = true;
-				store.username = username;
-				store.email = username;
-				store.name = res.body.data.name;
-				store.login_time = res.body.data.login_time;
-				store.avatar_hash = res.body.data.avatar_hash;
+			var store = this.getState('User');
+			if (res.status == 401) {
+				store.status = 'login-failed';
 
 				this.dispatch('store.User', 'change');
-			}.bind(this));
+				return;
+			}
+
+			// Updating store
+			store.status = 'normal';
+			store.logined = true;
+			store.username = username;
+			store.email = username;
+			store.name = res.body.data.name;
+			store.login_time = res.body.data.login_time;
+			store.avatar_hash = res.body.data.avatar_hash;
+
+			this.dispatch('store.User', 'change');
+		} catch(e) {
+		}
 	});
 
 	this.on('store.User.signUp', function *(email, password, name) {
 
-		request
-			.post('/signup')
-			.send({
-				email: email,
-				password: password,
-				name: name
-			})
-			.end(function(err, res) {
-				var store = this.getState('User');
+		try {
+			var res = yield this.request
+				.post(this.isoUrl('/signup'))
+				.send({
+					email: email,
+					password: password,
+					name: name
+				});
 
-				switch(res.status) {
-				case 500:
-					store.status = 'signup-error';
-					break;
+			var store = this.getState('User');
 
-				case 400:
-					store.status = 'signup-failed';
-					break;
+			switch(res.status) {
+			case 500:
+				store.status = 'signup-error';
+				break;
 
-				case 200:
-					// Updating store
-					store.status = 'normal';
-					store.logined = true;
-					store.name = name;
-					store.username = email;
-					store.email = email;
-					store.login_time = res.body.data.login_time;
-					store.avatar_hash = res.body.data.avatar_hash;
-					break;
-				}
+			case 400:
+				store.status = 'signup-failed';
+				break;
 
-				this.dispatch('store.User', 'change');
-			}.bind(this));
+			case 200:
+				// Updating store
+				store.status = 'normal';
+				store.logined = true;
+				store.name = name;
+				store.username = email;
+				store.email = email;
+				store.login_time = res.body.data.login_time;
+				store.avatar_hash = res.body.data.avatar_hash;
+				break;
+			}
+
+			this.dispatch('store.User', 'change');
+		} catch(e) {
+		}
 	});
 };

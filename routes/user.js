@@ -10,7 +10,7 @@ var Utils = require('../lib/utils');
 var router = module.exports = new Router();
 
 router.get('/user/profile', Middleware.requireAuthorized, function *() {
-	
+
 	// Get member from database
 	var member = yield Member.getMember(this.state.user.id);
 	var m = {

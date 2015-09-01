@@ -1,7 +1,6 @@
 var React = require('react');
 var Router = require('react-router');
 var Fluky = require('fluky');
-var Extensions = require('./extensions');
 
 var options = {};
 
@@ -14,9 +13,6 @@ var render = function(reqPath, state) {
 
 	// Loading app
 	var App = require('./app.jsx');
-
-	// Loading extenstions
-	Fluky.load(Extensions);
 
 	return function(callback) {
 
