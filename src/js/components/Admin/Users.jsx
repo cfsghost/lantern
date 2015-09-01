@@ -20,6 +20,34 @@ class UserItem extends React.Component {
 	}
 }
 
+class SearchBar extends React.Component {
+
+	onSubmit = () => {
+
+		var field = this.refs.field.getDOMNode().value;
+		var keywords = this.refs.keywords.getDOMNode().value;
+		var conditions = {};
+		if (keywords)
+			conditions[field] = keywords;
+
+		Fluky.dispatch('action.Admin.Users.query', conditions);
+	}
+
+	render() {
+
+		return (
+			<div className='ui left action icon input'>
+				<select ref='field' className='ui selection dropdown'>
+					<option value='name'>Name</option>
+					<option value='email'>E-mail</option>
+				</select>
+				<input type='text' ref='keywords' placeholder='Search...' />
+				<i className='search link icon' onClick={this.onSubmit}></i>
+			</div>
+		);
+	}
+}
+
 class PageNavigator extends React.Component {
 
 	render() {
@@ -152,39 +180,36 @@ class Users extends React.Component {
 					</div>
 
 					<div className='eight wide computer sixteen wide tablet right floated right aligned column'>
-						<div className='ui left action icon input'>
-							<select className='ui selection dropdown'>
-								<option value='name'>Name</option>
-								<option value='email'>E-mail</option>
-							</select>
-							<input type='text' placeholder='Search...' />
-							<i className='search link icon'></i>
-						</div>
+						<SearchBar />
 					</div>
 				</div>
 
-					<div className='ui icon menu'>
-						<div className='item'>
-							<i className='add user icon'></i>
-						</div>
+				<div className='ui icon menu'>
+					<div className='item'>
+						<i className='add user icon'></i>
 					</div>
+				</div>
 
-					<PageNavigator page={this.state.page} pageCount={this.state.pageCount} top={true} />
+				<PageNavigator page={this.state.page} pageCount={this.state.pageCount} top={true} />
 
-					<table className='ui attached striped table'>
-						<thead>
-							<tr>
-								<th className='three wide'>Name</th>
-								<th>E-mail</th>
-								<th className='two wide'>Registered</th>
-							</tr>
-						</thead>
-						<tbody>
-							{users}
-						</tbody>
-					</table>
+				<table className='ui attached striped table'>
+					<thead>
+						<tr>
+							<th className='three wide'>Name</th>
+							<th>E-mail</th>
+							<th className='two wide'>Registered</th>
+						</tr>
+					</thead>
+					<tbody>
+						{users}
+					</tbody>
+				</table>
 
-					<PageNavigator page={this.state.page} pageCount={this.state.pageCount} bottom={true} />
+				<div className={'ui attached negative message ' + (users.length ? 'hidden' : '')}>
+				No Records
+				</div>
+
+				<PageNavigator page={this.state.page} pageCount={this.state.pageCount} bottom={true} />
 			</div>
 		);
 	}

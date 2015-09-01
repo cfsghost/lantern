@@ -10,17 +10,25 @@ export default function *() {
 		users: []
 	});
 
-	this.on('store.Admin.Users.query', function *() {
+	this.on('store.Admin.Users.query', function *(conditions) {
+
+		var state = this.getState('Admin.Users');
 
 		// Getting user list by calling API
-		var res = yield request.get('http://localhost:3001/admin/api/users');
+		var res = yield request
+			.get('http://localhost:3001/admin/api/users')
+			.query({
+				page: state.page,
+				pageCount: state.pageCount,
+				perPage: state.perPage,
+				q: JSON.stringify(conditions)
+			});
 
 		if (res.status != 200) {
 			return;
 		}
 
 		// Update state
-		var state = this.getState('Admin.Users');
 		state.users = res.body.members;
 		state.page = res.body.page;
 		state.pageCount = res.body.pageCount;
