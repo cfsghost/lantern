@@ -1,6 +1,9 @@
 var React = require('react');
 var Router = require('react-router');
 var Fluky = require('fluky');
+var Extensions = require('./extensions');
+
+var options = {};
 
 // Server rendering
 var render = function(reqPath, state) {
@@ -11,6 +14,9 @@ var render = function(reqPath, state) {
 
 	// Loading app
 	var App = require('./app.jsx');
+
+	// Loading extenstions
+	Fluky.load(Extensions);
 
 	return function(callback) {
 
@@ -57,5 +63,12 @@ var render = function(reqPath, state) {
 
 module.exports = {
 	routes: require('./routes.js'),
-	render: render
+	render: render,
+	init: function(opts) {
+
+		if (!opts)
+			return;
+
+		Fluky.options = opts;
+	}
 };

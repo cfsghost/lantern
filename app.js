@@ -11,17 +11,18 @@ var co = require('co');
 // React
 var ReactApp = require('./public/assets/server.js');
 
-// Libraries
-var Mailer = require('./lib/mailer');
-var Database = require('./lib/database');
-var Passport = require('./lib/passport');
-
 // Loading settings
 var settings = require('./lib/config.js');
 if (!settings) {
 	console.error('Failed to load settings');
 	process.exit(1);
 }
+
+// Libraries
+var Utils = require('./lib/utils');
+var Mailer = require('./lib/mailer');
+var Database = require('./lib/database');
+var Passport = require('./lib/passport');
 
 var app = koa();
 
@@ -129,6 +130,9 @@ co(function *() {
 			// It must create a new instance for rending react page asynchronously
 			delete require.cache[require.resolve('./public/assets/server.js')];
 			var ReactApp = require('./public/assets/server.js');
+			ReactApp.init({
+				externalUrl: Utils.getExternalUrl()
+			});
 
 			// Reset initial state with session for new page
 			var curState = {

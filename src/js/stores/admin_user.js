@@ -15,8 +15,8 @@ export default function *() {
 		var state = this.getState('Admin.Users');
 
 		// Getting user list by calling API
-		var res = yield request
-			.get('http://localhost:3001/admin/api/users')
+		var res = yield this.request
+			.get('/admin/api/users')
 			.query({
 				page: state.page,
 				pageCount: state.pageCount,
