@@ -72,6 +72,7 @@ app.use(function *(next) {
 // Routes
 app.use(require('./routes/auth').middleware());
 app.use(require('./routes/user').middleware());
+app.use(require('./routes/admin/dashboard').middleware());
 app.use(require('./routes/admin/users').middleware());
 
 co(function *() {
