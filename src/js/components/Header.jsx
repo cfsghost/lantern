@@ -10,40 +10,30 @@ class Header extends React.Component {
 		super();
 
 		this.state = {
-			user: {
-				logined: false
-			}
+			user: Fluky.getState('User')
 		};
 	}
 
 	componentWillMount = () => {
 		Fluky.on('store.User', Fluky.bindListener(this.onChange));
-
-		// Get initial state
-		Fluky.dispatch('store.User.getState', function(user) {
-			this.setState({
-				user: user
-			});
-		}.bind(this));
 	}
 
 	componentWillUnmount = () => {
 		Fluky.off('store.User', this.onChange);
 	}
 
-	onChange = () => {
+	componentDidMount() {
 
-		Fluky.dispatch('store.User.getState', function(user) {
-			this.setState({
-				user: user
-			});
-		}.bind(this));
-	}
-
-	componentDidUpdate() {
 		// Enabling dropdown menu
 		$('.ui.dropdown').dropdown({
 			on: 'hover'
+		});
+	}
+
+	onChange = () => {
+
+		this.setState({
+			user: Fluky.getState('User')
 		});
 	}
 

@@ -58,11 +58,13 @@ class Users extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 
+		var state = Fluky.getState('Admin.Users');
+
 		this.state = {
-			page: 1,
-			pageCount: 1,
-			perPage: 100,
-			users: [],
+			users: state.users,
+			page: state.page,
+			pageCount: state.pageCount,
+			perPage: state.perPage,
 			busy: false,
 			error: false,
 			name: '',
@@ -79,21 +81,20 @@ class Users extends React.Component {
 		Fluky.off('store.Admin.Users', this.onChange);
 	}
 
-	componentDidUpdate = () => {
-		//$(this.refs.search_field.getDOMNode()).dropdown();
+	componentDidMount = () => {
+		$('.ui.dropdown').dropdown();
 	}
 
 	onChange = () => {
+		var state = Fluky.getState('Admin.Users');
 
-		Fluky.dispatch('action.Admin.Users.getState', function(state) {
-			this.setState({
-				users: state.users,
-				page: state.page,
-				pageCount: state.pageCount,
-				perPage: state.perPage,
-				busy: false
-			});
-		}.bind(this));
+		this.setState({
+			users: state.users,
+			page: state.page,
+			pageCount: state.pageCount,
+			perPage: state.perPage,
+			busy: false
+		});
 	}
 
 	updateProfile = () => {

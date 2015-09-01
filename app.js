@@ -35,6 +35,7 @@ app.use(bodyParser());
 Passport.init(passport);
 Passport.local(passport);
 
+// Setup 3rd-party authorization
 if (settings.general.authorization.github.enabled)
 	Passport.github(passport);
 
@@ -68,14 +69,6 @@ app.use(function *(next) {
 	yield next;
 });
 
-// Get content which is rendered by react
-function getContent(routePath, query) {
-
-	return function(done) {
-		ReactApp.render(routePath, done);
-	};
-}
-
 // Routes
 app.use(require('./routes/auth').middleware());
 app.use(require('./routes/user').middleware());
@@ -95,6 +88,8 @@ co(function *() {
 		// NotFound Page
 		if (!route.path) {
 			app.use(function *pageNotFound(next) {
+
+				// Be the last handler
 				yield next;
 
 				if (this.status != 404)
@@ -104,7 +99,7 @@ co(function *() {
 					return;
 
 				// Rendering
-				var content = yield getContent(this.request.path, this.query);
+				var content = yield ReactApp.render(this.request.path);
 				yield this.render('index', {
 					title: settings.general.service.name,
 					content: content
@@ -129,14 +124,19 @@ co(function *() {
 		// Register path for pages
 		router.get(route.path, function *() {
 
+			// It must create a new instance for rending react page asynchronously
+			delete require.cache[require.resolve('./public/assets/server.js')];
+			var ReactApp = require('./public/assets/server.js');
+
 			// Reset initial state with session for new page
-			ReactApp.context.setInitialState({
+			var curState = {
 				User: this.state.user || {}
-			});
-			ReactApp.context.state.User.logined = this.isAuthenticated();
+			};
+			curState.User.logined = this.isAuthenticated();
 
 			// Rendering page and pass state to client-side
-			var content = yield getContent(this.request.path, this.query);
+			var content = yield ReactApp.render(this.request.path, curState);
+
 			yield this.render('index', {
 				title: settings.general.service.name,
 				content: content,
