@@ -12,25 +12,6 @@ class AdminMenu extends React.Component {
 
 	constructor(props, context) {
 		super(props, context);
-
-		this.state = {
-			error: false
-		};
-	}
-
-	componentWillMount = () => {
-		Fluky.on('store.User', Fluky.bindListener(this.onChange));
-	}
-
-	componentWillUnmount = () => {
-		Fluky.off('store.User', this.onChange);
-	}
-
-	componentDidUpdate = () => {
-//		$(this.refs.sidebar.getDOMNode()).sidebar();
-	}
-
-	onChange = () => {
 	}
 
 	render() {

@@ -1,7 +1,6 @@
 var React = require('react');
 var Router = require('react-router');
 var Fluky = require('fluky');
-var App = require('./app.jsx');
 
 // Server rendering
 var render = function(reqPath, state) {
@@ -9,7 +8,10 @@ var render = function(reqPath, state) {
 	// Initializing state
 	if (state)
 		Fluky.setInitialState(state);
-	
+
+	// Loading app
+	var App = require('./app.jsx');
+
 	return function(callback) {
 
 		// Initlaizing react router

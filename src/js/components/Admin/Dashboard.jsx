@@ -6,43 +6,37 @@ class Dashboard extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 
+		var state = Fluky.getState('Admin.Dashboard');
+
 		this.state = {
 			busy: false,
 			error: false,
-			name: '',
-			email: ''
+			serviceName: state.service.name,
+			externalURL: state.service.externalURL,
+			userCount: state.user.count,
+			adminCount: state.admin.count
 		};
 	}
 
 	componentWillMount = () => {
-		Fluky.on('store.User', Fluky.bindListener(this.onChange));
-		Fluky.dispatch('action.User.syncProfile');
+		Fluky.on('store.Admin.Dashboard', Fluky.bindListener(this.onChange));
+		Fluky.dispatch('action.Admin.Dashboard.query');
 	}
 
 	componentWillUnmount = () => {
-		Fluky.off('store.User', this.onChange);
+		Fluky.off('store.Admin.Dashboard', this.onChange);
 	}
 
 	onChange = () => {
+		var state = Fluky.getState('Admin.Dashboard');
+
+		this.setState({
+			userCount: state.user.count,
+			adminCount: state.admin.count
+		});
 	}
 
 	render() {
-		var emailClasses = 'field';
-		var nameClasses = 'required field';
-		var message;
-		var fieldClass = 'field';
-		if (this.state.error) {
-			fieldClass += ' error';
-			message = (
-				<div className='ui negative icon message'>
-					<i className={'warning sign icon'} />
-					<div className='content'>
-						<div className='header'>Failed to Sign In</div>
-						<p>Please check your email and password then try again</p>
-					</div>
-				</div>
-			);
-		}
 
 		return (
 			<div className='ui padded basic segment'>
@@ -61,11 +55,11 @@ class Dashboard extends React.Component {
 								<div className='ui divided selection list'>
 									<div className='item'>
 										<div className='ui red horizontal blue label'>Service Name</div>
-										Lantern
+										{this.state.serviceName}
 									</div>
 									<div className='item'>
 										<div className='ui red horizontal teal label'>External URL</div>
-										http://localhost:3001
+										{this.state.externalURL}
 									</div>
 								</div>
 							</div>
@@ -76,7 +70,7 @@ class Dashboard extends React.Component {
 								<div className='ui big statistic'>
 									<div className='value'>
 										<i className='users icon' />
-										1000
+										{this.state.userCount}
 									</div>
 									<div className='label'>Users</div>
 								</div>
@@ -89,7 +83,7 @@ class Dashboard extends React.Component {
 								<div className='ui big statistic'>
 									<div className='value'>
 										<i className='spy icon' />
-										1000
+										{this.state.adminCount}
 									</div>
 									<div className='label'>Admins</div>
 								</div>

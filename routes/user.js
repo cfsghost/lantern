@@ -95,10 +95,10 @@ router.post('/user/forgot', function *() {
 
 	try {
 		// Prepare content
-		var subject = 'You requested a new ' + settings.general.service.name + ' password';
+		var subject = 'You requested a new ' + Utils.getServiceName() + ' password';
 		var content = [
 			'<p>You\'re receiving this e-mail because you requested a password reset for your user account at ',
-			settings.general.service.name + '.</p>',
+			Utils.getServiceName() + '.</p>',
 			'<p>Please go to the following link and choose a new password:</p>',
 			'<p><a href=\'' + Utils.getExternalUrl() + '/reset_password/' + result.id + '/' + result.token + '\'>',
 			Utils.getExternalUrl() + '/reset_password/' + result.id + '/' + result.token + '</a></p>'
