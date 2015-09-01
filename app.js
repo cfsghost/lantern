@@ -99,10 +99,11 @@ co(function *() {
 					return;
 
 				// Rendering
-				var content = yield ReactApp.render(this.request.path);
+				var page = yield ReactApp.render(this.request.path);
 				yield this.render('index', {
 					title: settings.general.service.name,
-					content: content
+					content: page.content,
+					state: page.state
 				});
 
 				// Do not trigger koa's 404 handling
