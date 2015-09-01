@@ -20,25 +20,11 @@ class App extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 	}
-/*
-	getChildContext() {
-		return {
-			//path: this.props.path,
-			//router: this.refs.router
-		}
-	}
-*/
+
 	render() {
-		//console.log(this.refs.router);
-		//console.log('App', this.context, this.props.path);
 		return (
 			<RouteHandler />
 		);
-		/*
-		return (
-			<Routr ref='router' path={this.props.path} />
-		);
-		*/
 	}
 };
 
