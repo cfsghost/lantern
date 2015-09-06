@@ -18,8 +18,8 @@ class AdminMenu extends React.Component {
 
 		return (
 			<div className='ui right floated teal secondary vertical pointing menu'>
-				<Link to='/admin/dashboard' className='item'>Dashboard</Link>
-				<Link to='/admin/users' className='item'>Users</Link>
+				<Link to='/admin/dashboard' className={this.props.category == 'dashboard' ? 'item active' : 'item'}>Dashboard</Link>
+				<Link to='/admin/users' className={this.props.category == 'users' ? 'item active' : 'item'}>Users</Link>
 			</div>
 		);
 	}

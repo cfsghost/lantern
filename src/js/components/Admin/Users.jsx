@@ -1,7 +1,11 @@
 import crypto from 'crypto';
 import React from 'react';
+import Router from 'react-router';
 import Fluky from 'fluky';
+import AdminLayout from './AdminLayout.jsx';
 import Avatar from '../Avatar.jsx';
+
+var Link = Router.Link;
 
 class UserItem extends React.Component {
 
@@ -17,9 +21,9 @@ class UserItem extends React.Component {
 				<td>{this.props.created.split('T')[0]}</td>
 				<td>
 					<div className='ui yellow buttons'>
-						<div className='ui icon button'>
-							<i className='edit icon' /> Edit
-						</div>
+						<Link to={'/admin/users/user/' + this.props.id} className='ui icon button'>
+								<i className='edit icon' /> Edit
+						</Link>
 						<div className='ui floating top right pointing dropdown icon button'>
 							<i className='dropdown icon'></i>
 							<div className='menu'>
@@ -110,9 +114,6 @@ class Users extends React.Component {
 			pageCount: state.pageCount,
 			perPage: state.perPage,
 			busy: false,
-			error: false,
-			name: '',
-			email: ''
 		};
 	}
 
@@ -153,28 +154,12 @@ class Users extends React.Component {
 	}
 
 	render() {
-		var emailClasses = 'field';
-		var nameClasses = 'required field';
-		var message;
-		var fieldClass = 'field';
-		if (this.state.error) {
-			fieldClass += ' error';
-			message = (
-				<div className='ui negative icon message'>
-					<i className={'warning sign icon'} />
-					<div className='content'>
-						<div className='header'>Failed to Sign In</div>
-						<p>Please check your email and password then try again</p>
-					</div>
-				</div>
-			);
-		}
-
 		var users = [];
 		for (var index in this.state.users) {
 			var user = this.state.users[index];
 			users.push(
 				<UserItem
+					id={user._id}
 					name={user.name}
 					email={user.email}
 					created={user.created}
@@ -183,52 +168,54 @@ class Users extends React.Component {
 		}
 
 		return (
-			<div className='ui basic segment'>
+			<AdminLayout category='users'>
+				<div className='ui basic segment'>
 
-				<div className='ui stackable grid'>
-					<div className='four wide computer sixteen wide tablet column'>
-						<h1 className='ui header'>
-							<i className='users icon' />
-							<div className='content'>
-								Users
-								<div className='sub header'>User management</div>
-							</div>
-						</h1>
+					<div className='ui stackable grid'>
+						<div className='four wide computer sixteen wide tablet column'>
+							<h1 className='ui header'>
+								<i className='users icon' />
+								<div className='content'>
+									Users
+									<div className='sub header'>User management</div>
+								</div>
+							</h1>
+						</div>
+
+						<div className='eight wide computer sixteen wide tablet right floated right aligned column'>
+							<SearchBar />
+						</div>
 					</div>
 
-					<div className='eight wide computer sixteen wide tablet right floated right aligned column'>
-						<SearchBar />
+					<div className='ui icon menu'>
+						<div className='item'>
+							<i className='add user icon'></i>
+						</div>
 					</div>
-				</div>
 
-				<div className='ui icon menu'>
-					<div className='item'>
-						<i className='add user icon'></i>
+					<PageNavigator page={this.state.page} pageCount={this.state.pageCount} top={true} />
+
+					<table className='ui attached striped table'>
+						<thead>
+							<tr>
+								<th className='three wide'>Name</th>
+								<th>E-mail</th>
+								<th className='two wide'>Registered</th>
+								<th className='two wide'></th>
+							</tr>
+						</thead>
+						<tbody>
+							{users}
+						</tbody>
+					</table>
+
+					<div className={'ui attached negative message ' + (users.length ? 'hidden' : '')}>
+					No Records
 					</div>
+
+					<PageNavigator page={this.state.page} pageCount={this.state.pageCount} bottom={true} />
 				</div>
-
-				<PageNavigator page={this.state.page} pageCount={this.state.pageCount} top={true} />
-
-				<table className='ui attached striped table'>
-					<thead>
-						<tr>
-							<th className='three wide'>Name</th>
-							<th>E-mail</th>
-							<th className='two wide'>Registered</th>
-							<th className='two wide'></th>
-						</tr>
-					</thead>
-					<tbody>
-						{users}
-					</tbody>
-				</table>
-
-				<div className={'ui attached negative message ' + (users.length ? 'hidden' : '')}>
-				No Records
-				</div>
-
-				<PageNavigator page={this.state.page} pageCount={this.state.pageCount} bottom={true} />
-			</div>
+			</AdminLayout>
 		);
 	}
 }

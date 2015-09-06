@@ -5,7 +5,6 @@ var SignUpPage = require('./components/SignUpPage.jsx');
 var SettingsPage = require('./components/SettingsPage.jsx');
 var NotFoundPage = require('./components/NotFoundPage.jsx');
 var ResetPasswordPage = require('./components/ResetPasswordPage.jsx');
-var AdminPage = require('./components/Admin/AdminPage.jsx');
 
 module.exports = [
 	{
@@ -45,7 +44,15 @@ module.exports = [
 		redirect: '/admin/dashboard'
 	},
 	{
-		path: '/admin/:category',
-		handler: AdminPage
+		path: '/admin/dashboard',
+		handler: require('./components/Admin/Dashboard.jsx')
+	},
+	{
+		path: '/admin/users',
+		handler: require('./components/Admin/Users.jsx')
+	},
+	{
+		path: '/admin/users/user/:userid',
+		handler: require('./components/Admin/User.jsx')
 	}
 ];

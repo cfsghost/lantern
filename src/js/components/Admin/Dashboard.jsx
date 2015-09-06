@@ -1,5 +1,6 @@
 import React from 'react';
 import Fluky from 'fluky';
+import AdminLayout from './AdminLayout.jsx';
 
 class Dashboard extends React.Component {
 
@@ -39,8 +40,8 @@ class Dashboard extends React.Component {
 	render() {
 
 		return (
-			<div className='ui padded basic segment'>
-				<div className='ui form'>
+			<AdminLayout category='dashboard'>
+				<div className='ui padded basic segment'>
 					<h1 className='ui header'>
 						<i className='dashboard icon' />
 						<div className='content'>
@@ -93,7 +94,7 @@ class Dashboard extends React.Component {
 					</div>
 
 				</div>
-			</div>
+			</AdminLayout>
 		);
 	}
 }
