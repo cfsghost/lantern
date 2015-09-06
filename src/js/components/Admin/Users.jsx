@@ -188,6 +188,7 @@ class Users extends React.Component {
 				<div className='ui stackable grid'>
 					<div className='four wide computer sixteen wide tablet column'>
 						<h1 className='ui header'>
+							<i className='users icon' />
 							<div className='content'>
 								Users
 								<div className='sub header'>User management</div>
