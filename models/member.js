@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var Member = new mongoose.Schema({
 	name: String,
@@ -12,6 +13,7 @@ var Member = new mongoose.Schema({
 	idno: String,
 	tokens: [ String ],
 	rule_tokens: [{ name: String, token: String, expired: Date }],
+	roles: { type: Schema.Types.ObjectId, ref: 'Role' },
 	disabled: { type: Boolean, default: false },
 	created: { type: Date, default: Date.now },
 	updated: { type: Date, default: Date.now }
