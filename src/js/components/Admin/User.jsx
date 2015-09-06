@@ -16,7 +16,7 @@ class User extends React.Component {
 
 	componentWillMount = () => {
 		Fluky.on('store.Admin.User', Fluky.bindListener(this.onChange));
-		Fluky.dispatch('action.Admin.User.query');
+		Fluky.dispatch('action.Admin.Users.query');
 	}
 
 	componentWillUnmount = () => {
