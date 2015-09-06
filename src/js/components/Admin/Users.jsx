@@ -15,6 +15,22 @@ class UserItem extends React.Component {
 				</td>
 				<td>{this.props.email}</td>
 				<td>{this.props.created.split('T')[0]}</td>
+				<td>
+					<div className='ui yellow buttons'>
+						<div className='ui icon button'>
+							<i className='edit icon' /> Edit
+						</div>
+						<div className='ui floating top right pointing dropdown icon button'>
+							<i className='dropdown icon'></i>
+							<div className='menu'>
+								<div className='item'>
+									<i className='delete icon' />
+									Delete
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
 			</tr>
 		);
 	}
@@ -198,6 +214,7 @@ class Users extends React.Component {
 							<th className='three wide'>Name</th>
 							<th>E-mail</th>
 							<th className='two wide'>Registered</th>
+							<th className='two wide'></th>
 						</tr>
 					</thead>
 					<tbody>
