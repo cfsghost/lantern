@@ -23,8 +23,6 @@ router.put('/admin/api/user/:userid/profile', function *() {
 		return;
 	}
 
-	console.log(this.request.body.name, this.request.body.email);
-
 	// Save
 	try {
 		var member = yield Member.save(this.params.userid, {

@@ -74,7 +74,7 @@ class Profile extends React.Component {
 								name='email'
 								placeholder='fred@example.com'
 								value={this.state.data.email}
-								readOnly />
+								onChange={this.onChange} />
 						</div>
 					</div>
 
@@ -83,6 +83,16 @@ class Profile extends React.Component {
 					</div>
 				</div>
 
+			</div>
+		);
+	}
+}
+
+class Permission extends React.Component {
+
+	render() {
+		return (
+			<div className='ui tab basic segment' {...this.props}>
 			</div>
 		);
 	}
@@ -158,9 +168,7 @@ class User extends React.Component {
 							<a className='item' data-tab='permission'>Permission</a>
 						</div>
 
-						<div className='ui tab basic segment' data-tab='permission'>
-						</div>
-
+						<Permission data-tab='permission' />
 						<Profile data-tab='profile' data={this.state.profile} saving={this.state.saving} onSave={this.onSaveProfile} />
 					</div>
 				</div>
