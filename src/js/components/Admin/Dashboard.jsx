@@ -32,6 +32,8 @@ class Dashboard extends React.Component {
 		var state = Fluky.getState('Admin.Dashboard');
 
 		this.setState({
+			serviceName: state.service.name,
+			externalURL: state.service.externalURL,
 			userCount: state.user.count,
 			adminCount: state.admin.count
 		});
