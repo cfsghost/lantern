@@ -76,6 +76,7 @@ app.use(require('./routes/user').middleware());
 app.use(require('./routes/admin/dashboard').middleware());
 app.use(require('./routes/admin/users').middleware());
 app.use(require('./routes/admin/user').middleware());
+app.use(require('./routes/admin/permission').middleware());
 
 co(function *() {
 

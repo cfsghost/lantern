@@ -6,8 +6,8 @@ var schema = {};
 
 // Loading all roles in the directory
 var permissionDirPath = path.join(__dirname, 'permissions');
-var permissionFiles = fs.readdirSync(permissionFiles);
-permissionFiles.each(function(filename) {
+var permissionFiles = fs.readdirSync(permissionDirPath);
+permissionFiles.forEach(function(filename) {
 
 	// Load file
 	var permission = require(path.join(permissionDirPath, filename));

@@ -2,8 +2,13 @@ var mongoose = require('mongoose');
 
 module.exports = {
 	name: 'admin',
+	define: {
+		users: {
+			name: 'User Management',
+			desc: 'Managing users'
+		}
+	},
 	schema: {
-		access: { type: Boolean, default: false },
 		users: { type: Boolean, default: false }
 	}
 };

@@ -117,11 +117,14 @@ class User extends React.Component {
 
 	componentWillMount = () => {
 		Fluky.on('store.Admin.User', Fluky.bindListener(this.onChange));
+		Fluky.on('store.Admin.Permission', Fluky.bindListener(this.onChange));
 		Fluky.dispatch('action.Admin.User.get', this.props.params.userid);
+		Fluky.dispatch('action.Admin.Permission.getPermissionList');
 	}
 
 	componentWillUnmount = () => {
 		Fluky.off('store.Admin.User', this.onChange);
+		Fluky.off('store.Admin.Permission', this.onChange);
 	}
 
 	componentDidMount() {
