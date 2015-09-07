@@ -96,7 +96,7 @@ class Permission extends React.Component {
 		for (var permId in this.props.data.availPerms) {
 			var perm = this.props.data.availPerms[permId];
 			perms.push(
-				<div className='ui toggle checkbox'>
+				<div className='ui toggle checkbox' key={permId}>
 					<input type='checkbox' name={permId} />
 					<label>{perm.name}</label>
 				</div>
