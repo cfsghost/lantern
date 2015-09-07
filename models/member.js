@@ -13,7 +13,7 @@ var Member = new mongoose.Schema({
 	idno: String,
 	tokens: [ String ],
 	rule_tokens: [{ name: String, token: String, expired: Date }],
-	permission: { type: Schema.Types.ObjectId, ref: 'Permission' },
+	permissions: { type: Schema.Types.ObjectId, ref: 'Permission' },
 	roles: [{type: Schema.Types.ObjectId, ref: 'Role'}],
 	disabled: { type: Boolean, default: false },
 	created: { type: Date, default: Date.now },

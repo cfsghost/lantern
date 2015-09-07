@@ -6,7 +6,8 @@ export default function *() {
 		id: null,
 		name: '',
 		email: '',
-		roles: []
+		roles: [],
+		perms: {}
 	});
 
 	this.on('store.Admin.User.get', function *(userId) {
@@ -27,6 +28,7 @@ export default function *() {
 		state.name = res.body.name;
 		state.email = res.body.email;
 		state.roles = res.body.roles || [];
+		state.perms = res.body.perms || {};
 
 		this.dispatch('store.Admin.User', 'change');
 	});
@@ -46,6 +48,26 @@ export default function *() {
 
 		state.name = profile.name;
 		state.email = profile.email;
+
+		this.dispatch('store.Admin.User', 'change');
+	});
+
+	this.on('store.Admin.User.savePermission', function *(userId, perms) {
+
+		var state = this.getState('Admin.User');
+
+		// Saving
+		var res = yield this.request
+			.put('/admin/api/user/' + userId + '/perms')
+			.send({
+				perms: perms
+			});
+
+		if (res.status != 200) {
+			return;
+		}
+
+		state.perms = perms;
 
 		this.dispatch('store.Admin.User', 'change');
 	});

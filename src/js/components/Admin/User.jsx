@@ -90,14 +90,39 @@ class Profile extends React.Component {
 
 class Permission extends React.Component {
 
+	constructor(props, context) {
+		super(props, context);
+
+		// Using State to replace props to make it editable
+		this.state = {
+			data: {
+			}
+		};
+	}
+
+	save = () => {
+		var perms = [];
+
+		$(this.refs.selection.getDOMNode())
+			.find('.ui.checkbox input')
+			.filter(':checked')
+			.each(function(index, checkbox) {
+				perms.push(checkbox.getAttribute('name'));
+			});
+
+		this.props.onSave(perms);
+	}
+
 	render() {
 		var perms = [];
 
-		for (var permId in this.props.data.availPerms) {
-			var perm = this.props.data.availPerms[permId];
+			console.log(this.props.data);
+		for (var name in this.props.data.availPerms) {
+			var perm = this.props.data.availPerms[name];
+			var permSet = name.split('.');
 			perms.push(
-				<div className='ui toggle checkbox' key={permId}>
-					<input type='checkbox' name={permId} />
+				<div className='ui toggle checkbox' key={name}>
+					<input type='checkbox' name={perm} checked={this.props.data.perms[permSet[0]][permSet[1]] ? true : false} />
 					<label>{perm.name}</label>
 				</div>
 			);
@@ -105,7 +130,8 @@ class Permission extends React.Component {
 
 		return (
 			<div className='ui tab basic segment' {...this.props}>
-			{perms}
+				<div ref='selection' className='ui basic segment'>{perms}</div>
+				<button className={'ui teal' + (this.props.saving ? ' loading' : '') + ' button' } onClick={this.save}>Update Permission</button>
 			</div>
 		);
 	}
@@ -126,7 +152,8 @@ class User extends React.Component {
 				email: state.email
 			},
 			permission: {
-				availPerms: permission.permissionList
+				availPerms: permission.availPerms,
+				perms: state.perms
 			},
 			roles: state.roles
 		};
@@ -136,7 +163,7 @@ class User extends React.Component {
 		Fluky.on('store.Admin.User', Fluky.bindListener(this.onChange));
 		Fluky.on('store.Admin.Permission', Fluky.bindListener(this.onChange));
 		Fluky.dispatch('action.Admin.User.get', this.props.params.userid);
-		Fluky.dispatch('action.Admin.Permission.getPermissionList');
+		Fluky.dispatch('action.Admin.Permission.getAvailablePermission');
 	}
 
 	componentWillUnmount = () => {
@@ -160,7 +187,8 @@ class User extends React.Component {
 				email: state.email
 			},
 			permission: {
-				availPerms: permission.permissionList
+				availPerms: permission.availPerms,
+				perms: state.perms
 			},
 			roles: state.roles,
 			saving: false
@@ -174,6 +202,15 @@ class User extends React.Component {
 		});
 
 		Fluky.dispatch('action.Admin.User.saveProfile', this.state.id, data);
+	}
+
+	onSavePermission = (perms) => {
+
+		this.setState({
+			saving: true
+		});
+
+		Fluky.dispatch('action.Admin.User.savePermission', this.state.id, perms);
 	}
 
 	render() {
@@ -194,7 +231,7 @@ class User extends React.Component {
 							<a className='item' data-tab='permission'>Permission</a>
 						</div>
 
-						<Permission data-tab='permission' data={this.state.permission} />
+						<Permission data-tab='permission' data={this.state.permission} saving={this.state.saving} onSave={this.onSavePermission} />
 						<Profile data-tab='profile' data={this.state.profile} saving={this.state.saving} onSave={this.onSaveProfile} />
 					</div>
 				</div>

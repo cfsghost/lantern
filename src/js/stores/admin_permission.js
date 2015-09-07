@@ -3,10 +3,11 @@ export default function *() {
 
 	// Getting current state. Initialize state if state doesn't exist.
 	var AdminPermission = this.getState('Admin.Permission', {
-		permissionList: {}
+		availPerms: [],
+		perms: []
 	});
 
-	this.on('store.Admin.Permission.getPermissionList', function *() {
+	this.on('store.Admin.Permission.getAvailablePermission', function *() {
 
 		var state = this.getState('Admin.Permission');
 
@@ -20,7 +21,7 @@ export default function *() {
 		}
 
 		// Update state
-		state.permissionList = res.body.list;
+		state.availPerms = res.body.list;
 
 		this.dispatch('store.Admin.Permission', 'change');
 	});
