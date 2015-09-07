@@ -1,6 +1,8 @@
+import crypto from 'crypto';
 import React from 'react';
 import Fluky from 'fluky';
 
+import Avatar from '../Avatar.jsx';
 import AdminLayout from './AdminLayout.jsx';
 
 class User extends React.Component {
@@ -37,15 +39,13 @@ class User extends React.Component {
 	}
 
 	render() {
-
 		return (
 			<AdminLayout category='users'>
 				<div className='ui padded basic segment'>
 					<h1 className='ui header'>
-						<i className='users icon' />
+						<Avatar hash={this.state.email ? crypto.createHash('md5').update(this.state.email).digest('hex') : ''} size={32} />
 						<div className='content'>
-							Users
-							<div className='sub header'>User management</div>
+							{this.state.name}
 						</div>
 					</h1>
 
