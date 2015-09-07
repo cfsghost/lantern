@@ -91,8 +91,21 @@ class Profile extends React.Component {
 class Permission extends React.Component {
 
 	render() {
+		var perms = [];
+
+		for (var permId in this.props.data.availPerms) {
+			var perm = this.props.data.availPerms[permId];
+			perms.push(
+				<div className='ui toggle checkbox'>
+					<input type='checkbox' name={permId} />
+					<label>{perm.name}</label>
+				</div>
+			);
+		}
+
 		return (
 			<div className='ui tab basic segment' {...this.props}>
+			{perms}
 			</div>
 		);
 	}
@@ -104,12 +117,16 @@ class User extends React.Component {
 		super(props, context);
 
 		var state = Fluky.getState('Admin.User');
+		var permission = Fluky.getState('Admin.Permission');
 
 		this.state = {
 			id: state.id,
 			profile: {
 				name: state.name,
-				email: state.email,
+				email: state.email
+			},
+			permission: {
+				availPerms: permission.permissionList
 			},
 			roles: state.roles
 		};
@@ -134,11 +151,17 @@ class User extends React.Component {
 
 	onChange = () => {
 		var state = Fluky.getState('Admin.User');
+		var permission = Fluky.getState('Admin.Permission');
 
 		this.setState({
 			id: state.id,
-			name: state.name,
-			email: state.email,
+			profile: {
+				name: state.name,
+				email: state.email
+			},
+			permission: {
+				availPerms: permission.permissionList
+			},
 			roles: state.roles,
 			saving: false
 		});
@@ -158,9 +181,9 @@ class User extends React.Component {
 			<AdminLayout category='users'>
 				<div className='ui padded basic segment'>
 					<h1 className='ui header'>
-						<Avatar hash={this.state.email ? crypto.createHash('md5').update(this.state.email).digest('hex') : ''} size={32} />
+						<Avatar hash={this.state.profile.email ? crypto.createHash('md5').update(this.state.profile.email).digest('hex') : ''} size={32} />
 						<div className='content'>
-							{this.state.name}
+							{this.state.profile.name}
 						</div>
 					</h1>
 
@@ -171,7 +194,7 @@ class User extends React.Component {
 							<a className='item' data-tab='permission'>Permission</a>
 						</div>
 
-						<Permission data-tab='permission' />
+						<Permission data-tab='permission' data={this.state.permission} />
 						<Profile data-tab='profile' data={this.state.profile} saving={this.state.saving} onSave={this.onSaveProfile} />
 					</div>
 				</div>
