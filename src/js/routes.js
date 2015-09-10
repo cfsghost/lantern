@@ -54,5 +54,9 @@ module.exports = [
 	{
 		path: '/admin/users/user/:userid',
 		handler: require('./components/Admin/User.jsx')
+	},
+	{
+		path: '/admin/roles',
+		handler: require('./components/Admin/Roles.jsx')
 	}
 ];

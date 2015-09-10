@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 module.exports = {
-	name: 'admin',
+	name: 'Admin',
 	define: {
 		users: {
 			name: 'User Management',

@@ -12,7 +12,7 @@ permissionFiles.forEach(function(filename) {
 	// Load file
 	var permission = require(path.join(permissionDirPath, filename));
 
-	schema[permission.name] = permission.schema;
+	schema[path.basename(filename, '.js')] = permission.schema;
 });
 
 var Permission = new mongoose.Schema(schema);

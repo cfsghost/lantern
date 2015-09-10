@@ -116,7 +116,6 @@ class Permission extends React.Component {
 	render() {
 		var perms = [];
 
-			console.log(this.props.data);
 		for (var name in this.props.data.availPerms) {
 			var perm = this.props.data.availPerms[name];
 			var permSet = name.split('.');

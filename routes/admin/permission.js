@@ -6,9 +6,10 @@ var router = module.exports = new Router();
 router.get('/admin/api/perms', function *() {
 
 	// Fetching a list with specific condition
-	var perms = yield Permission.getAvailablePermissions();
+	var availPerms = yield Permission.getAvailablePermissions();
 
 	this.body = {
-		list: perms
+		groups: availPerms.groups,
+		list: availPerms.perms
 	};
 });
