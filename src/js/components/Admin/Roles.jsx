@@ -228,7 +228,7 @@ class Permission extends React.Component {
 					<div className='item'>
 						<div className='ui master checkbox'>
 							<input type='checkbox' name={name} />
-							<label>{this.state.groups[name]}</label>
+							<label className='header'>{this.state.groups[name]}</label>
 						</div>
 						<div className='list'>
 							<div className='item'>

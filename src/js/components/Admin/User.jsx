@@ -95,9 +95,22 @@ class Permission extends React.Component {
 
 		// Using State to replace props to make it editable
 		this.state = {
-			data: {
-			}
+			data: {}
 		};
+	}
+	componentDidMount = () => {
+
+		$(this.refs.component.getDOMNode()).find('.ui .checkbox input')
+			.checkbox({
+				onChecked: function() {
+				}
+			});
+	}
+
+	componentWillReceiveProps = (nextProps) => {
+		this.setState({
+			data: nextProps.data
+		});
 	}
 
 	save = () => {
@@ -113,15 +126,19 @@ class Permission extends React.Component {
 		this.props.onSave(perms);
 	}
 
+	onPermissionChange(group, name) {
+
+	}
+
 	render() {
 		var perms = [];
-
-		for (var name in this.props.data.availPerms) {
-			var perm = this.props.data.availPerms[name];
+		for (var name in this.state.data.availPerms) {
+			var perm = this.state.data.availPerms[name];
 			var permSet = name.split('.');
+			console.log(name, perm, permSet);
 			perms.push(
 				<div className='ui toggle checkbox' key={name}>
-					<input type='checkbox' name={perm} checked={this.props.data.perms[permSet[0]][permSet[1]] ? true : false} />
+					<input type='checkbox' name={perm} checked={this.state.data.perms[permSet[0]][permSet[1]] ? true : false} />
 					<label>{perm.name}</label>
 				</div>
 			);

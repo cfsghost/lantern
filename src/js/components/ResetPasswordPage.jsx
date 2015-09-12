@@ -1,5 +1,4 @@
 import React from 'react';
-import reactMixin from 'react-mixin';
 import Fluky from 'fluky';
 import Router from 'react-router';
 var { Route, RouteHandler, NotFoundRoute, Link } = Router;
