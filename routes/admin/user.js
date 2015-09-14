@@ -55,17 +55,17 @@ router.put('/admin/api/user/:userid/perms', function *() {
 	}
 
 	// Validate permissions client given
-	var isValid = yield Permission.validate(this.request.body.perms);
+	var isValid = yield Permission.validate(Object.keys(this.request.body.perms));
 	if (!isValid) {
 		this.status = 401;
 		return;
 	}
 
 	// Save permissions
-	var m = yield Member.updatePermission(this.params.userid, this.request.body.perms);
+	var perms = yield Member.updatePermission(this.params.userid, this.request.body.perms);
 
 	this.body = {
 		success: true,
-		perms: this.request.body.perms
+		perms: perms
 	};
 });

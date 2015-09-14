@@ -67,7 +67,7 @@ export default function *() {
 			return;
 		}
 
-		state.perms = perms;
+		state.perms = res.body.perms;
 
 		this.dispatch('store.Admin.User', 'change');
 	});

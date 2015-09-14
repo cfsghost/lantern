@@ -114,38 +114,45 @@ class Permission extends React.Component {
 	}
 
 	save = () => {
-		var perms = [];
+		var perms = {};
 
-		$(this.refs.selection.getDOMNode())
-			.find('.ui.checkbox input')
-			.filter(':checked')
-			.each(function(index, checkbox) {
-				perms.push(checkbox.getAttribute('name'));
-			});
+		// Getting all permissions
+		for (var group in this.state.data.perms) {
+			var groupData = this.state.data.perms[group];
+			for (var name in groupData) {
+				var value = groupData[name];
+
+				perms[group + '.' + name] = value;
+			}
+		}
 
 		this.props.onSave(perms);
 	}
 
 	onPermissionChange(group, name) {
 
+		this.state.data.perms[group][name] = !this.state.data.perms[group][name];
+		this.forceUpdate();
 	}
 
 	render() {
 		var perms = [];
-		for (var name in this.state.data.availPerms) {
-			var perm = this.state.data.availPerms[name];
-			var permSet = name.split('.');
-			console.log(name, perm, permSet);
+		for (var key in this.state.data.availPerms) {
+			var perm = this.state.data.availPerms[key];
+			var permSet = key.split('.');
+			var group = permSet[0];
+			var name = permSet[1];
+
 			perms.push(
-				<div className='ui toggle checkbox' key={name}>
-					<input type='checkbox' name={perm} checked={this.state.data.perms[permSet[0]][permSet[1]] ? true : false} />
+				<div className='ui toggle checkbox' key={key}>
+					<input type='checkbox' name={key} checked={this.state.data.perms[group][name] ? true : false} onChange={this.onPermissionChange.bind(this, group, name)} />
 					<label>{perm.name}</label>
 				</div>
 			);
 		}
 
 		return (
-			<div className='ui tab basic segment' {...this.props}>
+			<div ref='component' className='ui tab basic segment' {...this.props}>
 				<div ref='selection' className='ui basic segment'>{perms}</div>
 				<button className={'ui teal' + (this.props.saving ? ' loading' : '') + ' button' } onClick={this.save}>Update Permission</button>
 			</div>
