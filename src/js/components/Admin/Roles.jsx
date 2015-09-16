@@ -3,6 +3,7 @@ import React from 'react';
 import Router from 'react-router';
 import Fluky from 'fluky';
 import AdminLayout from './AdminLayout.jsx';
+import PermissionPanel from './PermissionPanel.jsx';
 
 var Link = Router.Link;
 
@@ -99,155 +100,6 @@ class PageNavigator extends React.Component {
 	}
 }
 
-class Permission extends React.Component {
-
-	constructor(props, context) {
-		super(props, context);
-
-		var permission = Fluky.getState('Admin.Permission');
-
-		this.state = {
-			availPerms: permission.availPerms,
-			groups: permission.groups,
-			perms: []
-		};
-	}
-
-	componentWillMount = () => {
-		Fluky.on('store.Admin.Permission', Fluky.bindListener(this.onChange));
-		Fluky.dispatch('action.Admin.Permission.getAvailablePermission');
-	}
-
-	componentWillUnmount = () => {
-		Fluky.off('store.Admin.Permission', this.onChange);
-	}
-
-	componentDidMount = () => {
-
-		$(this.refs.component.getDOMNode()).find('.master.checkbox')
-			.checkbox({
-				onChecked: function() {
-					var $childCheckbox = $(this)
-						.closest('.checkbox')
-						.siblings('.list')
-						.find('.checkbox');
-
-					$childCheckbox.checkbox('check');
-				},
-				onUnchecked: function() {
-					var $childCheckbox = $(this)
-						.closest('.checkbox')
-						.siblings('.list')
-						.find('.checkbox');
-
-					$childCheckbox.checkbox('uncheck');
-				}
-			});
-
-		$(this.refs.component.getDOMNode()).find('.child.checkbox')
-			.checkbox({
-				onChange: function() {
-					var $listGroup = $(this).closest('.list');
-					var $parentCheckbox = $listGroup
-						.parent()
-						.find('.master.checkbox');
-					var $checkbox = $listGroup.find('.checkbox');
-					var allChecked = true;
-					var allUnchecked = true;
-
-					$checkbox.each(function() {
-						if($(this).checkbox('is checked')) {
-							allUnchecked = false;
-						} else {
-							allChecked = false;
-						}
-					});
-
-					// set parent checkbox state, but dont trigger its onChange callback
-					if (allChecked) {
-						$parentCheckbox.checkbox('set checked');
-					} else if(allUnchecked) {
-						$parentCheckbox.checkbox('set unchecked');
-					} else {
-						$parentCheckbox.checkbox('set indeterminate');
-					}
-				}
-			});
-	}
-
-	componentDidUpdate = () => {
-		$(this.refs.component.getDOMNode()).find('.checkbox').checkbox('refresh');
-	}
-
-	onChange = () => {
-		var permission = Fluky.getState('Admin.Permission');
-
-		this.setState({
-			availPerms: permission.availPerms,
-			groups: permission.groups
-		});
-	}
-
-	save = () => {
-		var perms = [];
-
-		$(this.refs.component.getDOMNode())
-			.find('.ui.checkbox input')
-			.filter(':checked')
-			.each(function(index, checkbox) {
-				perms.push(checkbox.getAttribute('name'));
-			});
-
-		this.props.onSave(perms);
-	}
-
-	render() {
-		var groups = {};
-		var perms = [];
-		var permBox = [];
-
-		for (var name in this.state.availPerms) {
-			var perm = this.state.availPerms[name];
-			var groupName = name.split('.')[0];
-
-			if (!groups.hasOwnProperty(groupName))
-				groups[groupName] = [];
-
-			groups[groupName].push(
-				<div className='ui child checkbox' key={name}>
-					<input type='checkbox' name={name} />
-					<label>{perm.name}</label>
-				</div>
-			);
-		}
-
-		for (var name in this.state.groups) {
-
-			permBox.push(
-				<div className='ui list'>
-					<div className='item'>
-						<div className='ui master checkbox'>
-							<input type='checkbox' name={name} />
-							<label className='header'>{this.state.groups[name]}</label>
-						</div>
-						<div className='list'>
-							<div className='item'>
-								{groups[name]}
-							</div>
-						</div>
-					</div>
-				</div>
-			);
-		}
-
-		return (
-			<div ref='component' className='ui basic segment' {...this.props}>
-				{permBox}
-			</div>
-		);
-	}
-}
-
 class NewRoleModal extends React.Component {
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.visible)
@@ -288,7 +140,7 @@ class NewRoleModal extends React.Component {
 
 						<div className='field'>
 							<label>Permission</label>
-							<Permission />
+							<PermissionPanel />
 						</div>
 
 					</div>

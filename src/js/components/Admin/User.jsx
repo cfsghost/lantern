@@ -4,6 +4,7 @@ import Fluky from 'fluky';
 
 import Avatar from '../Avatar.jsx';
 import AdminLayout from './AdminLayout.jsx';
+import PermissionPanel from './PermissionPanel.jsx';
 
 class Profile extends React.Component {
 
@@ -16,10 +17,20 @@ class Profile extends React.Component {
 
 		this.state = {
 			data: {
-				name: this.props.data.name,
-				email: this.props.data.email,
+				name: props.data.name,
+				email: props.data.email
 			}
 		};
+	}
+
+	componentWillReceiveProps = (nextProps) => {
+
+		this.setState({
+			data: {
+				name: nextProps.data.name,
+				email: nextProps.data.email
+			}
+		});
 	}
 
 	onChange = () => {
@@ -166,7 +177,6 @@ class User extends React.Component {
 		super(props, context);
 
 		var state = Fluky.getState('Admin.User');
-		var permission = Fluky.getState('Admin.Permission');
 
 		this.state = {
 			id: state.id,
@@ -175,7 +185,6 @@ class User extends React.Component {
 				email: state.email
 			},
 			permission: {
-				availPerms: permission.availPerms,
 				perms: state.perms
 			},
 			roles: state.roles
@@ -184,14 +193,11 @@ class User extends React.Component {
 
 	componentWillMount = () => {
 		Fluky.on('store.Admin.User', Fluky.bindListener(this.onChange));
-		Fluky.on('store.Admin.Permission', Fluky.bindListener(this.onChange));
 		Fluky.dispatch('action.Admin.User.get', this.props.params.userid);
-		Fluky.dispatch('action.Admin.Permission.getAvailablePermission');
 	}
 
 	componentWillUnmount = () => {
 		Fluky.off('store.Admin.User', this.onChange);
-		Fluky.off('store.Admin.Permission', this.onChange);
 	}
 
 	componentDidMount() {
@@ -201,7 +207,6 @@ class User extends React.Component {
 
 	onChange = () => {
 		var state = Fluky.getState('Admin.User');
-		var permission = Fluky.getState('Admin.Permission');
 
 		this.setState({
 			id: state.id,
@@ -210,7 +215,6 @@ class User extends React.Component {
 				email: state.email
 			},
 			permission: {
-				availPerms: permission.availPerms,
 				perms: state.perms
 			},
 			roles: state.roles,
@@ -228,12 +232,11 @@ class User extends React.Component {
 	}
 
 	onSavePermission = (perms) => {
-
 		this.setState({
 			saving: true
 		});
 
-		Fluky.dispatch('action.Admin.User.savePermission', this.state.id, perms);
+		Fluky.dispatch('action.Admin.User.savePermission', this.state.id, this.refs.permission.getCurrentPermissions());
 	}
 
 	render() {
@@ -254,8 +257,11 @@ class User extends React.Component {
 							<a className='item' data-tab='permission'>Permission</a>
 						</div>
 
-						<Permission data-tab='permission' data={this.state.permission} saving={this.state.saving} onSave={this.onSavePermission} />
-						<Profile data-tab='profile' data={this.state.profile} saving={this.state.saving} onSave={this.onSaveProfile} />
+						<Profile data-tab='profile' data={this.state.profile} saving={this.state.saving || false} onSave={this.onSaveProfile} />
+						<div data-tab='permission' className='ui tab'>
+							<PermissionPanel ref='permission' data-tab='permission' perms={this.state.permission.perms} />
+							<button className={'ui teal' + (this.state.saving ? ' loading' : '') + ' button' } onClick={this.onSavePermission}>Update Permission</button>
+						</div>
 					</div>
 				</div>
 			</AdminLayout>
