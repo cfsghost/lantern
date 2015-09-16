@@ -220,7 +220,7 @@ class PermissionPanel extends React.Component {
 		this.state = {
 			availPerms: permission.availPerms,
 			groups: permission.groups,
-			perms: {}
+			perms: props.perms || {}
 		};
 	}
 
@@ -233,6 +233,12 @@ class PermissionPanel extends React.Component {
 		Fluky.off('store.Admin.Permission', this.onChange);
 	}
 
+	componentWillReceiveProps = (nextProps) => {
+		this.setState({
+			perms: nextProps.perms || {}
+		});
+	}
+
 	onChange = () => {
 		var permission = Fluky.getState('Admin.Permission');
 
@@ -240,13 +246,6 @@ class PermissionPanel extends React.Component {
 			availPerms: permission.availPerms,
 			groups: permission.groups
 		});
-	}
-
-	save = () => {
-		var perms = [];
-
-
-		this.props.onSave(perms);
 	}
 
 	getCurrentPermissions = () => {
@@ -293,8 +292,8 @@ class PermissionPanel extends React.Component {
 
 			// Getting permission settings
 			var perms = {};
-			if (this.props.perms.hasOwnProperty(group)) {
-				perms = this.props.perms[group];
+			if (this.state.perms.hasOwnProperty(group)) {
+				perms = this.state.perms[group];
 			}
 
 			permGroups.push(
