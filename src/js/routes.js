@@ -58,5 +58,9 @@ module.exports = [
 	{
 		path: '/admin/roles',
 		handler: require('./components/Admin/Roles.jsx')
+	},
+	{
+		path: '/admin/roles/role/:roleid',
+		handler: require('./components/Admin/Role.jsx')
 	}
 ];

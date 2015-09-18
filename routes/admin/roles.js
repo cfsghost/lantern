@@ -34,3 +34,31 @@ router.get('/admin/api/roles', function *() {
 		roles: data.roles
 	};
 });
+
+router.post('/admin/api/roles', function *() {
+
+	if (!this.request.body.name || !this.request.body.desc || !this.request.body.perms) {
+		this.status = 401;
+		return;
+	}
+
+	try {
+		// Create a new role
+		var role = yield Role.create({
+			name: this.request.body.name,
+			desc: this.request.body.desc,
+			perms: this.request.body.perms
+		});
+	} catch(e) {
+		console.log(e);
+	}
+
+	this.body = {
+		role: {
+			_id: role._id,
+			name: role.name,
+			desc: role.desc,
+			perms: role.perms
+		}
+	};
+});

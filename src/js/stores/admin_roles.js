@@ -35,4 +35,21 @@ export default function *() {
 
 		this.dispatch('store.Admin.Roles', 'change');
 	});
+
+	this.on('store.Admin.Roles.create', function *(name, desc, perms) {
+
+		var res = yield this.request
+			.post('/admin/api/roles')
+			.send({
+				name: name,
+				desc: desc,
+				perms: perms
+			});
+
+		if (res.status != 200) {
+			return;
+		}
+
+		var store = this.getState('Admin.Roles');
+	});
 };

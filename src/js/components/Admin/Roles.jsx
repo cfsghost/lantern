@@ -17,10 +17,9 @@ class RoleItem extends React.Component {
 					<span>{this.props.name}</span>
 				</td>
 				<td>{this.props.desc}</td>
-				<td>{this.props.created.split('T')[0]}</td>
 				<td>
 					<div className='ui yellow buttons'>
-						<Link to={'/admin/users/user/' + this.props.id} className='ui icon button'>
+						<Link to={'/admin/roles/role/' + this.props.id} className='ui icon button'>
 								<i className='edit icon' /> Edit
 						</Link>
 						<div className='ui floating top right pointing dropdown icon button'>
@@ -102,10 +101,23 @@ class PageNavigator extends React.Component {
 
 class NewRoleModal extends React.Component {
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.visible)
+		if (nextProps.visible) {
+			// Clear input field
+			this.refs.name.getDOMNode().value = '';
+			this.refs.desc.getDOMNode().value = '';
+
 			$(this.refs.component.getDOMNode()).modal('show');
-		else
+		} else {
 			$(this.refs.component.getDOMNode()).modal('hide');
+		}
+	}
+
+	onCreate = () => {
+		var perms = this.refs.permission.getCurrentPermissions();
+		var name = this.refs.name.getDOMNode().value;
+		var desc = this.refs.desc.getDOMNode().value;
+
+		Fluky.dispatch('action.Admin.Roles.create', name, desc, perms);
 	}
 
 	render() {
@@ -140,7 +152,7 @@ class NewRoleModal extends React.Component {
 
 						<div className='field'>
 							<label>Permission</label>
-							<PermissionPanel />
+							<PermissionPanel ref='permission' />
 						</div>
 
 					</div>
@@ -149,7 +161,7 @@ class NewRoleModal extends React.Component {
 					<div className='ui black deny button'>
 						Cancel
 					</div>
-					<div className={'ui positive right labeled ' + (this.props.saving ? ' loading' : '') + ' icon button'}>
+					<div className={'ui positive right labeled ' + (this.props.saving ? ' loading' : '') + ' icon button'} onClick={this.onCreate}>
 						Create
 						<i className='checkmark icon' />
 					</div>
@@ -221,12 +233,12 @@ class Roles extends React.Component {
 	render() {
 		var roles = [];
 		for (var index in this.state.roles) {
-			var roles = this.state.roles[index];
+			var role = this.state.roles[index];
 			roles.push(
 				<RoleItem
 					id={role._id}
 					name={role.name}
-					created={roles.created}
+					desc={role.desc}
 					key={index} />
 			);
 		}
@@ -266,7 +278,6 @@ class Roles extends React.Component {
 							<tr>
 								<th className='three wide'>Name</th>
 								<th>Description</th>
-								<th className='two wide'>Created</th>
 								<th className='two wide'></th>
 							</tr>
 						</thead>
