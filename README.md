@@ -4,7 +4,7 @@ An isomorphic web application built with modern technologies, which contains bas
 
 The architecture design was already done for isomorphic. The views and frontend stuffs which are implemented with React can be rendered on server-side and client-side both and using the same configuration of routes. The good news is, there is no need to learn anti-pattern flux framework(e.g., redux) for isomorphic. Lantern provided an easy way for developers who are already familar with flux pattern.
 
-Besides, the callback hell are not there anymore. The generator is widely used in this project, which is the new technology in new version of EcmaScript(JavaScript) for flow control. The Backend is using generator with Koa web framework, and frontend is using generator in flux framework as well.
+Besides, the callback hell are not there anymore. The generator is widely used in this project, which is the new technology in new version of ECMAScript(JavaScript) for flow control. The Backend is using generator with Koa web framework, and frontend is using generator in flux framework as well.
 
 Not only technique things, but also UI design is pretty cool in Lantern project. The framework that Semantic UI bring us fantastic frontend user interface, even better than bootstrap and other UI framework.
 
