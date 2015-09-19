@@ -16,3 +16,49 @@ router.get('/admin/api/role/:id', function *() {
 		perms: data.permissions
 	};
 });
+
+router.put('/admin/api/user/:id', function *() {
+
+	if (!this.request.body.name || !this.request.body.desc) {
+		this.status = 401;
+		return;
+	}
+
+	if (!this.request.body.perms) {
+		this.status = 401;
+		return;
+	}
+
+	// Validate permissions client given
+	var isValid = yield Permission.validate(Object.keys(this.request.body.perms));
+	if (!isValid) {
+		this.status = 401;
+		return;
+	}
+
+	// Save
+	try {
+		var role = yield Role.save(this.params.id, {
+			name: this.request.body.name,
+			desc: this.request.body.desc
+		});
+	} catch(e) {
+		this.status = 500;
+		return;
+	}
+
+	// Save permissions
+	var perms = yield Role.updatePermission(this.params.id, this.request.body.perms);
+
+	// Prepare data for returning
+	var r = {
+		name: role.name,
+		desc: role.desc,
+		perms: perms
+	};
+
+	this.body = {
+		success: true,
+		role: r
+	};
+});

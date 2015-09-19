@@ -36,19 +36,21 @@ class Profile extends React.Component {
 	onChange = () => {
 		var name = this.refs.name.getDOMNode().value;
 		var desc  = this.refs.desc.getDOMNode().value;
-		var perms = this.refs.permission.getCurrentPermissions();
 
 		this.setState({
 			data: {
 				name: name,
-				desc: desc,
-				perms: perms
+				desc: desc
 			}
 		});
 	}
 
 	save = () => {
-		this.props.onSave(this.state.data);
+		this.props.onSave({
+			name: this.state.data.name,
+			desc: this.state.data.desc,
+			perms: this.refs.permission.getCurrentPermissions()
+		});
 	}
 
 	render() {
@@ -157,14 +159,6 @@ class Role extends React.Component {
 		});
 
 		Fluky.dispatch('action.Admin.Role.saveProfile', this.state.id, data);
-	}
-
-	onSavePermission = (perms) => {
-		this.setState({
-			saving: true
-		});
-
-		Fluky.dispatch('action.Admin.Role.savePermission', this.state.id, this.refs.permission.getCurrentPermissions());
 	}
 
 	render() {

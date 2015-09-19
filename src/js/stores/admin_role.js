@@ -50,7 +50,7 @@ export default function *() {
 
 		state.name = profile.name;
 		state.desc = profile.desc;
-		state.perms = res.body.perms;
+		state.perms = res.body.role.perms;
 
 		this.dispatch('store.Admin.Role', 'change');
 	});
