@@ -131,6 +131,7 @@ class User extends React.Component {
 	componentDidMount() {
 
 		$(this.refs.tab.getDOMNode()).find('.item').tab();
+		//$(this.refs.roles.getDOMNode()).dropdown();
 	}
 
 	onChange = () => {
@@ -186,7 +187,15 @@ class User extends React.Component {
 						</div>
 
 						<Profile data-tab='profile' data={this.state.profile} saving={this.state.saving || false} onSave={this.onSaveProfile} />
-						<div data-tab='permission' className='ui tab'>
+						<div data-tab='permission' className='ui tab basic segment'>
+							<div className='ui sub header'>Roles</div>
+							<select ref='roles' multiple='none' className='ui fluid multiple dropdown'>
+								<option value=''>Normal User</option>
+								<option value='admin'>Admin</option>
+								<option value='admin1'>Admin1</option>
+							</select>
+
+							<div className='ui sub header'>Permissions</div>
 							<PermissionPanel ref='permission' data-tab='permission' perms={this.state.permission.perms} />
 							<button className={'ui teal' + (this.state.saving ? ' loading' : '') + ' button' } onClick={this.onSavePermission}>Update Permission</button>
 						</div>
