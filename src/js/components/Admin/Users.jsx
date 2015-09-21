@@ -9,6 +9,10 @@ var Link = Router.Link;
 
 class UserItem extends React.Component {
 
+	componentDidMount = () => {
+		$(this.refs.dropdown.getDOMNode()).dropdown();
+	}
+
 	render() {
 		var avatar_hash = crypto.createHash('md5').update(this.props.email).digest('hex');
 		return (
@@ -24,7 +28,7 @@ class UserItem extends React.Component {
 						<Link to={'/admin/users/user/' + this.props.id} className='ui icon button'>
 								<i className='edit icon' /> Edit
 						</Link>
-						<div className='ui floating top right pointing dropdown icon button'>
+						<div ref='dropdown' className='ui floating top right pointing dropdown icon button'>
 							<i className='dropdown icon'></i>
 							<div className='menu'>
 								<div className='item'>
@@ -41,6 +45,10 @@ class UserItem extends React.Component {
 }
 
 class SearchBar extends React.Component {
+
+	componentDidMount = () => {
+		$(this.refs.field.getDOMNode()).dropdown();
+	}
 
 	onSubmit = () => {
 
@@ -124,10 +132,6 @@ class Users extends React.Component {
 
 	componentWillUnmount = () => {
 		Fluky.off('store.Admin.Users', this.onChange);
-	}
-
-	componentDidMount = () => {
-		$('.ui.dropdown').dropdown();
 	}
 
 	onChange = () => {

@@ -9,18 +9,24 @@ export default function *() {
 		roles: []
 	});
 
-	this.on('store.Admin.Roles.query', function *(conditions) {
+	this.on('store.Admin.Roles.query', function *(conditions, options) {
 
 		var state = this.getState('Admin.Roles');
 
-		// Getting user list by calling API
+		var permissions = false;
+		if (options) {
+			permissions = options.permissions || false;
+		}
+
+		// Getting role list by calling API
 		var res = yield this.request
 			.get('/admin/api/roles')
 			.query({
 				page: state.page,
 				pageCount: state.pageCount,
 				perPage: state.perPage,
-				q: JSON.stringify(conditions)
+				q: JSON.stringify(conditions),
+				permissions: permissions
 			});
 
 		if (res.status != 200) {

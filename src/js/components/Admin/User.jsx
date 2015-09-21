@@ -105,6 +105,7 @@ class User extends React.Component {
 		super(props, context);
 
 		var state = Fluky.getState('Admin.User');
+		var rolesStore = Fluky.getState('Admin.Roles');
 
 		this.state = {
 			id: state.id,
@@ -115,23 +116,89 @@ class User extends React.Component {
 			permission: {
 				perms: state.perms
 			},
-			roles: state.roles
+			roles: state.roles,
+			availRoles: rolesStore.roles
 		};
 	}
 
 	componentWillMount = () => {
 		Fluky.on('store.Admin.User', Fluky.bindListener(this.onChange));
+		Fluky.on('store.Admin.Roles', Fluky.bindListener(this.onChange));
 		Fluky.dispatch('action.Admin.User.get', this.props.params.userid);
+		Fluky.dispatch('action.Admin.Roles.query', {}, { permissions: true });
 	}
 
 	componentWillUnmount = () => {
 		Fluky.off('store.Admin.User', this.onChange);
+		Fluky.off('store.Admin.Roles', this.onChange);
 	}
 
 	componentDidMount() {
+		var self = this;
 
 		$(this.refs.tab.getDOMNode()).find('.item').tab();
-		//$(this.refs.roles.getDOMNode()).dropdown();
+		$(this.refs.roles.getDOMNode()).dropdown({
+			onChange: function(values) {
+				console.log('Changed');
+
+				self.state.roles = values;
+
+				// Force update state
+				self.forceUpdate();
+			},
+			onAdd: function(value) {
+				console.log('Add', value);
+
+				// Getting permissions of roles
+				for (var index in self.state.availRoles) {
+					var role = self.state.availRoles[index];
+
+					if (role._id != value)
+						continue;
+
+					// Setting permissions
+					var perms = role.permissions;
+					for (var group in perms) {
+						var permSets = perms[group];
+
+						if (!self.state.permission.perms.hasOwnProperty(group))
+							self.state.permission.perms[group] = {};
+
+						for (var name in permSets) {
+							var perm = permSets[name];
+							self.state.permission.perms[group][name] = true;
+						}
+					}
+					break;
+				}
+			},
+			onRemove: function(value) {
+				console.log('Remove', value);
+
+				// Getting permissions of roles
+				for (var index in self.state.availRoles) {
+					var role = self.state.availRoles[index];
+
+					if (role._id != value)
+						continue;
+
+					// Setting permissions
+					var perms = role.permissions;
+					for (var group in perms) {
+						var permSets = perms[group];
+
+						if (!self.state.permission.perms.hasOwnProperty(group))
+							continue;
+
+						for (var name in permSets) {
+							var perm = permSets[name];
+							self.state.permission.perms[group][name] = false;
+						}
+					}
+					break;
+				}
+			}
+		});
 	}
 
 	onChange = () => {
@@ -160,15 +227,29 @@ class User extends React.Component {
 		Fluky.dispatch('action.Admin.User.saveProfile', this.state.id, data);
 	}
 
-	onSavePermission = (perms) => {
+	onSavePermission = () => {
 		this.setState({
 			saving: true
 		});
 
-		Fluky.dispatch('action.Admin.User.savePermission', this.state.id, this.refs.permission.getCurrentPermissions());
+		Fluky.dispatch('action.Admin.User.savePermission',
+			this.state.id,
+			this.state.roles,
+			this.refs.permission.getCurrentPermissions());
 	}
 
 	render() {
+		var roles = [];
+
+		for (var index in this.state.availRoles) {
+			var role = this.state.availRoles[index];
+
+			if (this.state.roles.indexOf(role._id) == -1)
+				roles.push(<option value={role._id} key={index}>{role.name}</option>);
+			else
+				roles.push(<option value={role._id} key={index} selected={true}>{role.name}</option>);
+		}
+
 		return (
 			<AdminLayout category='users'>
 				<div className='ui padded basic segment'>
@@ -189,10 +270,9 @@ class User extends React.Component {
 						<Profile data-tab='profile' data={this.state.profile} saving={this.state.saving || false} onSave={this.onSaveProfile} />
 						<div data-tab='permission' className='ui tab basic segment'>
 							<div className='ui sub header'>Roles</div>
-							<select ref='roles' multiple='none' className='ui fluid multiple dropdown'>
+							<select ref='roles' multiple={true} className='ui fluid multiple dropdown'>
 								<option value=''>Normal User</option>
-								<option value='admin'>Admin</option>
-								<option value='admin1'>Admin1</option>
+								{roles}
 							</select>
 
 							<div className='ui sub header'>Permissions</div>

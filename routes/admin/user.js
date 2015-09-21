@@ -49,7 +49,7 @@ router.put('/admin/api/user/:userid/profile', function *() {
 
 router.put('/admin/api/user/:userid/perms', function *() {
 
-	if (!this.request.body.perms) {
+	if (!this.request.body.perms || !this.request.body.roles) {
 		this.status = 401;
 		return;
 	}
@@ -61,11 +61,13 @@ router.put('/admin/api/user/:userid/perms', function *() {
 		return;
 	}
 
-	// Save permissions
+	// Save permissions and roles
+	var roles = yield Member.updateRoles(this.params.userid, this.request.body.roles);
 	var perms = yield Member.updatePermission(this.params.userid, this.request.body.perms);
 
 	this.body = {
 		success: true,
-		perms: perms
+		perms: perms,
+		roles: roles
 	};
 });

@@ -25,7 +25,7 @@ class Header extends React.Component {
 	componentDidMount() {
 
 		// Enabling dropdown menu
-		$('.ui.dropdown').dropdown({
+		$(this.refs.component.getDOMNode()).find('.ui.dropdown').dropdown({
 			on: 'hover'
 		});
 	}
@@ -74,7 +74,7 @@ class Header extends React.Component {
 		}
 
 		return (
-			<div className={'ui top fixed inverted menu'}>
+			<div ref='component' className={'ui top fixed inverted menu'}>
 				<Link to='/' className={'item'} activeClassName=''>
 					<div>Lantern</div>
 				</Link>

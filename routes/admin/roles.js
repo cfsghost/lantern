@@ -7,6 +7,7 @@ router.get('/admin/api/roles', function *() {
 
 	var page = parseInt(this.request.query.page) || 1;
 	var perPage = parseInt(this.request.query.perpage) || 100;
+	var perms = this.request.query.permissions || false;
 	var q = {};
 	try {
 		q = JSON.parse(this.request.query.q);
@@ -17,15 +18,26 @@ router.get('/admin/api/roles', function *() {
 		conditions.name = new RegExp(q.name, 'i');
 	}
 
-	// Fetching a list with specific condition
-	var data = yield Role.list(conditions, [
+	// Setup options
+	var _opts = {
+		skip: (page - 1) * perPage,
+		limit: perPage
+	};
+
+	// Setup fields
+	var _fields = [
 		'name',
 		'desc',
 		'created'
-	], {
-		skip: (page - 1) * perPage,
-		limit: perPage
-	});
+	];
+
+	if (perms) {
+		_opts.populatedPermission = perms;
+		_fields.push('permissions');
+	}
+
+	// Fetching a list with specific condition
+	var data = yield Role.list(conditions, _fields, _opts);
 
 	this.body = {
 		page: page,

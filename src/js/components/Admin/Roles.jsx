@@ -9,6 +9,10 @@ var Link = Router.Link;
 
 class RoleItem extends React.Component {
 
+	componentDidMount = () => {
+		$(this.refs.dropdown.getDOMNode()).dropdown();
+	}
+
 	render() {
 		return (
 			<tr>
@@ -22,7 +26,7 @@ class RoleItem extends React.Component {
 						<Link to={'/admin/roles/role/' + this.props.id} className='ui icon button'>
 								<i className='edit icon' /> Edit
 						</Link>
-						<div className='ui floating top right pointing dropdown icon button'>
+						<div ref='dropdown' className='ui floating top right pointing dropdown icon button'>
 							<i className='dropdown icon'></i>
 							<div className='menu'>
 								<div className='item'>
@@ -39,6 +43,10 @@ class RoleItem extends React.Component {
 }
 
 class SearchBar extends React.Component {
+
+	componentDidMount = () => {
+		$(this.refs.field.getDOMNode()).dropdown();
+	}
 
 	onSubmit = () => {
 
@@ -195,10 +203,6 @@ class Roles extends React.Component {
 
 	componentWillUnmount = () => {
 		Fluky.off('store.Admin.Roles', this.onChange);
-	}
-
-	componentDidMount = () => {
-		$('.ui.dropdown').dropdown();
 	}
 
 	onChange = () => {

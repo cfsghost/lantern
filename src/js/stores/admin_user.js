@@ -52,7 +52,7 @@ export default function *() {
 		this.dispatch('store.Admin.User', 'change');
 	});
 
-	this.on('store.Admin.User.savePermission', function *(userId, perms) {
+	this.on('store.Admin.User.savePermission', function *(userId, roles, perms) {
 
 		var state = this.getState('Admin.User');
 
@@ -60,6 +60,7 @@ export default function *() {
 		var res = yield this.request
 			.put('/admin/api/user/' + userId + '/perms')
 			.send({
+				roles: roles,
 				perms: perms
 			});
 
@@ -67,7 +68,8 @@ export default function *() {
 			return;
 		}
 
-		state.perms = res.body.perms;
+		state.roles = res.body.roles || [];
+		state.perms = res.body.perms || {};
 
 		this.dispatch('store.Admin.User', 'change');
 	});
