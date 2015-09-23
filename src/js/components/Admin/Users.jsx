@@ -13,6 +13,10 @@ class UserItem extends React.Component {
 		$(this.refs.dropdown.getDOMNode()).dropdown();
 	}
 
+	deleteUser = () => {
+		Fluky.dispatch('action.Admin.Users.deleteOne', this.props.id);
+	}
+
 	render() {
 		var avatar_hash = crypto.createHash('md5').update(this.props.email).digest('hex');
 		return (
@@ -30,12 +34,12 @@ class UserItem extends React.Component {
 						</Link>
 						<div ref='dropdown' className='ui floating top right pointing dropdown icon button'>
 							<i className='dropdown icon'></i>
-							<div className='menu'>
+							<a className='menu' onClick={this.deleteUser}>
 								<div className='item'>
 									<i className='delete icon' />
 									Delete
 								</div>
-							</div>
+							</a>
 						</div>
 					</div>
 				</td>
@@ -191,12 +195,6 @@ class Users extends React.Component {
 						</div>
 					</div>
 
-					<div className='ui icon menu'>
-						<div className='item'>
-							<i className='add user icon'></i>
-						</div>
-					</div>
-
 					<PageNavigator page={this.state.page} pageCount={this.state.pageCount} top={true} />
 
 					<table className='ui attached striped table'>
@@ -222,6 +220,13 @@ class Users extends React.Component {
 			</AdminLayout>
 		);
 	}
+/*
+					<div className='ui icon menu'>
+						<div className='item'>
+							<i className='add user icon'></i>
+						</div>
+					</div>
+*/
 }
 
 export default Users;

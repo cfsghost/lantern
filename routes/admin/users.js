@@ -49,3 +49,18 @@ router.get('/admin/api/users', function *() {
 		members: data.members
 	};
 });
+
+router.del('/admin/api/users/:userid', function *() {
+	var userid = this.params.userid;
+
+	try {
+		yield Member.deleteMembers([ userid ]);
+	} catch(e) {
+		this.status = 500;
+		return;
+	}
+
+	this.body = {
+		success: true
+	};
+});

@@ -35,4 +35,30 @@ export default function *() {
 
 		this.dispatch('store.Admin.Users', 'change');
 	});
+
+	this.on('store.Admin.Users.deleteOne', function *(id) {
+
+		var state = this.getState('Admin.Users');
+
+		// Getting user list by calling API
+		var res = yield this.request
+			.del('/admin/api/users/' + id)
+			.query();
+
+		if (res.status != 200) {
+			return;
+		}
+
+		// Remove users on store
+		for (var index in state.users) {
+			var user = state.users[index];
+
+			if (id = user._id) {
+				state.users.splice(index, 1);
+				break;
+			}
+		}
+
+		this.dispatch('store.Admin.Users', 'change');
+	});
 };
