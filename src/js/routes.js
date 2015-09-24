@@ -8,7 +8,7 @@ var ResetPasswordPage = require('./components/ResetPasswordPage.jsx');
 
 module.exports = [
 	{
-		path: null,
+		path: '/404',
 		handler: NotFoundPage
 	},
 	{
@@ -40,26 +40,32 @@ module.exports = [
 		handler: SettingsPage
 	},
 	{
+		allow: 'admin.access',
 		path: '/admin',
 		redirect: '/admin/dashboard'
 	},
 	{
+		allow: 'admin.access',
 		path: '/admin/dashboard',
 		handler: require('./components/Admin/Dashboard.jsx')
 	},
 	{
+		allow: 'admin.users',
 		path: '/admin/users',
 		handler: require('./components/Admin/Users.jsx')
 	},
 	{
+		allow: 'admin.users',
 		path: '/admin/users/user/:userid',
 		handler: require('./components/Admin/User.jsx')
 	},
 	{
+		allow: 'admin.roles',
 		path: '/admin/roles',
 		handler: require('./components/Admin/Roles.jsx')
 	},
 	{
+		allow: 'admin.roles',
 		path: '/admin/roles/role/:roleid',
 		handler: require('./components/Admin/Role.jsx')
 	}

@@ -23,6 +23,7 @@ var Utils = require('./lib/utils');
 var Mailer = require('./lib/mailer');
 var Database = require('./lib/database');
 var Passport = require('./lib/passport');
+var Middleware = require('./lib/middleware');
 
 var app = koa();
 
@@ -105,7 +106,7 @@ co(function *() {
 					return;
 
 				// Rendering
-				var page = yield ReactApp.render(this.request.path);
+				var page = yield ReactApp.render('/404');
 				yield this.render('index', {
 					title: settings.general.service.name,
 					content: page.content,
@@ -129,7 +130,8 @@ co(function *() {
 		}
 
 		// Register path for pages
-		router.get(route.path, function *() {
+		router.get(route.path, Middleware.allow(route.allow || null), function *() {
+		//router.get(route.path, function *() {
 
 			// It must create a new instance for rending react page asynchronously
 			delete require.cache[require.resolve('./public/assets/server.js')];
