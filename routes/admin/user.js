@@ -1,8 +1,11 @@
 var Router = require('koa-router');
 var Member = require('../../lib/member');
 var Permission = require('../../lib/permission');
+var Middleware = require('../../lib/middleware');
 
 var router = module.exports = new Router();
+
+router.use(Middleware.allow('admin.users'));
 
 router.get('/admin/api/user/:userid', function *() {
 
