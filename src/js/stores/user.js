@@ -7,7 +7,8 @@ export default function *() {
 		name: 'Nobody',
 		username: null,
 		email: null,
-		logined: false
+		logined: false,
+		permissions: {}
 	});
 
 	this.on('store.User.syncProfile', function *() {
@@ -170,6 +171,7 @@ export default function *() {
 			store.name = res.body.data.name;
 			store.login_time = res.body.data.login_time;
 			store.avatar_hash = res.body.data.avatar_hash;
+			store.permissions = res.body.data.permissions;
 
 			this.dispatch('store.User', 'change');
 		} catch(e) {
@@ -207,6 +209,7 @@ export default function *() {
 				store.email = email;
 				store.login_time = res.body.data.login_time;
 				store.avatar_hash = res.body.data.avatar_hash;
+				store.permissions = res.body.data.permissions;
 				break;
 			}
 

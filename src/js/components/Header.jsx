@@ -41,6 +41,18 @@ class Header extends React.Component {
 
 		var loginState;
 		if (this.state.user.logined) {
+			var adminItem;
+			if (this.state.user.permissions.admin) {
+				if (this.state.user.permissions.admin.access) {
+					adminItem = (
+						<Link to='/admin' className='item'>
+							<i className='spy icon'></i>
+							Admin Panel
+						</Link>
+					);
+				}
+			}
+
 			loginState = (
 				<div className={'right menu'}>
 					<div className='ui dropdown item'>
@@ -51,6 +63,7 @@ class Header extends React.Component {
 								<i className='settings icon'></i>
 								Settings
 							</Link>
+							{adminItem}
 							<div className='ui fitted divider'></div>
 							<a href='/signout' className='item'>
 								<i className='sign out icon'></i>

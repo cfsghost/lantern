@@ -23,6 +23,7 @@ var Utils = require('./lib/utils');
 var Mailer = require('./lib/mailer');
 var Database = require('./lib/database');
 var Passport = require('./lib/passport');
+var Member = require('./lib/member');
 var Middleware = require('./lib/middleware');
 
 var app = koa();
@@ -68,6 +69,24 @@ app.use(session(app));
 // Initializing locals to make template be able to get
 app.use(function *(next) {
 	this.state.user = this.req.user || undefined;
+	yield next;
+});
+
+app.use(function *(next) {
+	// Getting permission if user signed in already
+	if (this.isAuthenticated()) {
+		// Getting permission informations for such user
+		var perms = yield Member.getPermissions(this.state.user.id);
+
+		if (perms) {
+			this.state.user.permissions = perms;
+		}
+	}
+
+	if (!this.state.user.permissions) {
+		this.state.user.permissions = {};
+	}
+
 	yield next;
 });
 
