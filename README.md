@@ -45,6 +45,20 @@ node app.js
 * react-router - router for React
 * babel - Used to support ES6+
 
+## Set up the Administrator Account
+
+You have to set up administrator account if you want to manage web service via admin panel.
+
+First of all, you have to sign in or sign up to have an account.
+```
+http://<service host>/signin
+```
+
+Lantern have a script for setting up administrator. It can be used to assign admin permissions to specific account.
+```
+node utils/addadmin <email>
+```
+
 License
 -
 Licensed under the MIT License

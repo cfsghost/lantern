@@ -15,11 +15,20 @@ var Member = require('../lib/member');
 co(function *() {
 	yield Database.init();
 
-	var m = yield Member.updatePermissionByEmail(email, {
-		'admin.access': true,
-		'admin.users': true,
-		'admin.roles': true
-	});
+	try {
+		var m = yield Member.updatePermissionByEmail(email, {
+			'admin.access': true,
+			'admin.users': true,
+			'admin.roles': true
+		});
+	} catch(e) {
+	}
 
-	console.log(m);
+	if (m) {
+		console.log(email, 'is administrator now.');
+	} else {
+		console.log('No such account.');
+	}
+
+	process.exit();
 });
