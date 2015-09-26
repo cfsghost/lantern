@@ -1,13 +1,15 @@
-var Fluky = require('fluky');
-var React = require('react');
-//var Routr = require('./routes.jsx');
-import Router from 'react-router';
-var { Route, RouteHandler, NotFoundRoute, Redirect } = Router;
+import React from 'react';
+import {
+	Route,
+	RouteHandler,
+	NotFoundRoute,
+	Redirect
+} from 'react-router';
 
 // Initializing fluky framework
-var Fluky = require('fluky');
-var Stores = require('./stores');
-var Extensions = require('./extensions');
+import Fluky from 'fluky';
+import Stores from './stores';
+import Extensions from './extensions';
 
 Fluky.load(Stores, Extensions);
 
