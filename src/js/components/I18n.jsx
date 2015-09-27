@@ -7,6 +7,14 @@ class I18n extends React.Component {
 		args: React.PropTypes.array
 	};
 
+	static getMessage = (...args) => {
+		return Fluky.locale.getMessage.apply(this, args);
+	}
+
+	static getFmtMessage = (...args) => {
+		return Fluky.locale.getFmtMessage.apply(this, args);
+	}
+
 	render() {
 		var msg = '';
 		if (!this.props.args) {

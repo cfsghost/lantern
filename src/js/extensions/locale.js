@@ -26,6 +26,14 @@ export default function *() {
 
 			state.currentMessage = state.messages[locale] || {};
 
+			if (state.messages[locale]) {
+				state.currentLocale = locale;
+				state.currentMessage = state.messages[locale];
+			} else {
+				state.currentLocale = 'en';
+				state.currentMessage = {};
+			}
+
 			ctx.dispatch('store.Localization', 'change');
 		});
 	};

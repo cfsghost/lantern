@@ -8,5 +8,13 @@ module.exports = {
 	'landing_page.app_section.title': '快速打造線上服務',
 	'landing_page.app_section.desc': 'Lantern 提供基礎樣板架構，協助您免折騰、快速建立最潮的 Isomorphic 網站應用程式。',
 	'landing_page.tech_section.title': '時下最潮技術',
-	'landing_page.tech_section.desc': 'Lantern 全面應用了 ES6、Node.js、Koa、React、Semantic UI 以及 Webpack'
+	'landing_page.tech_section.desc': 'Lantern 全面應用了 ES6、Node.js、Koa、React、Semantic UI 以及 Webpack',
+	'sign_in.header': '登入',
+	'sign_in.email': '電子郵件信箱',
+	'sign_in.password': '密碼',
+	'sign_in.forgot_password': '您忘記了密碼？',
+	'sign_in.no_account_yet': '沒有帳號嗎？',
+	'sign_in.sign_up': '立即註冊',
+	'sign_in.submit_button': '登入',
+	'sign_in.or_login_with': '或使用其他帳號登入'
 };
