@@ -88,7 +88,7 @@ class SignInPage extends React.Component {
 					<div className='ui hidden divider'></div>
 					<div className='ui hidden divider'></div>
 
-					<div className='ui two column centered grid'>
+					<div className='ui two column centered stackable grid'>
 						<div className='column'>
 							<h1 className='ui header'>
 								<i className='sign in icon' />
