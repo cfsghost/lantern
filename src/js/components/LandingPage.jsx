@@ -2,11 +2,6 @@ import React from 'react';
 import Header from './Header.jsx';
 import I18n from './I18n.jsx';
 
-var nodejsLogo = require('../../images/nodejs-logo.png');
-var webpackLogo = require('../../images/webpack-logo.png');
-var koaLogo = require('../../images/koa-logo.png');
-var reactLogo = require('../../images/react-logo.png');
-
 // Section image
 var appIcon = require('../../images/app-icon.png');
 var techIcon = require('../../images/tech-icon.png');
@@ -21,8 +16,6 @@ var descStyle = {
 };
 
 var sectionStyle = {
-	paddingTop: '4em',
-	paddingBottom: '4em'
 };
 
 class LandingPage extends React.Component {
@@ -56,7 +49,10 @@ class LandingPage extends React.Component {
 	
 				<section style={sectionStyle} ref='app_section'>
 					<div className={'ui basic center aligned very padded segment'}>
-						<div className={'ui two column middle aligned grid'}>
+						<div className={'ui two column middle aligned stackable grid'}>
+							<div className={'mobile only column'}>
+								<img src={appIcon} className={'ui centered image'} />
+							</div>
 							<div className={'column'}>
 								<div className={'ui basic very padded left aligned segment'}>
 									<h1>
@@ -67,7 +63,7 @@ class LandingPage extends React.Component {
 									</p>
 								</div>
 							</div>
-							<div className={'column'}>
+							<div className={'tablet only computer only column'}>
 								<img src={appIcon} className={'ui large centered image'} />
 							</div>
 						</div>
@@ -75,34 +71,12 @@ class LandingPage extends React.Component {
 					</div>
 				</section>
 
-				<div className={'ui section divider'}></div>
 				<section style={sectionStyle}>
 					<div className={'ui basic aligned very padded segment'}>
 						<div className={'ui two column middle aligned grid'}>
-
-							<div className={'ui three column centered grid'}>
-
-								<div className={'row'}>
-									<div className={'column'}>
-										<img className={'ui image'} src={nodejsLogo} />
-									</div>
-
-									<div className={'column'}>
-										<img className={'ui image'} src={koaLogo} />
-									</div>
-								</div>
-
-								<div className={'row'}>
-									<div className={'column'}>
-										<img className={'ui image'} src={webpackLogo} />
-									</div>
-
-									<div className={'column'}>
-										<img className={'ui image'} src={reactLogo} />
-									</div>
-								</div>
+							<div className={'column'}>
+								<img src={techIcon} className={'ui large centered image'} />
 							</div>
-
 							<div className={'column'}>
 								<div className={'ui basic very padded left aligned segment'}>
 									<h1>
