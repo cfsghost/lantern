@@ -54,7 +54,7 @@ class LandingPage extends React.Component {
 								<img src={appIcon} className={'ui centered image'} />
 							</div>
 							<div className={'column'}>
-								<div className={'ui basic very padded left aligned segment'}>
+								<div className={'ui basic left aligned segment'}>
 									<h1>
 										<I18n sign='landing_page.app_section.title'>Make Web Application Quicker</I18n>
 									</h1>
@@ -73,12 +73,12 @@ class LandingPage extends React.Component {
 
 				<section style={sectionStyle}>
 					<div className={'ui basic aligned very padded segment'}>
-						<div className={'ui two column middle aligned grid'}>
+						<div className={'ui two column middle aligned stackable grid'}>
 							<div className={'column'}>
 								<img src={techIcon} className={'ui large centered image'} />
 							</div>
 							<div className={'column'}>
-								<div className={'ui basic very padded left aligned segment'}>
+								<div className={'ui basic left aligned segment'}>
 									<h1>
 										<I18n sign='landing_page.tech_section.title'>Modern Technologies</I18n>
 									</h1>
@@ -92,12 +92,12 @@ class LandingPage extends React.Component {
 				</section>
 
 				<section style={sectionStyle}>
-					<div className={'ui basic very padded segment'}>
-						<div className={'ui three column divided grid'}>
+					<div className={'ui basic very padded inverted segment'}>
+						<div className={'ui three column divided inverted stackable grid'}>
 
 							<div className={'middle aligned column'}>
 								<div className={'ui basic center aligned segment'}>
-									<h2 className={'ui center aligned icon header'}>
+									<h2 className={'ui center aligned inverted icon header'}>
 										<img className={'ui small circular image'} src={avatar1} />
 										<br />
 										<br />
@@ -109,7 +109,7 @@ class LandingPage extends React.Component {
 
 							<div className={'middle aligned column'}>
 								<div className={'ui basic center aligned segment'}>
-									<h2 className={'ui center aligned icon header'}>
+									<h2 className={'ui center aligned inverted icon header'}>
 										<img className={'ui small circular image'} src={avatar2} />
 										<br />
 										<br />
@@ -121,7 +121,7 @@ class LandingPage extends React.Component {
 
 							<div className={'middle aligned column'}>
 								<div className={'ui basic center aligned segment'}>
-									<h2 className={'ui center aligned icon header'}>
+									<h2 className={'ui center aligned inverted icon header'}>
 										<img className={'ui small circular image'} src={avatar3} />
 										<br />
 										<br />
