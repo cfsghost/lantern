@@ -8,7 +8,7 @@ var koaLogo = require('../../images/koa-logo.png');
 var reactLogo = require('../../images/react-logo.png');
 
 // Section image
-var caseIcon = require('../../images/case-icon.png');
+var appIcon = require('../../images/app-icon.png');
 var techIcon = require('../../images/tech-icon.png');
 
 // Avatar
@@ -52,7 +52,7 @@ class LandingPage extends React.Component {
 								</div>
 							</div>
 							<div className={'column'}>
-								<img src={caseIcon} className={'ui large centered image'} />
+								<img src={appIcon} className={'ui large centered image'} />
 							</div>
 						</div>
 
