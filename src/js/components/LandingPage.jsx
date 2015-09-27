@@ -26,10 +26,20 @@ var sectionStyle = {
 };
 
 class LandingPage extends React.Component {
+
+	about = () => {
+		var $node = $(this.refs.app_section.getDOMNode());
+		var $header = $(React.findDOMNode(this.refs.header));
+
+		$('html, body').stop().animate({
+			scrollTop: $node.offset().top - $header.height()
+		}, 400);
+	}
+
 	render() {
 		return (
 			<div className='main-page'>
-				<Header />
+				<Header ref='header' />
 
 				<div className={'ui basic center aligned segment landing-page-header'}>
 					<h1 className={'ui inverted header'}>
@@ -39,16 +49,22 @@ class LandingPage extends React.Component {
 						</h2>
 					</h1>
 					<br />
-					<button className={'massive ui inverted button'}>What's this</button>
+					<button className={'massive ui inverted button'} onClick={this.about}>
+						<I18n sign='landing_page.entry_button'>What's this</I18n>
+					</button>
 				</div>
 	
-				<section style={sectionStyle}>
+				<section style={sectionStyle} ref='app_section'>
 					<div className={'ui basic center aligned very padded segment'}>
 						<div className={'ui two column middle aligned grid'}>
 							<div className={'column'}>
 								<div className={'ui basic very padded left aligned segment'}>
-									<h1>Make Web Application Quicker</h1>
-									<p style={descStyle}>Lantern is a template that helps creating an isomorphic web application with modern technologies.</p>
+									<h1>
+										<I18n sign='landing_page.app_section.title'>Make Web Application Quicker</I18n>
+									</h1>
+									<p style={descStyle}>
+										<I18n sign='landing_page.app_section.desc'>Lantern is a template that helps creating an isomorphic web application with modern technologies.</I18n>
+									</p>
 								</div>
 							</div>
 							<div className={'column'}>
@@ -89,8 +105,12 @@ class LandingPage extends React.Component {
 
 							<div className={'column'}>
 								<div className={'ui basic very padded left aligned segment'}>
-									<h1>Modern Technologies</h1>
-									<p style={descStyle}>Lantern is using ES6, Node.js, Koa, React, Semantic UI and Webpack.</p>
+									<h1>
+										<I18n sign='landing_page.tech_section.title'>Modern Technologies</I18n>
+									</h1>
+									<p style={descStyle}>
+										<I18n sign='landing_page.tech_section.desc'>Lantern is using ES6, Node.js, Koa, React, Semantic UI and Webpack.</I18n>
+									</p>
 								</div>
 							</div>
 						</div>
