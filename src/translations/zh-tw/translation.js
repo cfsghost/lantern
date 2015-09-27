@@ -16,5 +16,11 @@ module.exports = {
 	'sign_in.no_account_yet': '沒有帳號嗎？',
 	'sign_in.sign_up': '立即註冊',
 	'sign_in.submit_button': '登入',
-	'sign_in.or_login_with': '或使用其他帳號登入'
+	'sign_in.or_login_with': '或使用其他帳號登入',
+	'sign_up.header': '建立新帳號',
+	'sign_up.display_name': '顯示名稱',
+	'sign_up.email': '電子郵件信箱',
+	'sign_up.password': '密碼',
+	'sign_up.confirm': '再確認密碼',
+	'sign_up.submit_button': '註冊'
 };

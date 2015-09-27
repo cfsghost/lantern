@@ -1,7 +1,9 @@
-var React = require('react');
-var Fluky = require('fluky');
+import React from 'react';
+import Fluky from 'fluky';
 
-var Header = require('./Header.jsx');
+// Components
+import Header from './Header.jsx';
+import I18n from './I18n.jsx';
 
 class SignUpPage extends React.Component {
 
@@ -180,7 +182,7 @@ class SignUpPage extends React.Component {
 						<div className='column'>
 							<h1 className='ui header'>
 								<i className='add user icon' />
-								<div className='content'>Create a New Account</div>
+								<div className='content'><I18n sign='sign_up.header'>Create a New Account</I18n></div>
 							</h1>
 							<div className={'ui basic segment'}>
 								{message}
@@ -188,7 +190,7 @@ class SignUpPage extends React.Component {
 								<div className='ui form'>
 
 									<div className={nameClasses}>
-										<label>Display Name</label>
+										<label><I18n sign='sign_up.display_name'>Display Name</I18n></label>
 										<div className={'ui left icon input'}>
 											<i className={'user icon'} />
 											<input type='text' ref='name' name='name' placeholder='Fred Chien' />
@@ -196,7 +198,7 @@ class SignUpPage extends React.Component {
 									</div>
 
 									<div className={emailClasses}>
-										<label>E-mail Address</label>
+										<label><I18n sign='sign_up.email'>E-mail Address</I18n></label>
 										<div className={'ui left icon input'}>
 											<i className={'mail icon'} />
 											<input type='text' ref='email' name='email' placeholder='fred@example.com' autoFocus={true} />
@@ -204,7 +206,7 @@ class SignUpPage extends React.Component {
 									</div>
 
 									<div className={passwordClasses}>
-										<label>Password</label>
+										<label><I18n sign='sign_up.password'>Password</I18n></label>
 										<div className={'ui left icon input'}>
 											<i className={'lock icon'} />
 											<input type='password' ref='password' name='password' />
@@ -212,7 +214,7 @@ class SignUpPage extends React.Component {
 									</div>
 
 									<div className={confirmClasses}>
-										<label>Confirm</label>
+										<label><I18n sign='sign_up.confirm'>Confirm</I18n></label>
 										<div className={'ui left icon input'}>
 											<i className={'lock icon'} />
 											<input type='password' ref='confirm_password' name='confirm_password' />
@@ -220,7 +222,9 @@ class SignUpPage extends React.Component {
 									</div>
 
 									<div className='field'>
-										<button className='ui teal button' onClick={this.signUp}>Register</button>
+										<button className='ui teal button' onClick={this.signUp}>
+											<I18n sign='sign_up.submit_button'>Register</I18n>
+										</button>
 									</div>
 								</div>
 							</div>
