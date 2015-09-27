@@ -1,9 +1,15 @@
 import React from 'react';
 import Fluky from 'fluky';
-import Router from 'react-router';
-var { Route, RouteHandler, NotFoundRoute, Link } = Router;
+import {
+	Route,
+	RouteHandler,
+	NotFoundRoute,
+	Link
+} from 'react-router';
 
-import Header from './Header.jsx';
+// Components
+import Header from './header.jsx';
+import I18n from './I18n.jsx';
 
 class RequestedPage extends React.Component {
 
@@ -103,7 +109,9 @@ class ForgotPage extends React.Component {
 				<div className='column'>
 					<h1 className='ui header'>
 						<i className='lock icon' />
-						<div className='content'>Forgot Password?</div>
+						<div className='content'>
+							<I18n sign='forgot.header'>Forgot Password?</I18n>
+						</div>
 					</h1>
 
 					<div className={'ui basic segment'}>
@@ -121,14 +129,14 @@ class ForgotPage extends React.Component {
 						<div className='ui form'>
 
 							<div className='field'>
-								<label>Please enter your e-mail address and we will send your a confirmation mail to reset your password.</label>
+								<label><I18n sign='forgot.desc'>Please enter your e-mail address and we will send your a confirmation mail to reset your password.</I18n></label>
 								<div className={'ui left icon input'}>
 									<i className={'mail icon'} />
 									<input
 										type='text'
 										ref='email'
 										name='email'
-										placeholder='Enter a valid e-mail address'
+										placeholder={I18n.getMessage('forgot.enter_email', 'Enter a valid e-mail address')}
 										autoFocus={true}
 										onChange={this.handleChange} />
 								</div>
@@ -137,7 +145,7 @@ class ForgotPage extends React.Component {
 							<div className='field'>
 								<button
 									className={'ui ' + (!this.state.readyToSubmit ? 'disabled' : '') + ' teal button'}
-									onClick={this.submit}>Submit</button>
+									onClick={this.submit}><I18n sign='forgot.submit_button'>Submit</I18n></button>
 							</div>
 						</div>
 					</div>

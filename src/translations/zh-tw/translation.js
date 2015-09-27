@@ -22,5 +22,9 @@ module.exports = {
 	'sign_up.email': '電子郵件信箱',
 	'sign_up.password': '密碼',
 	'sign_up.confirm': '再確認密碼',
-	'sign_up.submit_button': '註冊'
+	'sign_up.submit_button': '註冊',
+	'forgot.header': '您忘記密碼了嗎？',
+	'forgot.desc': '請輸入你的電子郵件信箱，我們將會立即寄送密碼重設信給您。',
+	'forgot.enter_email': '輸入有效的電子郵件信箱',
+	'forgot.submit_button': '送出'
 };
