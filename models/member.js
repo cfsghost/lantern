@@ -12,6 +12,7 @@ var Member = new mongoose.Schema({
 	phone: String,
 	idno: String,
 	tokens: [ String ],
+	signup_service: String,
 	rule_tokens: [{ name: String, token: String, expired: Date }],
 	permissions: { type: Schema.Types.ObjectId, ref: 'Permission' },
 	roles: [{type: Schema.Types.ObjectId, ref: 'Role'}],

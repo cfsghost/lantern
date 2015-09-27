@@ -126,6 +126,12 @@ router.get('/auth/:serviceName/callback', function *() {
 				var m = yield Member.getMemberByEmail(user.email);
 				if (m) {
 
+					// Check if bad guy use user's email to register account on third party service
+					if (m.signup_service != ctx.params.serviceName) {
+						ctx.status = 409;
+						return;
+					}
+
 					// Store login information in session
 					yield Passport.login(ctx, m);
 
@@ -141,7 +147,8 @@ router.get('/auth/:serviceName/callback', function *() {
 			try {
 				var member = yield Member.create({
 					name: user.name,
-					email: user.email
+					email: user.email,
+					signup_service: ctx.params.serviceName
 				});
 			} catch(e) {
 				throw e;
