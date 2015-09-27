@@ -56,9 +56,10 @@ router.post('/signup', function *() {
 
 	// Check whether user exists or not
 	try {
+		// TODO: It should create a record directly if account was available.
 		var ret = yield Member.getMemberByEmail(email);
 		if (ret) {
-			this.status = 400;
+			this.status = 409;
 			return;
 		}
 	} catch(e) {
@@ -81,7 +82,7 @@ router.post('/signup', function *() {
 	}
 
 	// Store login information in session
-	var m = yield Passport.login(ctx, member);
+	var m = yield Passport.login(this, member);
 
 	// Return result to client
 	this.body = {

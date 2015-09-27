@@ -6,7 +6,7 @@ var Header = require('./Header.jsx');
 class SignUpPage extends React.Component {
 
 	static contextTypes = {
-		router: React.PropTypes.object,
+		router: React.PropTypes.func.isRequired,
 		path: React.PropTypes.string
 	};
 
@@ -15,6 +15,7 @@ class SignUpPage extends React.Component {
 
 		this.state = {
 			error: false,
+			email_existing_error: false,
 			email_error: false,
 			email_empty_error: false,
 			confirm_error: false,
@@ -94,21 +95,26 @@ class SignUpPage extends React.Component {
 
 		// No need to sign in if logined already
 		if (user.logined) {
-			this.context.router.navigate('/');
+			this.context.router.transitionTo('/');
 			return;
 		}
 
-		if (user.status == 'login-failed') {
+		var updateState = {}
+		switch(user.status) {
+		case 'signup-failed-existing-account':
+			updateState.email_existing_error = true;
+
+		case 'signup-failed':
+			updateState.error = true;
 
 			// Clear password inputbox
 			this.refs.password.getDOMNode().value = ''; 
+			this.refs.confirm_password.getDOMNode().value = ''; 
 
 			// Focus on email inputbox
 			this.refs.email.getDOMNode().select();
 
-			this.setState({
-				error: true
-			});
+			this.setState(updateState);
 		}
 	}
 
@@ -121,18 +127,33 @@ class SignUpPage extends React.Component {
 		var fieldClass = 'field';
 		if (this.state.error) {
 			fieldClass += ' error';
-			message = (
-				<div className='ui negative icon message'>
-					<i className={'warning sign icon'} />
-					<div className='content'>
-						<div className='header'>Failed to Sign Up</div>
-						<p>Please check all fields then try again</p>
-					</div>
-				</div>
-			);
 
-			if (this.state.email_error) {
+			if (this.state.email_existing_error) {
 				emailClasses += ' error';
+				message = (
+					<div className='ui negative icon message'>
+						<i className={'warning sign icon'} />
+						<div className='content'>
+							<div className='header'>Failed to Sign Up</div>
+							<p>Account exists already. Please type another e-mail address then try again</p>
+						</div>
+					</div>
+				);
+			} else {
+
+				message = (
+					<div className='ui negative icon message'>
+						<i className={'warning sign icon'} />
+						<div className='content'>
+							<div className='header'>Failed to Sign Up</div>
+							<p>Please check all fields then try again</p>
+						</div>
+					</div>
+				);
+
+				if (this.state.email_error) {
+					emailClasses += ' error';
+				}
 			}
 
 			if (this.state.name_error) {
@@ -147,8 +168,6 @@ class SignUpPage extends React.Component {
 				confirmClasses += ' error';
 			}
 		}
-
-		console.log('SignUp', this.context);
 
 		return (
 			<div className='main-page'>

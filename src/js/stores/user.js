@@ -147,6 +147,8 @@ export default function *() {
 
 	this.on('store.User.signIn', function *(username, password) {
 
+		var store = this.getState('User');
+
 		try {
 			var res = yield this.request
 				.post('/signin')
@@ -154,14 +156,6 @@ export default function *() {
 					username: username,
 					password: password
 				});
-
-			var store = this.getState('User');
-			if (res.status == 401) {
-				store.status = 'login-failed';
-
-				this.dispatch('store.User', 'change');
-				return;
-			}
 
 			// Updating store
 			store.status = 'normal';
@@ -175,31 +169,30 @@ export default function *() {
 
 			this.dispatch('store.User', 'change');
 		} catch(e) {
+
+			if (res.status == 401) {
+				store.status = 'login-failed';
+
+				this.dispatch('store.User', 'change');
+				return;
+			}
 		}
 	});
 
 	this.on('store.User.signUp', function *(email, password, name) {
 
+		var store = this.getState('User');
+
 		try {
 			var res = yield this.request
-				.post(this.isoUrl('/signup'))
+				.post('/signup')
 				.send({
 					email: email,
 					password: password,
 					name: name
 				});
 
-			var store = this.getState('User');
-
 			switch(res.status) {
-			case 500:
-				store.status = 'signup-error';
-				break;
-
-			case 400:
-				store.status = 'signup-failed';
-				break;
-
 			case 200:
 				// Updating store
 				store.status = 'normal';
@@ -215,6 +208,22 @@ export default function *() {
 
 			this.dispatch('store.User', 'change');
 		} catch(e) {
+
+			switch(e.status) {
+			case 500:
+				store.status = 'signup-error';
+				break;
+
+			case 409:
+				store.status = 'signup-failed-existing-account';
+				break;
+
+			case 400:
+				store.status = 'signup-failed';
+				break;
+			}
+
+			this.dispatch('store.User', 'change');
 		}
 	});
 };
