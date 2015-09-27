@@ -38,10 +38,12 @@
   },
   "dependencies": {
     "co": "^4.6.0",
+    "co-fs": "^1.2.0",
     "fluky": "^0.1.14",
     "jade": ">=1.11.0",
     "koa": ">=0.21.0",
     "koa-bodyparser": ">=2.0.0",
+    "koa-locale": "^1.0.0",
     "koa-passport": "^1.1.6",
     "koa-router": ">=5.1.2",
     "koa-session": ">=3.3.1",

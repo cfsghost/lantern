@@ -1,8 +1,15 @@
 import React from 'react';
-import Router from 'react-router';
-var { Route, RouteHandler, NotFoundRoute, Link } = Router;
+import {
+	Route,
+	RouteHandler,
+	NotFoundRoute,
+	Link
+} from 'react-router';
 import Fluky from 'fluky';
+
+// Components
 import Avatar from './Avatar.jsx';
+import I18n from './I18n.jsx';
 
 class Header extends React.Component {
 
@@ -47,7 +54,7 @@ class Header extends React.Component {
 					adminItem = (
 						<Link to='/admin' className='item'>
 							<i className='spy icon'></i>
-							Admin Panel
+							<I18n sign='header.menu.admin_panel'>Admin Panel</I18n>
 						</Link>
 					);
 				}
@@ -61,13 +68,13 @@ class Header extends React.Component {
 						<div className='menu'>
 							<Link to='/settings' className='item'>
 								<i className='settings icon'></i>
-								Settings
+								<I18n sign='header.menu.settings'>Settings</I18n>
 							</Link>
 							{adminItem}
 							<div className='ui fitted divider'></div>
 							<a href='/signout' className='item'>
 								<i className='sign out icon'></i>
-								Sign Out
+								<I18n sign='header.menu.sign_out'>Sign Out</I18n>
 							</a>
 						</div>
 					</div>
@@ -79,7 +86,7 @@ class Header extends React.Component {
 					<Link to='/signin'>
 						<div className={'item'}>
 							<i className={'sign in icon'} />
-							Sign In
+							<I18n sign='header.menu.sign_in'>Sign In</I18n>
 						</div>
 					</Link>
 				</div>

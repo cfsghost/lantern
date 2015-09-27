@@ -1,6 +1,8 @@
+var fs = require('fs');
+var path = require('path');
 var webpack = require('webpack');
 
-module.exports = [
+var configs = module.exports = [
 	{
 		name: 'Browser',
 		entry: {
@@ -57,3 +59,17 @@ module.exports = [
 		}
 	}
 ];
+
+// Internationalization and Localization
+var translationPath = path.join(__dirname, 'src', 'translations');
+fs.readdirSync(translationPath).map(function(locale) {
+	configs.push({
+		name: locale,
+		entry: path.join(translationPath, locale, 'translation.js'),
+		output: {
+			libraryTarget: 'commonjs2',
+			path: path.join(__dirname, 'locales'),
+			filename: locale + '.js'
+		}
+	});
+});

@@ -6,6 +6,7 @@ var views = require('koa-views');
 var serve = require('koa-static');
 var session = require('koa-session');
 var passport = require('koa-passport');
+var locale = require('koa-locale');
 var co = require('co');
 
 // React
@@ -25,6 +26,7 @@ var Database = require('./lib/database');
 var Passport = require('./lib/passport');
 var Member = require('./lib/member');
 var Middleware = require('./lib/middleware');
+var Localization = require('./lib/localization');
 
 var app = koa();
 
@@ -33,6 +35,9 @@ app.use(serve(path.join(__dirname, 'public')));
 
 // Enabling BODY
 app.use(bodyParser());
+
+// Setup default locale
+locale(app, 'en');
 
 // Initializing authenication
 Passport.init(passport);
@@ -62,13 +67,15 @@ app.use(views(__dirname + '/views', {
 	}
 }));
 
-// Initializing session mechanism
+// Initializing session and setting it expires in one month
 app.keys = settings.general.session.keys || [];
-app.use(session(app));
+app.use(session(app, {
+	maxAge: 30 * 24 * 60 * 60 * 1000
+}));
 
 // Initializing locals to make template be able to get
 app.use(function *(next) {
-	this.state.user = this.req.user || undefined;
+	this.state.user = this.req.user || {};
 	yield next;
 });
 
@@ -150,7 +157,6 @@ co(function *() {
 
 		// Register path for pages
 		router.get(route.path, Middleware.allow(route.allow || null), function *() {
-		//router.get(route.path, function *() {
 
 			// It must create a new instance for rending react page asynchronously
 			delete require.cache[require.resolve('./public/assets/server.js')];
@@ -160,9 +166,17 @@ co(function *() {
 				cookie: this.req.headers.cookie
 			});
 
+			// Locale
+			var localization = {
+				currentLocale: this.getLocaleFromHeader()
+			};
+			localization.messages = yield Localization.getTranslations([ localization.currentLocale ]);
+			localization.currentMessage = localization.messages[localization.currentLocale] || {};
+			
 			// Reset initial state with session for new page
 			var curState = {
-				User: this.state.user || {}
+				User: this.state.user || {},
+				Localization: localization
 			};
 			curState.User.logined = this.isAuthenticated();
 
@@ -177,6 +191,15 @@ co(function *() {
 	}
 	app.use(router.middleware());
 
+	// Localization
+	var localization = new Router();
+	localization.get('/lang/:locale', function *() {
+		this.body = yield Localization.getRawTranslation(this.params.locale);
+		this.type = 'application/json';
+	});
+	app.use(localization.middleware());
+
+	// Start the server
 	app.listen(settings.general.server.port, function() {
 		console.log('server is ready');
 	});
