@@ -17,16 +17,19 @@ class Header extends React.Component {
 		super();
 
 		this.state = {
-			user: Fluky.getState('User')
+			user: Fluky.getState('User'),
+			service: Fluky.getState('Service')
 		};
 	}
 
 	componentWillMount = () => {
 		Fluky.on('store.User', Fluky.bindListener(this.onChange));
+		Fluky.on('store.Service', Fluky.bindListener(this.onChange));
 	}
 
 	componentWillUnmount = () => {
 		Fluky.off('store.User', this.onChange);
+		Fluky.off('store.Service', this.onChange);
 	}
 
 	componentDidMount() {
@@ -40,7 +43,8 @@ class Header extends React.Component {
 	onChange = () => {
 
 		this.setState({
-			user: Fluky.getState('User')
+			user: Fluky.getState('User'),
+			service: Fluky.getState('Service')
 		});
 	}
 
@@ -96,7 +100,7 @@ class Header extends React.Component {
 		return (
 			<div ref='component' className={'ui top fixed inverted menu'}>
 				<Link to='/' className={'item'} activeClassName=''>
-					<div>Lantern</div>
+					<div>{this.state.service.name}</div>
 				</Link>
 				{loginState}
 			</div>

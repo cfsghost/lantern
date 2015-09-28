@@ -176,7 +176,10 @@ co(function *() {
 			// Reset initial state with session for new page
 			var curState = {
 				User: this.state.user || {},
-				Localization: localization
+				Localization: localization,
+				Service: {
+					name: Utils.getServiceName()
+				}
 			};
 			curState.User.logined = this.isAuthenticated();
 
