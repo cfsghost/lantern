@@ -1,4 +1,5 @@
 import React from 'react';
+import Fluky from 'fluky';
 import Header from './Header.jsx';
 import I18n from './I18n.jsx';
 
@@ -36,7 +37,7 @@ class LandingPage extends React.Component {
 
 				<div className={'ui basic center aligned segment landing-page-header'}>
 					<h1 className={'ui inverted header'}>
-						<span>Lantern</span>
+						<span>{Fluky.getState('Service').name}</span>
 						<h2 className={'ui inverted header'}>
 							<I18n sign='landing_page.subtitle'>Isomorphic WebApp Template<br /> with ES6, Node.js, Koa, React and Webpack.</I18n>
 						</h2>
