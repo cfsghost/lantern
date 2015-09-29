@@ -8,10 +8,11 @@ import {
 
 // Initializing fluky framework
 import Fluky from 'fluky';
+import Actions from './actions';
 import Stores from './stores';
 import Extensions from './extensions';
 
-Fluky.load(Stores, Extensions);
+Fluky.load(Actions, Stores, Extensions);
 
 class App extends React.Component {
 
