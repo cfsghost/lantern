@@ -145,9 +145,7 @@ class PermissionGroup extends React.Component {
 						<label className='header'>{this.props.name}</label>
 					</div>
 					<div className='list'>
-						<div className='item'>
-							{permComps}
-						</div>
+						{permComps}
 					</div>
 				</div>
 			</div>
@@ -201,7 +199,7 @@ class PermissionItem extends React.Component {
 
 	render = () => {
 		return (
-			<div ref='component' className={'ui child checkbox'}>
+			<div ref='component' className={'ui child item checkbox'}>
 				<input type='checkbox' name={this.props.groupid + '.' + this.props.permid} />
 				<label>{this.props.name}</label>
 			</div>
@@ -282,12 +280,7 @@ class PermissionPanel extends React.Component {
 
 		// Prepare groups
 		var permGroups = [];
-		for (var key in this.state.availPerms) {
-			var perm = this.state.availPerms[key];
-			var permSet = key.split('.');
-			var group = permSet[0];
-			var name = permSet[1];
-
+		for (var group in this.state.groups) {
 			var groupName = this.state.groups[group];
 
 			// Getting permission settings
@@ -302,7 +295,7 @@ class PermissionPanel extends React.Component {
 					name={groupName}
 					availPerms={groups[group]}
 					perms={perms}
-					key={key} />
+					key={group} />
 			);
 		}
 
