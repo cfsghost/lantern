@@ -4,13 +4,13 @@ import Header from './Header.jsx';
 import I18n from './I18n.jsx';
 
 // Section image
-var appIcon = require('../../images/app-icon.png');
-var techIcon = require('../../images/tech-icon.png');
+import appIcon from '../../images/app-icon.png';
+import techIcon from '../../images/tech-icon.png';
 
 // Avatar
-var avatar1 = require('../../images/avatar-1.png');
-var avatar2 = require('../../images/avatar-2.png');
-var avatar3 = require('../../images/avatar-3.png');
+import avatar1 from '../../images/avatar-1.png';
+import avatar2 from '../../images/avatar-2.png';
+import avatar3 from '../../images/avatar-3.png';
 
 var descStyle = {
 	fontSize: '1.5em'
