@@ -1,7 +1,7 @@
-var React = require('react');
-var Fluky = require('fluky');
-var Router = require('react-router');
-var App = require('./app.jsx');
+import React from 'react';
+import Fluky from 'fluky';
+import Router from 'react-router';
+import App from './app.jsx';
 
 require('../less/theme.less');
 
