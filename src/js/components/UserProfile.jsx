@@ -129,4 +129,4 @@ class UserProfile extends React.Component {
 	}
 }
 
-module.exports = UserProfile;
+export default UserProfile;

@@ -238,4 +238,4 @@ class SignUpPage extends React.Component {
 	}
 }
 
-module.exports = SignUpPage;
+export default SignUpPage;

@@ -1,4 +1,4 @@
-var React = require('react');
+import React from 'react';
 
 class NotFoundPage extends React.Component {
 
@@ -11,4 +11,4 @@ class NotFoundPage extends React.Component {
 	}
 }
 
-module.exports = NotFoundPage;
+export default NotFoundPage;

@@ -70,4 +70,4 @@ class SettingsPage extends React.Component {
 	}
 }
 
-module.exports = SettingsPage;
+export default SettingsPage;
