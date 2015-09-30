@@ -4,13 +4,13 @@ import Header from './Header.jsx';
 import I18n from './I18n.jsx';
 
 // Section image
-import appIcon from '../../images/app-icon.png';
-import techIcon from '../../images/tech-icon.png';
+import appIcon from 'Source/images/app-icon.png';
+import techIcon from 'Source/images/tech-icon.png';
 
 // Avatar
-import avatar1 from '../../images/avatar-1.png';
-import avatar2 from '../../images/avatar-2.png';
-import avatar3 from '../../images/avatar-3.png';
+import avatar1 from 'Source/images/avatar-1.png';
+import avatar2 from 'Source/images/avatar-2.png';
+import avatar3 from 'Source/images/avatar-3.png';
 
 var descStyle = {
 	fontSize: '1.5em'

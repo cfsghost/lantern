@@ -24,6 +24,11 @@ var configs = module.exports = [
 				{ test: /\.gif$/,  loader: "url-loader?prefix=img/&limit=5000" },
 				{ test: /\.woff$/, loader: "url-loader?prefix=font/&limit=5000" }
 			]
+		},
+		resolve: {
+			alias: {
+				Source: __dirname + '/src',
+			}
 		}
 	},
 	{
@@ -57,6 +62,11 @@ var configs = module.exports = [
 				{ test: /\.gif$/,  loader: "url-loader?prefix=img/&limit=5000" },
 				{ test: /\.woff$/, loader: "url-loader?prefix=font/&limit=5000" }
 			]
+		},
+		resolve: {
+			alias: {
+				Source: __dirname + '/src'
+			}
 		}
 	}
 ];
