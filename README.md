@@ -8,6 +8,10 @@ Besides, the callback hell are not there anymore. The generator is widely used i
 
 Not only technique things, but also UI design is pretty cool in Lantern project. The framework that Semantic UI bring us fantastic frontend user interface, even better than bootstrap and other UI framework.
 
+## Documentation
+
+See our [Wiki](https://github.com/cfsghost/lantern/wiki) for more information.
+
 ## Installation
 
 In order to support ES6+ and using a lots of new technologies (ex, generator and classes), Node.js 0.12+ or io.js is required. Once you have such environment, you can start to install modules needed via NPM.
@@ -26,8 +30,7 @@ Finally, you can start this web service:
 node app.js
 ```
 
-
-## Technologies
+## Features
 
 * Node.js
 * ES6+ (Generator and classes)
@@ -44,20 +47,6 @@ node app.js
 * Fluky - Event-based framework for flux data flow pattern
 * react-router - router for React
 * babel - Used to support ES6+
-
-## Set up the Administrator Account
-
-You have to set up administrator account if you want to manage web service via admin panel.
-
-First of all, you have to sign in or sign up to have an account.
-```
-http://<service host>/signin
-```
-
-Lantern have a script for setting up administrator. It can be used to assign admin permissions to specific account.
-```
-node utils/addadmin <email>
-```
 
 License
 -
