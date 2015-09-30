@@ -6,10 +6,10 @@ import {
 	Link
 } from 'react-router';
 import Fluky from 'fluky';
+import I18n from 'Extension/I18n.jsx';
 
 // Components
 import Avatar from './Avatar.jsx';
-import I18n from './I18n.jsx';
 
 class Header extends React.Component {
 

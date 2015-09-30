@@ -9,7 +9,7 @@ import {
 
 // Components
 import Header from './Header.jsx';
-import I18n from './I18n.jsx';
+import I18n from 'Extension/I18n.jsx';
 
 class RequestedPage extends React.Component {
 

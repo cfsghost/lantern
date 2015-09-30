@@ -1,7 +1,7 @@
 import React from 'react';
 import Fluky from 'fluky';
 import Header from './Header.jsx';
-import I18n from './I18n.jsx';
+import I18n from 'Extension/I18n.jsx';
 
 // Section image
 import appIcon from 'Source/images/app-icon.png';

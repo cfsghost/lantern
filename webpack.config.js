@@ -28,6 +28,7 @@ var configs = module.exports = [
 		resolve: {
 			alias: {
 				Source: __dirname + '/src',
+				Extension: __dirname + '/src/extensions'
 			}
 		}
 	},
@@ -65,7 +66,8 @@ var configs = module.exports = [
 		},
 		resolve: {
 			alias: {
-				Source: __dirname + '/src'
+				Source: __dirname + '/src',
+				Extension: __dirname + '/src/extensions'
 			}
 		}
 	}

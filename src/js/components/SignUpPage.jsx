@@ -1,9 +1,9 @@
 import React from 'react';
 import Fluky from 'fluky';
+import I18n from 'Extension/I18n.jsx';
 
 // Components
 import Header from './Header.jsx';
-import I18n from './I18n.jsx';
 
 class SignUpPage extends React.Component {
 

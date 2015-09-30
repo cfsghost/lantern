@@ -6,10 +6,10 @@ import {
 	NotFoundRoute,
 	Link
 } from 'react-router';
+import I18n from 'Extension/I18n.jsx';
 
 // Components
 import Header from './Header.jsx';
-import I18n from './I18n.jsx';
 
 class SignInPage extends React.Component {
 
