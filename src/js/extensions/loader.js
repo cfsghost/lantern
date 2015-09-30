@@ -24,7 +24,7 @@ export default function *() {
 					for (var index in urls) {
 
 						yield function(done) {
-							scriptjs(url, done);
+							scriptjs(urls[index], done);
 						};
 					}
 
