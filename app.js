@@ -159,8 +159,8 @@ co(function *() {
 		router.get(route.path, Middleware.allow(route.allow || null), function *() {
 
 			// It must create a new instance for rending react page asynchronously
-			delete require.cache[require.resolve('./public/assets/server.js')];
-			var ReactApp = require('./public/assets/server.js');
+			delete require.cache[require.resolve('./build/server.js')];
+			var ReactApp = require('./build/server.js');
 			ReactApp.init({
 				externalUrl: Utils.getExternalUrl(),
 				cookie: this.req.headers.cookie
