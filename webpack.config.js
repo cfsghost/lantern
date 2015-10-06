@@ -6,7 +6,8 @@ var configs = module.exports = [
 	{
 		name: 'Browser',
 		entry: {
-			app: './src/js/browser.jsx'
+			app: './src/js/browser.jsx',
+			vendors: [ 'react' ]
 		},
 		output: {
 			path: __dirname + '/public/assets/',
@@ -14,6 +15,9 @@ var configs = module.exports = [
 			filename: 'bundle.js'
 		},
 		devtool: 'source-map',
+		plugins: [
+			new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js')
+		],
 		module: {
 			loaders: [
 				{ test: /\.json$/, loader: 'json-loader' },
