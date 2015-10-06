@@ -39,7 +39,7 @@ class LandingPage extends React.Component {
 					<h1 className={'ui inverted header'}>
 						<span>{Fluky.getState('Service').name}</span>
 						<h2 className={'ui inverted header'}>
-							<I18n sign='landing_page.subtitle'>Isomorphic WebApp Template<br /> with ES6, Node.js, Koa, React and Webpack.</I18n>
+							<I18n sign='landing_page.subtitle'>Isomorphic WebApp Boilerplate<br /> with ES6, Node.js, Koa, React and Webpack.</I18n>
 						</h2>
 					</h1>
 					<br />
@@ -60,7 +60,7 @@ class LandingPage extends React.Component {
 										<I18n sign='landing_page.app_section.title'>Make Web Application Quicker</I18n>
 									</h1>
 									<p style={descStyle}>
-										<I18n sign='landing_page.app_section.desc'>Lantern is a template that helps creating an isomorphic web application with modern technologies.</I18n>
+										<I18n sign='landing_page.app_section.desc'>Lantern is a boilerplate that helps creating an isomorphic web application with modern technologies.</I18n>
 									</p>
 								</div>
 							</div>
