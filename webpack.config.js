@@ -14,7 +14,6 @@ var configs = module.exports = [
 			publicPath: '/assets/',
 			filename: 'bundle.js'
 		},
-		devtool: 'source-map',
 		plugins: [
 			new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js')
 		],
