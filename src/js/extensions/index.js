@@ -1,9 +1,6 @@
-import request from './request';
-import locale from './locale';
-import loader from './loader';
-
 export default {
-	request: request,
-	locale: locale,
-	loader: loader
+	request: require('./request'),
+	locale: require('./locale'),
+	loader: require('./loader'),
+	window: require('./window')
 };
