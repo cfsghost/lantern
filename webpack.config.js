@@ -75,6 +75,12 @@ var configs = module.exports = [
 				{ test: /\.jpg$/,  loader: "file-loader" },
 				{ test: /\.gif$/,  loader: "file-loader" },
 				{ test: /\.woff$/, loader: "file-loader" }
+			],
+			plugins: [
+				new webpack.IgnorePlugin(new RegExp('^('
+					+ fs.readdirSync('./src/externals').map(function(module) {
+						return module
+					}).join('|') + ')$'))
 			]
 		},
 		resolve: {
