@@ -33,6 +33,9 @@ var configs = module.exports = [
 				{ test: /\.woff$/, loader: "url-loader?prefix=font/&limit=5000" }
 			]
 		},
+		externals: {
+			jquery: true
+		},
 		resolve: {
 			alias: {
 				Source: __dirname + '/src',

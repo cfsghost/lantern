@@ -2,7 +2,7 @@
 import Fluky from 'fluky';
 
 if (Fluky.isBrowser)
-	import daterangepicker from './daterangepicker';
+	require('./daterangepicker');
 
 export default {
 	name: 'DateRangePicker'
