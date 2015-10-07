@@ -10,7 +10,7 @@ var locale = require('koa-locale');
 var co = require('co');
 
 // React
-var ReactApp = require('./public/assets/server.js');
+var ReactApp = require('./build/server.js');
 
 // Loading settings
 var settings = require('./lib/config.js');
