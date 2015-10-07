@@ -25,6 +25,7 @@ var configs = module.exports = [
 			loaders: [
 				{ test: /\.json$/, loader: 'json-loader' },
 				{ test: /\.jsx?$/, loader: 'babel-loader?optional[]=runtime&stage=0', exclude: /(node_modules|bower_components)/ },
+				{ test: /\.css$/, loader: 'style!css' },
 				{ test: /\.less$/, loader: 'style!css!less' },
 				{ test: /\.png$/,  loader: "url-loader?prefix=img/&limit=5000" },
 				{ test: /\.jpg$/,  loader: "url-loader?prefix=img/&limit=5000" },
@@ -64,6 +65,7 @@ var configs = module.exports = [
 			loaders: [
 				{ test: /\.json$/, loader: 'json-loader' },
 				{ test: /\.jsx?$/, loader: 'babel-loader?optional[]=runtime&stage=0', exclude: /(node_modules|bower_components)/ },
+				{ test: /\.css$/, loader: 'style!css' },
 				{ test: /\.less$/, loader: 'style!css!less' },
 				{ test: /\.png$/,  loader: "file-loader" },
 				{ test: /\.jpg$/,  loader: "file-loader" },
