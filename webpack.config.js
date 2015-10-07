@@ -7,7 +7,11 @@ var configs = module.exports = [
 		name: 'Browser',
 		entry: {
 			app: './src/js/browser.jsx',
-			vendors: [ 'react', 'react-router' ]
+			vendors: [
+				'react',
+				'react-router',
+				'moment'
+			]
 		},
 		output: {
 			path: __dirname + '/public/assets/',
