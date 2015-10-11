@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-	Route,
-	RouteHandler,
-	NotFoundRoute,
-	Link
-} from 'react-router';
+import { Link } from 'react-router';
 import I18n from 'Extension/I18n.jsx';
 
 // Decorators

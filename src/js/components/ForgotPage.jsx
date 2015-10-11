@@ -1,11 +1,8 @@
 import React from 'react';
-import Fluky from 'fluky';
-import {
-	Route,
-	RouteHandler,
-	NotFoundRoute,
-	Link
-} from 'react-router';
+import { Link } from 'react-router';
+
+// Decorators
+import { router, flux, i18n } from 'Decorator';
 
 // Components
 import Header from './Header.jsx';
@@ -33,11 +30,10 @@ class RequestedPage extends React.Component {
 	}
 }
 
+@router
+@flux
+@i18n
 class ForgotPage extends React.Component {
-
-	static contextTypes = {
-		router: React.PropTypes.func.isRequired
-	};
 
 	constructor(props, context) {
 		super(props, context);
@@ -56,8 +52,8 @@ class ForgotPage extends React.Component {
 			busy: true
 		});
 		
-		Fluky.dispatch('action.User.forgotPassword',
-			this.refs.email.getDOMNode().value, function(err, success) {
+		this.flux.dispatch('action.User.forgotPassword',
+			this.refs.email.value, function(err, success) {
 
 				this.setState({
 					busy: false,
@@ -68,7 +64,7 @@ class ForgotPage extends React.Component {
 	}
 
 	handleChange = () => {
-		var email = this.refs.email.getDOMNode().value;
+		var email = this.refs.email.value;
 		var isValid = true;
 
 		if (!email)
@@ -136,7 +132,7 @@ class ForgotPage extends React.Component {
 										type='text'
 										ref='email'
 										name='email'
-										placeholder={I18n.getMessage('forgot.enter_email', 'Enter a valid e-mail address')}
+										placeholder={this.i18n.getMessage('forgot.enter_email', 'Enter a valid e-mail address')}
 										autoFocus={true}
 										onChange={this.handleChange} />
 								</div>

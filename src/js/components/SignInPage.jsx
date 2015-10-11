@@ -1,11 +1,6 @@
 import React from 'react';
 import Fluky from 'fluky';
-import {
-	Route,
-	RouteHandler,
-	NotFoundRoute,
-	Link
-} from 'react-router';
+import { Link } from 'react-router';
 import I18n from 'Extension/I18n.jsx';
 
 // Decorators
@@ -47,7 +42,6 @@ class SignInPage extends React.Component {
 
 		// No need to sign in if logined already
 		if (user.logined) {
-//			this.context.router.transitionTo('/');
 			this.history.pushState(null, '/');
 			return;
 		}

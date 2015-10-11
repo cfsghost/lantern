@@ -1,16 +1,15 @@
 import React from 'react';
-import Fluky from 'fluky';
 import I18n from 'Extension/I18n.jsx';
+
+// Decorators
+import { router, flux, i18n } from 'Decorator';
 
 // Components
 import Header from './Header.jsx';
 
+@router
+@flux
 class SignUpPage extends React.Component {
-
-	static contextTypes = {
-		router: React.PropTypes.func.isRequired,
-		path: React.PropTypes.string
-	};
 
 	constructor() {
 		super();
@@ -29,18 +28,18 @@ class SignUpPage extends React.Component {
 	}
 
 	componentWillMount = () => {
-		Fluky.on('store.User', Fluky.bindListener(this.onChange));
+		this.flux.on('store.User', this.flux.bindListener(this.onChange));
 	}
 
 	componentWillUnmount = () => {
-		Fluky.off('store.User', this.onChange);
+		this.flux.off('store.User', this.onChange);
 	}
 
 	signUp = () => {
-		var email = this.refs.email.getDOMNode().value.trim();
-		var name = this.refs.name.getDOMNode().value.trim();
-		var password = this.refs.password.getDOMNode().value;
-		var confirm_password = this.refs.confirm_password.getDOMNode().value;
+		var email = this.refs.email.value.trim();
+		var name = this.refs.name.value.trim();
+		var password = this.refs.password.value;
+		var confirm_password = this.refs.confirm_password.value;
 
 		var state = {
 			error: false,
@@ -85,19 +84,19 @@ class SignUpPage extends React.Component {
 		}
 
 		// Sign up now
-		Fluky.dispatch('action.User.signUp',
-			this.refs.email.getDOMNode().value,
-			this.refs.password.getDOMNode().value,
-			this.refs.name.getDOMNode().value);
+		this.flux.dispatch('action.User.signUp',
+			this.refs.email.value,
+			this.refs.password.value,
+			this.refs.name.value);
 	}
 
 	onChange = () => {
 
-		var user = Fluky.getState('User');
+		var user = this.flux.getState('User');
 
 		// No need to sign in if logined already
 		if (user.logined) {
-			this.context.router.transitionTo('/');
+			this.history.pushState(null, '/');
 			return;
 		}
 
@@ -110,11 +109,11 @@ class SignUpPage extends React.Component {
 			updateState.error = true;
 
 			// Clear password inputbox
-			this.refs.password.getDOMNode().value = ''; 
-			this.refs.confirm_password.getDOMNode().value = ''; 
+			this.refs.password.value = ''; 
+			this.refs.confirm_password.value = ''; 
 
 			// Focus on email inputbox
-			this.refs.email.getDOMNode().select();
+			this.refs.email.select();
 
 			this.setState(updateState);
 		}
