@@ -47,10 +47,10 @@ class LandingPage extends React.Component {
 				<div className={'ui basic center aligned segment landing-page-header'}>
 					<h1 className={'ui inverted header'}>
 						<span>{this.flux.getState('Service').name}</span>
-						<h2 className={'ui inverted header'}>
-							<I18n sign='landing_page.subtitle'>Isomorphic WebApp Boilerplate<br /> with ES6, Node.js, Koa, React and Webpack.</I18n>
-						</h2>
 					</h1>
+					<h2 className={'ui inverted header'}>
+						<I18n sign='landing_page.subtitle'>Isomorphic WebApp Boilerplate<br /> with ES6, Node.js, Koa, React and Webpack.</I18n>
+					</h2>
 					<br />
 					<button className={'massive ui inverted button'} onClick={this.about}>
 						<I18n sign='landing_page.entry_button'>What's this</I18n>
