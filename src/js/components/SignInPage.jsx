@@ -1,5 +1,4 @@
 import React from 'react';
-import Fluky from 'fluky';
 import { Link } from 'react-router';
 import I18n from 'Extension/I18n.jsx';
 
@@ -23,22 +22,22 @@ class SignInPage extends React.Component {
 	}
 
 	componentWillMount = () => {
-		Fluky.on('store.User', Fluky.bindListener(this.onChange));
+		this.flux.on('store.User', this.flux.bindListener(this.onChange));
 	}
 
 	componentWillUnmount = () => {
-		Fluky.off('store.User', this.onChange);
+		this.flux.off('store.User', this.onChange);
 	}
 
 	signIn = () => {
-		Fluky.dispatch('action.User.signIn',
+		this.flux.dispatch('action.User.signIn',
 			this.refs.email.value,
 			this.refs.password.value);
 	}
 
 	onChange = () => {
 
-		var user = Fluky.getState('User');
+		var user = this.flux.getState('User');
 
 		// No need to sign in if logined already
 		if (user.logined) {
