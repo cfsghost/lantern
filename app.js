@@ -9,9 +9,6 @@ var passport = require('koa-passport');
 var locale = require('koa-locale');
 var co = require('co');
 
-// React
-var ReactApp = require('./build/server.js');
-
 // Loading settings
 var settings = require('./lib/config.js');
 if (!settings) {
@@ -109,6 +106,9 @@ app.use(require('./routes/admin/role').middleware());
 
 co(function *() {
 
+	// React
+	var ReactApp = require('./build/server.js');
+
 	// Initializing APIs
 	yield Mailer.init();
 	yield Database.init();
@@ -158,8 +158,6 @@ co(function *() {
 		// Register path for pages
 		router.get(route.path, Middleware.allow(route.allow || null), function *() {
 
-			// It must create a new instance for rending react page asynchronously
-			delete require.cache[require.resolve('./build/server.js')];
 			var ReactApp = require('./build/server.js');
 			ReactApp.init({
 				externalUrl: Utils.getExternalUrl(),
@@ -187,7 +185,7 @@ co(function *() {
 			var page = yield ReactApp.render(this.request.path, curState);
 			yield this.render('index', {
 				title: settings.general.service.name,
-				content: page.content,
+				//content: page.content,
 				state: page.state
 			});
 		});

@@ -1,7 +1,7 @@
 import React from 'react';
 import Fluky from 'fluky';
 
-class Window {
+class Window extends React.Component {
 
 	componentDidMount() {
 		if (!Fluky.isBrowser)

@@ -1,6 +1,10 @@
 import React from 'react';
-import Fluky from 'fluky';
+import ReactDOMServer from 'react-dom/server';
 
+// Decorators
+import { flux } from 'Decorator';
+
+@flux
 class I18n extends React.Component {
 	static propTypes = {
 		sign: React.PropTypes.string,
@@ -8,11 +12,11 @@ class I18n extends React.Component {
 	};
 
 	static getMessage = (...args) => {
-		return Fluky.locale.getMessage.apply(this, args);
+		return this.flux.locale.getMessage.apply(this, args);
 	}
 
 	static getFmtMessage = (...args) => {
-		return Fluky.locale.getFmtMessage.apply(this, args);
+		return this.flux.locale.getFmtMessage.apply(this, args);
 	}
 
 	render() {
@@ -29,17 +33,17 @@ class I18n extends React.Component {
 				if (typeof child === 'string')
 					children.push(child);
 				else
-					children.push(React.renderToString(child));
+					children.push(ReactDOMServer.renderToString(child));
 			}
 		} else {
 			children.push(this.props.children);
 		}
 
 		if (!this.props.args) {
-			msg = Fluky.locale.getMessage(this.props.sign, children.join('')); 
+			msg = this.flux.locale.getMessage(this.props.sign, children.join('')); 
 		} else {
 			var args = [ this.props.sign, children.join('') ].concat(this.props.args);
-			msg = Fluky.locale.getFmtMessage.apply(this, args); 
+			msg = this.flux.locale.getFmtMessage.apply(this, args); 
 		}
 
 		return (

@@ -1,7 +1,9 @@
 import React from 'react';
-import Fluky from 'fluky';
 import Header from './Header.jsx';
 import I18n from 'Extension/I18n.jsx';
+
+// Decorators
+import { flux } from 'Decorator';
 
 // Section image
 import appIcon from 'Source/images/app-icon.png';
@@ -19,7 +21,13 @@ var descStyle = {
 var sectionStyle = {
 };
 
+@flux
 class LandingPage extends React.Component {
+
+	constructor(props, context) {
+		super(props, context);
+//		console.log(context);
+	}
 
 	about = () => {
 		var $node = $(this.refs.app_section.getDOMNode());
@@ -31,13 +39,14 @@ class LandingPage extends React.Component {
 	}
 
 	render() {
+//		console.log(this.context);
 		return (
 			<div className='main-page'>
 				<Header ref='header' />
 
 				<div className={'ui basic center aligned segment landing-page-header'}>
 					<h1 className={'ui inverted header'}>
-						<span>{Fluky.getState('Service').name}</span>
+						<span>{this.flux.getState('Service').name}</span>
 						<h2 className={'ui inverted header'}>
 							<I18n sign='landing_page.subtitle'>Isomorphic WebApp Boilerplate<br /> with ES6, Node.js, Koa, React and Webpack.</I18n>
 						</h2>

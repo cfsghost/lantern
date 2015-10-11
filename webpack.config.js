@@ -9,6 +9,7 @@ var configs = module.exports = [
 			app: './src/js/browser.jsx',
 			vendors: [
 				'react',
+				'react-dom',
 				'react-router',
 				'moment'
 			]
@@ -40,6 +41,7 @@ var configs = module.exports = [
 			alias: {
 				Source: __dirname + '/src',
 				Extension: __dirname + '/src/extensions',
+				Decorator: __dirname + '/src/decorators',
 				External: __dirname + '/src/externals'
 			}
 		}
@@ -87,6 +89,7 @@ var configs = module.exports = [
 			alias: {
 				Source: __dirname + '/src',
 				Extension: __dirname + '/src/extensions',
+				Decorator: __dirname + '/src/decorators',
 				External: __dirname + '/src/externals'
 			}
 		}
