@@ -1,5 +1,7 @@
 import React from 'react';
-import Fluky from 'fluky';
+
+// Decorators
+import { router, flux, i18n } from 'Decorator';
 
 import Header from './Header.jsx';
 import SettingsMenu from './SettingsMenu.jsx';
@@ -19,11 +21,10 @@ class SettingsRouter extends React.Component {
 	}
 }
 
+@router
+@flux
+@i18n
 class SettingsPage extends React.Component {
-
-	static contextTypes = {
-		router: React.PropTypes.func.isRequired
-	};
 
 	constructor(props, context) {
 		super(props, context);
@@ -34,11 +35,11 @@ class SettingsPage extends React.Component {
 	}
 
 	componentWillMount = () => {
-		Fluky.on('store.User', Fluky.bindListener(this.onChange));
+		this.flux.on('store.User', this.flux.bindListener(this.onChange));
 	}
 
 	componentWillUnmount = () => {
-		Fluky.off('store.User', this.onChange);
+		this.flux.off('store.User', this.onChange);
 	}
 
 	componentDidUpdate = () => {
@@ -57,11 +58,11 @@ class SettingsPage extends React.Component {
 					<div className='ui hidden divider'></div>
 					<div className='ui stackable grid'>
 						<div className='computer only four wide column'>
-							<SettingsMenu category={this.context.router.getCurrentParams().category} />
+							<SettingsMenu category={this.props.params.category} />
 						</div>
 
 						<div className='twelve wide computer sixteen wide tablet column'>
-							<SettingsRouter category={this.context.router.getCurrentParams().category} />
+							<SettingsRouter category={this.props.params.category} />
 						</div>
 					</div>
 				</div>
