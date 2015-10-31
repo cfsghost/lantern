@@ -1,11 +1,16 @@
 import crypto from 'crypto';
 import React from 'react';
-import Fluky from 'fluky';
 
+// Components
 import Avatar from '../Avatar.jsx';
 import AdminLayout from './AdminLayout.jsx';
 import PermissionPanel from './PermissionPanel.jsx';
 
+// Decorators
+import { router, flux, i18n, preAction } from 'Decorator';
+
+@flux
+@i18n
 class Profile extends React.Component {
 
 	static propTypes = {
@@ -99,13 +104,19 @@ class Profile extends React.Component {
 	}
 }
 
+@flux
+@i18n
+@preAction((handle) => {
+	handle.doAction('Admin.User.get', handle.props.params.userid);
+	handle.doAction('Admin.Roles.query', {}, { permissions: true });
+})
 class User extends React.Component {
 
 	constructor(props, context) {
 		super(props, context);
 
-		var state = Fluky.getState('Admin.User');
-		var rolesStore = Fluky.getState('Admin.Roles');
+		var state = this.flux.getState('Admin.User');
+		var rolesStore = this.flux.getState('Admin.Roles');
 
 		this.state = {
 			id: state.id,
@@ -122,15 +133,13 @@ class User extends React.Component {
 	}
 
 	componentWillMount = () => {
-		Fluky.on('store.Admin.User', Fluky.bindListener(this.onChange));
-		Fluky.on('store.Admin.Roles', Fluky.bindListener(this.onChange));
-		Fluky.dispatch('action.Admin.User.get', this.props.params.userid);
-		Fluky.dispatch('action.Admin.Roles.query', {}, { permissions: true });
+		this.flux.on('state.Admin.User', this.flux.bindListener(this.onChange));
+		this.flux.on('state.Admin.Roles', this.flux.bindListener(this.onChange));
 	}
 
 	componentWillUnmount = () => {
-		Fluky.off('store.Admin.User', this.onChange);
-		Fluky.off('store.Admin.Roles', this.onChange);
+		this.flux.off('state.Admin.User', this.onChange);
+		this.flux.off('state.Admin.Roles', this.onChange);
 	}
 
 	componentDidMount() {
@@ -202,7 +211,7 @@ class User extends React.Component {
 	}
 
 	onChange = () => {
-		var state = Fluky.getState('Admin.User');
+		var state = this.flux.getState('Admin.User');
 
 		this.setState({
 			id: state.id,
@@ -224,7 +233,7 @@ class User extends React.Component {
 			saving: true
 		});
 
-		Fluky.dispatch('action.Admin.User.saveProfile', this.state.id, data);
+		this.flux.dispatch('action.Admin.User.saveProfile', this.state.id, data);
 	}
 
 	onSavePermission = () => {
@@ -232,7 +241,7 @@ class User extends React.Component {
 			saving: true
 		});
 
-		Fluky.dispatch('action.Admin.User.savePermission',
+		this.flux.dispatch('action.Admin.User.savePermission',
 			this.state.id,
 			this.state.roles,
 			this.refs.permission.getCurrentPermissions());

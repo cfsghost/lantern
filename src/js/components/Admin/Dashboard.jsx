@@ -1,13 +1,18 @@
 import React from 'react';
-import Fluky from 'fluky';
 import AdminLayout from './AdminLayout.jsx';
 
+// Decorators
+import { router, flux, i18n, preAction } from 'Decorator';
+
+@flux
+@i18n
+@preAction('Admin.Dashboard.query')
 class Dashboard extends React.Component {
 
 	constructor(props, context) {
 		super(props, context);
 
-		var state = Fluky.getState('Admin.Dashboard');
+		var state = this.flux.getState('Admin.Dashboard');
 
 		this.state = {
 			busy: false,
@@ -20,16 +25,15 @@ class Dashboard extends React.Component {
 	}
 
 	componentWillMount = () => {
-		Fluky.on('store.Admin.Dashboard', Fluky.bindListener(this.onChange));
-		Fluky.dispatch('action.Admin.Dashboard.query');
+		this.flux.on('state.Admin.Dashboard', this.flux.bindListener(this.onChange));
 	}
 
 	componentWillUnmount = () => {
-		Fluky.off('store.Admin.Dashboard', this.onChange);
+		this.flux.off('state.Admin.Dashboard', this.onChange);
 	}
 
 	onChange = () => {
-		var state = Fluky.getState('Admin.Dashboard');
+		var state = this.flux.getState('Admin.Dashboard');
 
 		this.setState({
 			serviceName: state.service.name,

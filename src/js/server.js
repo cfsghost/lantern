@@ -1,7 +1,10 @@
 import React from 'react';
+import instantiateReactComponent from 'react/lib/instantiateReactComponent';
 import ReactDOMServer from 'react-dom/server';
 import { match, RoutingContext } from 'react-router';
+import Fluky from 'fluky/lib/core';
 import Entry from './Entry.jsx';
+import App from './App.jsx';
 
 // Flux architecture
 import Actions from './actions';
@@ -9,11 +12,15 @@ import Stores from './stores';
 import Extensions from './extensions';
 
 var options = {};
+var routes = null;
 
 var initRoutes = function() {
-	var routes = {
+	if (routes)
+		return routes;
+
+	routes = {
 		path: '/',
-		component: require('./app.jsx'),
+		component: App,
 		childRoutes: []
 	};
 
@@ -35,96 +42,90 @@ var initRoutes = function() {
 	return routes;
 }
 
-var initEntry = function(error, redirectLocation, renderProps, state) {
+function createElement(Component, props) {
+	return <Component {...props}/>
+}
+
+var initEntry = function(error, redirectLocation, renderProps, state, userdata, callback) {
 
 	// Initializing FLUX framework
-	delete require.cache[require.resolve('fluky')];
-	var Fluky = require('fluky');
+	var fluky = new Fluky();
+
+	fluky.options = {
+		userdata: userdata,
+		statics: options
+	};
 
 	// Initializing state
 	if (state)
-		Fluky.setInitialState(state);
+		fluky.setInitialState(state);
 
 	// Loading parts of frameworks
-	Fluky.load(Actions, Stores, Extensions);
+	fluky.load(Actions, Stores, Extensions);
 
 	var component = (
-		<Entry flux={Fluky}>
-			<RoutingContext {...renderProps} />
+		<Entry flux={fluky}>
+			<RoutingContext {...renderProps} createElement={createElement} />
 		</Entry>
 	);
 
-	return {
-		state: Fluky.state,
-		component: component
-	};
+	function *done() {
+
+		// just fire once
+		fluky.off('idle', done);
+
+		// Pure re-rendering and do not trigger any FLUX mechanism
+		fluky.disabledEventHandler = true;
+		var html = ReactDOMServer.renderToStaticMarkup(component);
+
+		// Retern final pagee
+		callback(null, {
+			content: html,
+			state: fluky.state
+		});
+	}
+
+	// Wait until everything's done
+	fluky.on('idle', done);
+
+	// Start to initialize page
+	fluky.serverRendering = true;
+	var html = ReactDOMServer.renderToStaticMarkup(component);
+
+	setImmediate(function() {
+		// There is no need to prefetch
+		if (!fluky._refs) {
+			fluky.off('idle', done);
+
+			// Generate immediately
+			callback(null, {
+				content: html,
+				state: fluky.state
+			});
+		}
+	});
 };
 
 // Server rendering
-var render = function(reqPath, state) {
-
-	// Initializing state
-//	if (state)
-//		Fluky.setInitialState(state);
-
-	// Loading app
-//	var App = require('./app.jsx');
+var render = function(reqPath, state, userdata) {
 
 	return function(callback) {
 
 		// Initlaizing react router
-		//Router.run(App, reqPath, function(Handler) {
+		match({ routes: initRoutes(), 'location': reqPath }, (error, redirectLocation, renderProps) => {
+			if (error)
+				return;
 
-			// Workaround: rendering twice is ugly and tricky, it should
-			// find a way to solve the problem that rendering asynchronously.
-			//var comp = React.createElement(Handler);
-			//var comp = React.createElement(App);
-/*
-			function *done() {
-				// just fire once
-				Fluky.off('idle', done);
-
-				// Pure re-rendering
-				Fluky.disabledEventHandler = true;
-				//var html = ReactDOMServer.renderToStaticMarkup(comp);
-				var html = ReactDOMServer.renderToStaticMarkup(App);
+			// Initializing page
+			initEntry(error, redirectLocation, renderProps, state, userdata, (err, data) => {
 
 				callback(null, {
-					content: html,
-					state: Fluky.state
-				});
-			}
-*/
-			// Wait until everything's done
-//			Fluky.on('idle', done);
-			match({ routes: initRoutes(), 'location': reqPath }, (error, redirectLocation, renderProps) => {
-				if (error)
-					return;
-
-				// Initializing layout
-				var entry = initEntry(error, redirectLocation, renderProps, state);
-				var html = ReactDOMServer.renderToStaticMarkup(entry.component);
-
-				callback(null, {
-					content: html,
-					state: entry.state
+					content: data.content,
+					state: data.state
 				});
 			});
-/*
-			return;
-			setImmediate(function() {
 
-				// There is no task
-				if (!Fluky._refs) {
-					Fluky.off('idle', done);
-					callback(null, {
-						content: html,
-						state: Fluky.state
-					});
-				}
-			});
-*/
-//		});
+		});
 	};
 };
 

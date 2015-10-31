@@ -1,12 +1,17 @@
 import crypto from 'crypto';
 import React from 'react';
-import Router from 'react-router';
-import Fluky from 'fluky';
+import { Link } from 'react-router';
+
+// Components
 import AdminLayout from './AdminLayout.jsx';
 import PermissionPanel from './PermissionPanel.jsx';
 
-var Link = Router.Link;
+// Decorators
+import { router, flux, i18n, preAction } from 'Decorator';
 
+@router
+@flux
+@i18n
 class RoleItem extends React.Component {
 
 	componentDidMount = () => {
@@ -56,7 +61,7 @@ class SearchBar extends React.Component {
 		if (keywords)
 			conditions[field] = keywords;
 
-		Fluky.dispatch('action.Admin.Roles.query', conditions);
+		this.flux.dispatch('action.Admin.Roles.query', conditions);
 	}
 
 	render() {
@@ -107,6 +112,8 @@ class PageNavigator extends React.Component {
 	}
 }
 
+@flux
+@i18n
 class NewRoleModal extends React.Component {
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.visible) {
@@ -125,7 +132,7 @@ class NewRoleModal extends React.Component {
 		var name = this.refs.name.getDOMNode().value;
 		var desc = this.refs.desc.getDOMNode().value;
 
-		Fluky.dispatch('action.Admin.Roles.create', name, desc, perms);
+		this.flux.dispatch('action.Admin.Roles.create', name, desc, perms);
 	}
 
 	render() {
@@ -179,12 +186,15 @@ class NewRoleModal extends React.Component {
 	}
 }
 
+@flux
+@i18n
+@preAction('Admin.Roles.query')
 class Roles extends React.Component {
 
 	constructor(props, context) {
 		super(props, context);
 
-		var state = Fluky.getState('Admin.Roles');
+		var state = this.flux.getState('Admin.Roles');
 
 		this.state = {
 			roles: state.roles,
@@ -197,16 +207,15 @@ class Roles extends React.Component {
 	}
 
 	componentWillMount = () => {
-		Fluky.on('store.Admin.Roles', Fluky.bindListener(this.onChange));
-		Fluky.dispatch('action.Admin.Roles.query');
+		this.flux.on('state.Admin.Roles', this.flux.bindListener(this.onChange));
 	}
 
 	componentWillUnmount = () => {
-		Fluky.off('store.Admin.Roles', this.onChange);
+		this.flux.off('state.Admin.Roles', this.onChange);
 	}
 
 	onChange = () => {
-		var state = Fluky.getState('Admin.Roles');
+		var state = this.flux.getState('Admin.Roles');
 
 		this.setState({
 			roles: state.roles,
@@ -225,7 +234,7 @@ class Roles extends React.Component {
 			busy: true
 		});
 
-		Fluky.dispatch('action.User.updateProfile', this.state.name);
+		this.flux.dispatch('action.User.updateProfile', this.state.name);
 	}
 
 	newRole = () => {

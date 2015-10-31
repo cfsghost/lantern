@@ -1,14 +1,13 @@
 import React from 'react';
-import Router from 'react-router';
-import Fluky from 'fluky';
+import { Link } from 'react-router';
 
-var Link = Router.Link;
+// Decorators
+import { router, flux, i18n } from 'Decorator';
 
+@flux
+@i18n
+@router
 class AdminMenu extends React.Component {
-
-	static contextTypes = {
-		router: React.PropTypes.func.isRequired
-	};
 
 	constructor(props, context) {
 		super(props, context);

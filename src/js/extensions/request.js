@@ -7,8 +7,8 @@ export default function *() {
 			return url;
 
 		if (url[0] === '/') {
-			if (this.options.externalUrl) {
-				return this.options.externalUrl + url;
+			if (this.options.statics.externalUrl) {
+				return this.options.statics.externalUrl + url;
 			}
 		}
 
@@ -22,8 +22,8 @@ export default function *() {
 		var req = request.get.apply(request, args);
 
 		// Server rendering
-		if (!this.isBrowser && this.options.cookie) {
-			req.set('Cookie', this.options.cookie);
+		if (!this.isBrowser && this.options.userdata.cookie) {
+			req.set('Cookie', this.options.userdata.cookie);
 		}
 
 		return req;
@@ -36,8 +36,8 @@ export default function *() {
 		var req = request.post.apply(request, args);
 
 		// Server rendering
-		if (!this.isBrowser && this.options.cookie) {
-			req.set('Cookie', this.options.cookie);
+		if (!this.isBrowser && this.options.userdata.cookie) {
+			req.set('Cookie', this.options.userdata.cookie);
 		}
 
 		return req;
@@ -50,8 +50,8 @@ export default function *() {
 		var req = request.del.apply(request, args);
 
 		// Server rendering
-		if (!this.isBrowser && this.options.cookie) {
-			req.set('Cookie', this.options.cookie);
+		if (!this.isBrowser && this.options.userdata.cookie) {
+			req.set('Cookie', this.options.userdata.cookie);
 		}
 
 		return req;
@@ -64,8 +64,8 @@ export default function *() {
 		var req = request.put.apply(request, args);
 
 		// Server rendering
-		if (!this.isBrowser && this.options.cookie) {
-			req.set('Cookie', this.options.cookie);
+		if (!this.isBrowser && this.options.userdata.cookie) {
+			req.set('Cookie', this.options.userdata.cookie);
 		}
 
 		return req;

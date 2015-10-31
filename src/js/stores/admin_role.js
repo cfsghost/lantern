@@ -28,7 +28,7 @@ export default function *() {
 		state.desc = res.body.desc;
 		state.perms = res.body.perms || {};
 
-		this.dispatch('store.Admin.Role', 'change');
+		this.dispatch('state.Admin.Role', 'change');
 	});
 
 	this.on('store.Admin.Role.saveProfile', function *(id, profile) {
@@ -52,6 +52,6 @@ export default function *() {
 		state.desc = profile.desc;
 		state.perms = res.body.role.perms;
 
-		this.dispatch('store.Admin.Role', 'change');
+		this.dispatch('state.Admin.Role', 'change');
 	});
 };

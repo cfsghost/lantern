@@ -1,6 +1,10 @@
 import React from 'react';
-import Fluky from 'fluky';
 
+// Decorators
+import { router, flux, i18n } from 'Decorator';
+
+@flux
+@i18n
 class ChangePassword extends React.Component {
 
 	constructor(props, context) {
@@ -27,8 +31,8 @@ class ChangePassword extends React.Component {
 			error: false
 		});
 
-		Fluky.dispatch('action.User.updatePassword',
-				this.refs.password.getDOMNode().value, function(err, success) {
+		this.flux.dispatch('action.User.updatePassword',
+				this.refs.password.value, function(err, success) {
 
 					var state = {
 						showMessages: true,
@@ -46,14 +50,14 @@ class ChangePassword extends React.Component {
 					this.setState(state);
 
 					// Clear input
-					this.refs.password.getDOMNode().value = '';
-					this.refs.confirm_password.getDOMNode().value = '';
+					this.refs.password.value = '';
+					this.refs.confirm_password.value = '';
 				}.bind(this));
 	}
 
 	handleChange = () => {
-		var password = this.refs.password.getDOMNode().value;
-		var confirm_password = this.refs.confirm_password.getDOMNode().value;
+		var password = this.refs.password.value;
+		var confirm_password = this.refs.confirm_password.value;
 
 		// Password field doesn't match another field
 		if (confirm_password != password) {

@@ -33,8 +33,9 @@ export default function *() {
 			state.user = res.body.user;
 			state.admin = res.body.admin;
 
-			this.dispatch('store.Admin.Dashboard', 'change');
+			this.dispatch('state.Admin.Dashboard', 'change');
 		} catch(e) {
+			console.log(e);
 		}
 	});
 };

@@ -1,25 +1,26 @@
 import React from 'react';
-import Fluky from 'fluky';
 
+// Components
 import Header from '../Header.jsx';
 import AdminMenu from './AdminMenu.jsx';
 
-class AdminLayout extends React.Component {
+// Decorators
+import { router, flux, i18n, store } from 'Decorator';
 
-	static contextTypes = {
-		router: React.PropTypes.func.isRequired
-	};
+@flux
+@i18n
+class AdminLayout extends React.Component {
 
 	constructor(props, context) {
 		super(props, context);
 	}
 
 	componentWillMount = () => {
-		Fluky.on('store.User', Fluky.bindListener(this.onChange));
+		this.flux.on('state.User', this.flux.bindListener(this.onChange));
 	}
 
 	componentWillUnmount = () => {
-		Fluky.off('store.User', this.onChange);
+		this.flux.off('state.User', this.onChange);
 	}
 
 	onChange = () => {

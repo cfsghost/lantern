@@ -22,11 +22,11 @@ class SignInPage extends React.Component {
 	}
 
 	componentWillMount = () => {
-		this.flux.on('store.User', this.flux.bindListener(this.onChange));
+		this.flux.on('state.User', this.flux.bindListener(this.onChange));
 	}
 
 	componentWillUnmount = () => {
-		this.flux.off('store.User', this.onChange);
+		this.flux.off('state.User', this.onChange);
 	}
 
 	signIn = () => {

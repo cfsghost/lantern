@@ -106,8 +106,11 @@ app.use(require('./routes/admin/role').middleware());
 
 co(function *() {
 
-	// React
+	// Initializing react app
 	var ReactApp = require('./build/server.js');
+	ReactApp.init({
+		externalUrl: Utils.getExternalUrl()
+	});
 
 	// Initializing APIs
 	yield Mailer.init();
@@ -158,11 +161,8 @@ co(function *() {
 		// Register path for pages
 		router.get(route.path, Middleware.allow(route.allow || null), function *() {
 
-			var ReactApp = require('./build/server.js');
-			ReactApp.init({
-				externalUrl: Utils.getExternalUrl(),
-				cookie: this.req.headers.cookie
-			});
+			var id = '[' + Date.now() + '] ' + this.req.url;
+			console.time(id);
 
 			// Locale
 			var localization = {
@@ -181,13 +181,16 @@ co(function *() {
 			};
 			curState.User.logined = this.isAuthenticated();
 
-			// Rendering page and pass state to client-side
-			var page = yield ReactApp.render(this.request.path, curState);
+			// Rendering page with current state and cookie to client-side
+			var page = yield ReactApp.render(this.request.path, curState, {
+				cookie: this.req.headers.cookie
+			});
 			yield this.render('index', {
 				title: settings.general.service.name,
-				//content: page.content,
+				content: page.content,
 				state: page.state
 			});
+			console.timeEnd(id);
 		});
 	}
 	app.use(router.middleware());
@@ -202,6 +205,6 @@ co(function *() {
 
 	// Start the server
 	app.listen(settings.general.server.port, function() {
-		console.log('server is ready');
+		console.log('server is running at port', settings.general.server.port);
 	});
 });

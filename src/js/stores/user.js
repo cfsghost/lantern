@@ -8,7 +8,9 @@ export default function *() {
 		username: null,
 		email: null,
 		logined: false,
-		permissions: {}
+		permissions: {},
+		login_time: null,
+		avatar_hash: null
 	});
 
 	this.on('store.User.syncProfile', function *() {
@@ -29,7 +31,7 @@ export default function *() {
 				store.email = res.body.member.email;
 			}
 
-			this.dispatch('store.User', 'change');
+			this.dispatch('state.User', 'change');
 		} catch(e) {
 			console.log(e);
 		}
@@ -54,7 +56,7 @@ export default function *() {
 				store.email = res.body.member.email;
 			}
 
-			this.dispatch('store.User', 'change');
+			this.dispatch('state.User', 'change');
 		} catch(e) {
 			console.log(e);
 		}
@@ -167,13 +169,13 @@ export default function *() {
 			store.avatar_hash = res.body.data.avatar_hash;
 			store.permissions = res.body.data.permissions;
 
-			this.dispatch('store.User', 'change');
+			this.dispatch('state.User', 'change');
 		} catch(e) {
 
 			if (res.status == 401) {
 				store.status = 'login-failed';
 
-				this.dispatch('store.User', 'change');
+				this.dispatch('state.User', 'change');
 				return;
 			}
 		}
@@ -206,7 +208,7 @@ export default function *() {
 				break;
 			}
 
-			this.dispatch('store.User', 'change');
+			this.dispatch('state.User', 'change');
 		} catch(e) {
 
 			switch(e.status) {
@@ -223,7 +225,7 @@ export default function *() {
 				break;
 			}
 
-			this.dispatch('store.User', 'change');
+			this.dispatch('state.User', 'change');
 		}
 	});
 };

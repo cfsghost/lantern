@@ -1,12 +1,17 @@
 import React from 'react';
-import Fluky from 'fluky';
 
+// Decorators
+import { router, flux, i18n, preAction } from 'Decorator';
+
+@flux
+@i18n
+@preAction('User.syncProfile')
 class UserProfile extends React.Component {
 
 	constructor(props, context) {
 		super(props, context);
 
-		var state = Fluky.getState('User');
+		var state = this.flux.getState('User');
 
 		this.state = {
 			busy: false,
@@ -17,17 +22,16 @@ class UserProfile extends React.Component {
 	}
 
 	componentWillMount = () => {
-		Fluky.on('store.User', Fluky.bindListener(this.onChange));
-		Fluky.dispatch('action.User.syncProfile');
+		this.flux.on('state.User', this.flux.bindListener(this.onChange));
 	}
 
 	componentWillUnmount = () => {
-		Fluky.off('store.User', this.onChange);
+		this.flux.off('state.User', this.onChange);
 	}
 
 	onChange = () => {
 
-		var user = Fluky.getState('User');
+		var user = this.flux.getState('User');
 
 		this.setState({
 			name: user.name,
@@ -44,7 +48,7 @@ class UserProfile extends React.Component {
 			busy: true
 		});
 
-		Fluky.dispatch('action.User.updateProfile', this.state.name);
+		this.flux.dispatch('action.User.updateProfile', this.state.name);
 	}
 
 	render() {

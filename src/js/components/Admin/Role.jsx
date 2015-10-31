@@ -1,9 +1,13 @@
 import React from 'react';
-import Fluky from 'fluky';
 
 import AdminLayout from './AdminLayout.jsx';
 import PermissionPanel from './PermissionPanel.jsx';
 
+// Decorators
+import { router, flux, i18n, preAction } from 'Decorator';
+
+@flux
+@i18n
 class Profile extends React.Component {
 
 	static propTypes = {
@@ -107,12 +111,17 @@ class Profile extends React.Component {
 	}
 }
 
+@flux
+@i18n
+@preAction((handle) => {
+	handle.doAction('Admin.Role.get', handle.props.params.roleid);
+})
 class Role extends React.Component {
 
 	constructor(props, context) {
 		super(props, context);
 
-		var state = Fluky.getState('Admin.Role');
+		var state = this.flux.getState('Admin.Role');
 
 		this.state = {
 			id: state.id,
@@ -125,12 +134,11 @@ class Role extends React.Component {
 	}
 
 	componentWillMount = () => {
-		Fluky.on('store.Admin.Role', Fluky.bindListener(this.onChange));
-		Fluky.dispatch('action.Admin.Role.get', this.props.params.roleid);
+		this.flux.on('state.Admin.Role', this.flux.bindListener(this.onChange));
 	}
 
 	componentWillUnmount = () => {
-		Fluky.off('store.Admin.Role', this.onChange);
+		this.flux.off('state.Admin.Role', this.onChange);
 	}
 
 	componentDidMount() {
@@ -139,7 +147,7 @@ class Role extends React.Component {
 	}
 
 	onChange = () => {
-		var state = Fluky.getState('Admin.Role');
+		var state = this.flux.getState('Admin.Role');
 
 		this.setState({
 			id: state.id,
@@ -158,7 +166,7 @@ class Role extends React.Component {
 			saving: true
 		});
 
-		Fluky.dispatch('action.Admin.Role.saveProfile', this.state.id, data);
+		this.flux.dispatch('action.Admin.Role.saveProfile', this.state.id, data);
 	}
 
 	render() {

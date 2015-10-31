@@ -1,6 +1,10 @@
-import Fluky from 'fluky';
 import React from 'react';
 
+// Decorators
+import { router, flux, i18n, preAction } from 'Decorator';
+
+@flux
+@i18n
 class PermissionGroup extends React.Component {
 
 	static propTypes = {
@@ -154,6 +158,8 @@ class PermissionGroup extends React.Component {
 
 }
 
+@flux
+@i18n
 class PermissionItem extends React.Component {
 
 	static propTypes = {
@@ -208,12 +214,15 @@ class PermissionItem extends React.Component {
 
 }
 
+@flux
+@i18n
+@preAction('Admin.Permission.getAvailablePermission')
 class PermissionPanel extends React.Component {
 
 	constructor(props, context) {
 		super(props, context);
 
-		var permission = Fluky.getState('Admin.Permission');
+		var permission = this.flux.getState('Admin.Permission');
 
 		this.state = {
 			availPerms: permission.availPerms,
@@ -223,12 +232,11 @@ class PermissionPanel extends React.Component {
 	}
 
 	componentWillMount = () => {
-		Fluky.on('store.Admin.Permission', Fluky.bindListener(this.onChange));
-		Fluky.dispatch('action.Admin.Permission.getAvailablePermission');
+		this.flux.on('state.Admin.Permission', this.flux.bindListener(this.onChange));
 	}
 
 	componentWillUnmount = () => {
-		Fluky.off('store.Admin.Permission', this.onChange);
+		this.flux.off('state.Admin.Permission', this.onChange);
 	}
 
 	componentWillReceiveProps = (nextProps) => {
@@ -238,7 +246,7 @@ class PermissionPanel extends React.Component {
 	}
 
 	onChange = () => {
-		var permission = Fluky.getState('Admin.Permission');
+		var permission = this.flux.getState('Admin.Permission');
 
 		this.setState({
 			availPerms: permission.availPerms,

@@ -1,12 +1,17 @@
 import crypto from 'crypto';
 import React from 'react';
-import Router from 'react-router';
-import Fluky from 'fluky';
+import { Link } from 'react-router';
+
+// Components
 import AdminLayout from './AdminLayout.jsx';
 import Avatar from '../Avatar.jsx';
 
-var Link = Router.Link;
+// Decorators
+import { router, flux, i18n, preAction } from 'Decorator';
 
+@flux
+@i18n
+@router
 class UserItem extends React.Component {
 
 	componentDidMount = () => {
@@ -14,7 +19,7 @@ class UserItem extends React.Component {
 	}
 
 	deleteUser = () => {
-		Fluky.dispatch('action.Admin.Users.deleteOne', this.props.id);
+		this.flux.dispatch('action.Admin.Users.deleteOne', this.props.id);
 	}
 
 	render() {
@@ -62,7 +67,7 @@ class SearchBar extends React.Component {
 		if (keywords)
 			conditions[field] = keywords;
 
-		Fluky.dispatch('action.Admin.Users.query', conditions);
+		this.flux.dispatch('action.Admin.Users.query', conditions);
 	}
 
 	render() {
@@ -113,12 +118,15 @@ class PageNavigator extends React.Component {
 	}
 }
 
+@flux
+@i18n
+@preAction('Admin.Users.query')
 class Users extends React.Component {
 
 	constructor(props, context) {
 		super(props, context);
 
-		var state = Fluky.getState('Admin.Users');
+		var state = this.flux.getState('Admin.Users');
 
 		this.state = {
 			users: state.users,
@@ -130,16 +138,15 @@ class Users extends React.Component {
 	}
 
 	componentWillMount = () => {
-		Fluky.on('store.Admin.Users', Fluky.bindListener(this.onChange));
-		Fluky.dispatch('action.Admin.Users.query');
+		this.flux.on('state.Admin.Users', this.flux.bindListener(this.onChange));
 	}
 
 	componentWillUnmount = () => {
-		Fluky.off('store.Admin.Users', this.onChange);
+		this.flux.off('state.Admin.Users', this.onChange);
 	}
 
 	onChange = () => {
-		var state = Fluky.getState('Admin.Users');
+		var state = this.flux.getState('Admin.Users');
 
 		this.setState({
 			users: state.users,
@@ -158,7 +165,7 @@ class Users extends React.Component {
 			busy: true
 		});
 
-		Fluky.dispatch('action.User.updateProfile', this.state.name);
+		this.flux.dispatch('action.User.updateProfile', this.state.name);
 	}
 
 	render() {

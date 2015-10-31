@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Fluky from 'fluky';
 import { Router } from 'react-router';
-import App from './app.jsx';
+import App from './App.jsx';
 import Entry from './Entry.jsx';
 import routeSettings from './routes.js';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
@@ -24,8 +24,10 @@ var initRoutes = function() {
 		childRoutes: []
 	};
 
+	// Loading routes
 	for (var index in routeSettings) {
 		var route = routeSettings[index];
+
 		if (route.path == '/') {
 			routes.indexRoute = {
 				component: route.handler
@@ -33,10 +35,24 @@ var initRoutes = function() {
 			continue;
 		}
 
-		routes.childRoutes.push({
-			path: route.path,
-			component: route.handler
-		});
+		if (route.redirect) {
+
+			// Redirect
+			(function(targetPath) { 
+				routes.childRoutes.push({
+					path: route.path,
+					onEnter: function(nextState, replaceState) {
+						replaceState(null, targetPath);
+					}
+				});
+			})(route.redirect);
+		} else {
+
+			routes.childRoutes.push({
+				path: route.path,
+				component: route.handler
+			});
+		}
 	}
 
 	return routes;
@@ -47,4 +63,4 @@ ReactDOM.render((
 	<Entry flux={Fluky}>
 		<Router routes={initRoutes()} history={createBrowserHistory()} />
 	</Entry>
-), document.body);
+), document.getElementById('app'));

@@ -18,28 +18,32 @@ export default function *() {
 			permissions = options.permissions || false;
 		}
 
-		// Getting role list by calling API
-		var res = yield this.request
-			.get('/admin/api/roles')
-			.query({
-				page: state.page,
-				pageCount: state.pageCount,
-				perPage: state.perPage,
-				q: JSON.stringify(conditions),
-				permissions: permissions
-			});
+		try {
+			// Getting role list by calling API
+			var res = yield this.request
+				.get('/admin/api/roles')
+				.query({
+					page: state.page,
+					pageCount: state.pageCount,
+					perPage: state.perPage,
+					q: JSON.stringify(conditions),
+					permissions: permissions
+				});
 
-		if (res.status != 200) {
-			return;
+			if (res.status != 200) {
+				return;
+			}
+
+			// Update state
+			state.roles = res.body.roles;
+			state.page = res.body.page;
+			state.pageCount = res.body.pageCount;
+			state.perPage = res.body.perPage;
+
+			this.dispatch('state.Admin.Roles', 'change');
+		} catch(e) {
+			console.log(e);
 		}
-
-		// Update state
-		state.roles = res.body.roles;
-		state.page = res.body.page;
-		state.pageCount = res.body.pageCount;
-		state.perPage = res.body.perPage;
-
-		this.dispatch('store.Admin.Roles', 'change');
 	});
 
 	this.on('store.Admin.Roles.create', function *(name, desc, perms) {

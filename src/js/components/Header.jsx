@@ -3,12 +3,13 @@ import { Link } from 'react-router';
 import I18n from 'Extension/I18n.jsx';
 
 // Decorators
-import { flux } from 'Decorator';
+import { router, flux, i18n, preAction } from 'Decorator';
 
 // Components
 import Avatar from './Avatar.jsx';
 
 @flux
+@router
 class Header extends React.Component {
 
 	constructor(props, context) {
@@ -21,13 +22,13 @@ class Header extends React.Component {
 	}
 
 	componentWillMount = () => {
-		this.flux.on('store.User', this.flux.bindListener(this.onChange));
-		this.flux.on('store.Service', this.flux.bindListener(this.onChange));
+		this.flux.on('state.User', this.flux.bindListener(this.onChange));
+		this.flux.on('state.Service', this.flux.bindListener(this.onChange));
 	}
 
 	componentWillUnmount = () => {
-		this.flux.off('store.User', this.onChange);
-		this.flux.off('store.Service', this.onChange);
+		this.flux.off('state.User', this.onChange);
+		this.flux.off('state.Service', this.onChange);
 	}
 
 	componentDidMount() {
