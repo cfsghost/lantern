@@ -59,6 +59,7 @@ app.use(passport.session());
 // Create render
 app.use(views(__dirname + '/views', {
 	ext: 'jade',
+	cache: true,
 	map: {
 		html: 'jade'
 	}
