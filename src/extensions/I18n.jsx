@@ -33,7 +33,7 @@ class I18n extends React.Component {
 				if (typeof child === 'string')
 					children.push(child);
 				else
-					children.push(ReactDOMServer.renderToString(child));
+					children.push(ReactDOMServer.renderToStaticMarkup(child));
 			}
 		} else {
 			children.push(this.props.children);

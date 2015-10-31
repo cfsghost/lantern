@@ -46,6 +46,19 @@ function createElement(Component, props) {
 	return <Component {...props}/>
 }
 
+function generateNewContent(fluky, component, callback) {
+
+	// Pure re-rendering and do not trigger any FLUX mechanism
+	fluky.disabledEventHandler = true;
+	var html = ReactDOMServer.renderToStaticMarkup(component);
+
+	// Retern final pagee
+	callback(null, {
+		content: html,
+		state: fluky.state
+	});
+}
+
 var initEntry = function(error, redirectLocation, renderProps, state, userdata, callback) {
 
 	// Initializing FLUX framework
@@ -74,15 +87,7 @@ var initEntry = function(error, redirectLocation, renderProps, state, userdata, 
 		// just fire once
 		fluky.off('idle', done);
 
-		// Pure re-rendering and do not trigger any FLUX mechanism
-		fluky.disabledEventHandler = true;
-		var html = ReactDOMServer.renderToStaticMarkup(component);
-
-		// Retern final pagee
-		callback(null, {
-			content: html,
-			state: fluky.state
-		});
+		generateNewContent(fluky, component, callback);
 	}
 
 	// Wait until everything's done
