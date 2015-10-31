@@ -25,6 +25,6 @@ export default function *() {
 		state.groups = res.body.groups;
 		state.availPerms = res.body.list;
 
-		this.dispatch('state.Admin.Permission', 'change');
+		this.dispatch('state.Admin.Permission');
 	});
 };

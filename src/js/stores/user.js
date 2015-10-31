@@ -31,7 +31,7 @@ export default function *() {
 				store.email = res.body.member.email;
 			}
 
-			this.dispatch('state.User', 'change');
+			this.dispatch('state.User');
 		} catch(e) {
 			console.log(e);
 		}
@@ -56,7 +56,7 @@ export default function *() {
 				store.email = res.body.member.email;
 			}
 
-			this.dispatch('state.User', 'change');
+			this.dispatch('state.User');
 		} catch(e) {
 			console.log(e);
 		}
@@ -169,13 +169,13 @@ export default function *() {
 			store.avatar_hash = res.body.data.avatar_hash;
 			store.permissions = res.body.data.permissions;
 
-			this.dispatch('state.User', 'change');
+			this.dispatch('state.User');
 		} catch(e) {
 
 			if (res.status == 401) {
 				store.status = 'login-failed';
 
-				this.dispatch('state.User', 'change');
+				this.dispatch('state.User');
 				return;
 			}
 		}
@@ -208,7 +208,7 @@ export default function *() {
 				break;
 			}
 
-			this.dispatch('state.User', 'change');
+			this.dispatch('state.User');
 		} catch(e) {
 
 			switch(e.status) {
@@ -225,7 +225,7 @@ export default function *() {
 				break;
 			}
 
-			this.dispatch('state.User', 'change');
+			this.dispatch('state.User');
 		}
 	});
 };

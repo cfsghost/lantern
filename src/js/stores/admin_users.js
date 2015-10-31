@@ -33,7 +33,7 @@ export default function *() {
 		state.pageCount = res.body.pageCount;
 		state.perPage = res.body.perPage;
 
-		this.dispatch('state.Admin.Users', 'change');
+		this.dispatch('state.Admin.Users');
 	});
 
 	this.on('store.Admin.Users.deleteOne', function *(id) {
@@ -59,6 +59,6 @@ export default function *() {
 			}
 		}
 
-		this.dispatch('state.Admin.Users', 'change');
+		this.dispatch('state.Admin.Users');
 	});
 };

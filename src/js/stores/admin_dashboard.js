@@ -33,7 +33,7 @@ export default function *() {
 			state.user = res.body.user;
 			state.admin = res.body.admin;
 
-			this.dispatch('state.Admin.Dashboard', 'change');
+			this.dispatch('state.Admin.Dashboard');
 		} catch(e) {
 			console.log(e);
 		}

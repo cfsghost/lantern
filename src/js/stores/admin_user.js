@@ -30,7 +30,7 @@ export default function *() {
 		state.roles = res.body.roles || [];
 		state.perms = res.body.perms || {};
 
-		this.dispatch('state.Admin.User', 'change');
+		this.dispatch('state.Admin.User');
 	});
 
 	this.on('store.Admin.User.saveProfile', function *(userId, profile) {
@@ -49,7 +49,7 @@ export default function *() {
 		state.name = profile.name;
 		state.email = profile.email;
 
-		this.dispatch('state.Admin.User', 'change');
+		this.dispatch('state.Admin.User');
 	});
 
 	this.on('store.Admin.User.savePermission', function *(userId, roles, perms) {
@@ -71,6 +71,6 @@ export default function *() {
 		state.roles = res.body.roles || [];
 		state.perms = res.body.perms || {};
 
-		this.dispatch('state.Admin.User', 'change');
+		this.dispatch('state.Admin.User');
 	});
 };

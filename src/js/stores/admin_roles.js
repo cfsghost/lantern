@@ -40,7 +40,7 @@ export default function *() {
 			state.pageCount = res.body.pageCount;
 			state.perPage = res.body.perPage;
 
-			this.dispatch('state.Admin.Roles', 'change');
+			this.dispatch('state.Admin.Roles');
 		} catch(e) {
 			console.log(e);
 		}
