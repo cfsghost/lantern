@@ -188,7 +188,7 @@ co(function *() {
 			yield this.render('index', {
 				title: settings.general.service.name,
 				content: page.content,
-				state: page.state
+				state: JSON.stringify(page.state)
 			});
 			console.timeEnd(id);
 		});
