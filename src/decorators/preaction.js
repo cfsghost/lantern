@@ -27,6 +27,28 @@ function doAction() {
 	this.flux.dispatch.apply(this.flux, args);
 }
 
+function handleActions(Component, context) {
+	// Pre-calling actions to fetch stores
+	for (var index in Component.preActions) {
+		var action = Component.preActions[index];
+
+		if (action instanceof Function) {
+			action.call(Component, {
+				props: props,
+				doAction: doAction.bind({
+					Component: Component,
+					flux: context.flux
+				})
+			});
+		} else if (typeof action === 'string') {
+			context.flux.dispatch('action.' + action);
+		} else if (action instanceof Object) {
+			doAllActions(context.flux, action);
+		}
+
+	}
+}
+
 export default function() {
 	var args = Array.prototype.slice.apply(arguments);
 
@@ -46,26 +68,7 @@ export default function() {
 
 				// Do not fetch data twice
 				if (!context.flux.disabledEventHandler) {
-
-					// Pre-calling actions to fetch stores
-					for (var index in Component.preActions) {
-						var action = Component.preActions[index];
-
-						if (action instanceof Function) {
-							action.call(Component, {
-								props: props,
-								doAction: doAction.bind({
-									Component: Component,
-									flux: context.flux
-								})
-							});
-						} else if (typeof action === 'string') {
-							context.flux.dispatch('action.' + action);
-						} else if (action instanceof Object) {
-							doAllActions(context.flux, action);
-						}
-
-					}
+					handleActions(Component, context);
 				}
 			}
 
