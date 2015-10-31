@@ -117,14 +117,7 @@ var render = function(reqPath, state, userdata) {
 				return;
 
 			// Initializing page
-			initEntry(error, redirectLocation, renderProps, state, userdata, (err, data) => {
-
-				callback(null, {
-					content: data.content,
-					state: data.state
-				});
-			});
-
+			initEntry(error, redirectLocation, renderProps, state, userdata, callback);
 		});
 	};
 };
