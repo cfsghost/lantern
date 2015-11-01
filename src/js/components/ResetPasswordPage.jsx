@@ -1,9 +1,10 @@
 import React from 'react';
-import Fluky from 'fluky';
-import Router from 'react-router';
-var { Route, RouteHandler, NotFoundRoute, Link } = Router;
+import { Link } from 'react-router';
 
 import Header from './Header.jsx';
+
+// Decorators
+import { router, flux, i18n, preAction } from 'Decorator';
 
 class SuccessPage extends React.Component {
 
@@ -27,6 +28,7 @@ class SuccessPage extends React.Component {
 	}
 }
 
+@flux
 class ResetPasswordPage extends React.Component {
 
 	static contextTypes = {
@@ -45,9 +47,9 @@ class ResetPasswordPage extends React.Component {
 
 	submit = () => {
 
-		Fluky.dispatch('action.User.resetPassword',
-			this.context.router.getCurrentParams().userid,
-			this.context.router.getCurrentParams().token,
+		this.flux.dispatch('action.User.resetPassword',
+			this.props.userid,
+			this.props.token,
 			this.refs.password.getDOMNode().value, function(err, success) {
 
 				this.setState({
