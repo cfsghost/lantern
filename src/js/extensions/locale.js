@@ -34,7 +34,7 @@ export default function *() {
 				state.currentMessage = {};
 			}
 
-			ctx.dispatch('store.Localization', 'change');
+			ctx.dispatch('state.Localization');
 		});
 	};
 

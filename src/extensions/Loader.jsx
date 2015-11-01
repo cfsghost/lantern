@@ -1,14 +1,17 @@
 import React from 'react';
-import Fluky from 'fluky';
 
+// Decorators
+import { flux } from 'Decorator';
+
+@flux
 class Loader {
 
 	static css = (...args) => {
-		return Fluky.loader.css.apply(this, args);
+		return this.flux.loader.css.apply(this, args);
 	}
 
 	static script = (...args) => {
-		return Fluky.loader.script.apply(this, args);
+		return this.flux.loader.script.apply(this, args);
 	}
 }
 

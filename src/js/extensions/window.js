@@ -11,7 +11,7 @@ export default function *() {
 		store.width = width;
 		store.height = height;
 
-		this.dispatch('store.Window', 'change');
+		this.dispatch('state.Window');
 	});
 
 };
