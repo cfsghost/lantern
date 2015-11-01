@@ -40,6 +40,7 @@ node app.js
 * Webpack
 * React
 * Isomorphic
+* Support Hot loading with Webpack
 
 ## Dependencies
 
