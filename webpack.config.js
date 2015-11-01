@@ -6,7 +6,10 @@ var configs = module.exports = [
 	{
 		name: 'Browser',
 		entry: {
-			app: './src/js/browser.jsx',
+			app: [
+				'webpack-hot-middleware/client',
+				'./src/js/browser.jsx'
+			],
 			vendors: [
 				'react',
 				'react-dom',
@@ -20,12 +23,38 @@ var configs = module.exports = [
 			filename: 'bundle.js'
 		},
 		plugins: [
-			new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js')
+			new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),
+			new webpack.optimize.OccurenceOrderPlugin(),
+		    new webpack.HotModuleReplacementPlugin(),
+			new webpack.NoErrorsPlugin()
 		],
 		module: {
 			loaders: [
 				{ test: /\.json$/, loader: 'json-loader' },
-				{ test: /\.jsx?$/, loader: 'babel-loader?optional[]=runtime&stage=0', exclude: /(node_modules|bower_components)/ },
+				{
+					test: /\.jsx?$/,
+					loader: 'babel',
+					exclude: /(node_modules|bower_components)/,
+					query: {
+						stage: 0,
+						optional: [ 'runtime' ],
+						plugins: [
+							'react-transform'
+						],
+						extra: {
+							'react-transform': {
+								'transforms': [{
+									'transform': 'react-transform-hmr',
+									'imports': ['react'],
+									'locals': ['module']
+								}, {
+									'transform': 'react-transform-catch-errors',
+									'imports': ['react', 'redbox-react']
+								}]
+							}
+						}
+					}
+				},
 				{ test: /\.css$/, loader: 'style!css' },
 				{ test: /\.less$/, loader: 'style!css!less' },
 				{ test: /\.png$/,  loader: "url-loader?prefix=img/&limit=5000" },
@@ -49,7 +78,7 @@ var configs = module.exports = [
 	{
 		name: 'Server-side rendering',
 		entry: {
-			app: './src/js/server.js'
+			app: './src/js/server.jsx'
 		},
 		target: 'node',
 		output: {

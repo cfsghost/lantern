@@ -27,8 +27,25 @@ var Localization = require('./lib/localization');
 
 var app = koa();
 
+// Hot Load
+if (process.argv.length == 3) {
+	if (process.argv[2] == 'dev') {
+		console.log('Starting on development mode ...');
+
+		var webpack = require('webpack');
+		var webpackConfig = require('./webpack.config');
+		var compiler = webpack(webpackConfig[0]);
+
+		app.use(require('koa-webpack-dev-middleware')(compiler, {
+			noInfo: true,
+			publicPath: webpackConfig[0].output.publicPath
+		}));
+		app.use(require('koa-webpack-hot-middleware')(compiler));
+	}
+}
+
 // Static file path
-app.use(serve(path.join(__dirname, 'public')));
+app.use(serve(path.join(__dirname, 'public'), { hidden: true }));
 
 // Enabling BODY
 app.use(bodyParser());
