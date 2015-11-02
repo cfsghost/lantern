@@ -30,24 +30,37 @@ Finally, you can start this web service:
 node app.js
 ```
 
+## Development
+
+Starting up in development mode is able to enable hot loading mechanism, you can start service with:
+```
+node app.js dev
+```
+
 ## Features
 
-* Node.js
-* ES6+ (Generator and classes)
-* Koa web framework
-* MongoDB
-* [Semantic UI](http://semantic-ui.com/) - Front-end UI toolkit
-* Webpack
-* React
-* Isomorphic
-* Support Hot loading with Webpack
+* Fast to setup and easy to customize
+* UI is pretty cool and fantasic
+* Widely use ES6 and ES7+ (Generator and classes)
+* Isomorphic Architecture
+* Support permission management
+* Support user database system
+* Support Hot loading without webpack-dev-server
+* Support i18n for multiple language
+* Support third-party Authorization (Facebook/Github/Google/Linkedin)
 
 ## Dependencies
 
 * Node.js 0.12+ or io.js
+* Koa web framework
+* MongoDB
 * Fluky - Event-based framework for flux data flow pattern
-* react-router - router for React
-* babel - Used to support ES6+
+* babel 5 - Used to support ES6/ES7+
+* React v0.14+
+* react-router 1.0.0+ - router for React
+* [Semantic UI](http://semantic-ui.com/) - Front-end UI toolkit
+* Webpack
+* Passport
 
 License
 -
