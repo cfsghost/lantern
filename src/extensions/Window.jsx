@@ -12,6 +12,8 @@ class Window extends React.Component {
 
 		window.addEventListener('resize', this.updateDimensions);
 
+		window.onscroll = this.onScroll;
+
 		this.flux.dispatch('action.Window.resize', $(window).width(), $(window).height());
 	}
 
@@ -19,11 +21,16 @@ class Window extends React.Component {
 		if (!this.flux.isBrowser)
 			return;
 
+		window.onscroll = null;
 		window.removeEventListener('resize', this.updateDimensions);
 	}
 
 	updateDimensions = () => {
 		this.flux.dispatch('action.Window.resize', $(window).width(), $(window).height());
+	}
+
+	onScroll = () => {
+		this.flux.dispatch('action.Window.scroll', document.body.scrollTop);
 	}
 
 	render() {
