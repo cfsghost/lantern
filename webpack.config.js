@@ -23,6 +23,10 @@ var configs = module.exports = [
 			filename: 'bundle.js'
 		},
 		plugins: [
+			new webpack.DefinePlugin({ '_BROWSER': true }),
+			new webpack.ProvidePlugin({
+				'window.moment': 'moment'
+			}),
 			new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),
 			new webpack.optimize.OccurenceOrderPlugin(),
 		    new webpack.HotModuleReplacementPlugin(),
@@ -64,7 +68,7 @@ var configs = module.exports = [
 			]
 		},
 		externals: {
-			jquery: true
+			jQuery: true
 		},
 		resolve: {
 			alias: {
@@ -94,7 +98,10 @@ var configs = module.exports = [
 			return module
 		}),
 		plugins: [
-			new webpack.DefinePlugin({ 'global.GENTLY': false })
+			new webpack.DefinePlugin({
+				'global.GENTLY': false,
+				'_BROWSER': false
+			})
 		],
 		module: {
 			loaders: [
