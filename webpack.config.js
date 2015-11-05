@@ -61,10 +61,10 @@ var configs = module.exports = [
 				},
 				{ test: /\.css$/, loader: 'style!css' },
 				{ test: /\.less$/, loader: 'style!css!less' },
-				{ test: /\.png$/,  loader: "url-loader?prefix=img/&limit=5000" },
-				{ test: /\.jpg$/,  loader: "url-loader?prefix=img/&limit=5000" },
-				{ test: /\.gif$/,  loader: "url-loader?prefix=img/&limit=5000" },
-				{ test: /\.woff$/, loader: "url-loader?prefix=font/&limit=5000" }
+				{ test: /\.png$/,  loader: "url-loader?limit=1000" },
+				{ test: /\.jpg$/,  loader: "url-loader?limit=1000" },
+				{ test: /\.gif$/,  loader: "url-loader?limit=1000" },
+				{ test: /\.woff$/, loader: "url-loader?limit=1000" }
 			]
 		},
 		externals: {
