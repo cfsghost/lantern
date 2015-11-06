@@ -38,8 +38,8 @@ class Profile extends React.Component {
 	}
 
 	onChange = () => {
-		var name = this.refs.name.getDOMNode().value;
-		var desc  = this.refs.desc.getDOMNode().value;
+		var name = this.refs.name.value;
+		var desc  = this.refs.desc.value;
 
 		this.setState({
 			data: {
@@ -143,7 +143,7 @@ class Role extends React.Component {
 
 	componentDidMount() {
 
-		$(this.refs.tab.getDOMNode()).find('.item').tab();
+		$(this.refs.tab).find('.item').tab();
 	}
 
 	onChange = () => {

@@ -15,7 +15,7 @@ import { router, flux, i18n, preAction } from 'Decorator';
 class UserItem extends React.Component {
 
 	componentDidMount = () => {
-		$(this.refs.dropdown.getDOMNode()).dropdown();
+		$(this.refs.dropdown).dropdown();
 	}
 
 	deleteUser = () => {
@@ -56,13 +56,13 @@ class UserItem extends React.Component {
 class SearchBar extends React.Component {
 
 	componentDidMount = () => {
-		$(this.refs.field.getDOMNode()).dropdown();
+		$(this.refs.field).dropdown();
 	}
 
 	onSubmit = () => {
 
-		var field = this.refs.field.getDOMNode().value;
-		var keywords = this.refs.keywords.getDOMNode().value;
+		var field = this.refs.field.value;
+		var keywords = this.refs.keywords.value;
 		var conditions = {};
 		if (keywords)
 			conditions[field] = keywords;
