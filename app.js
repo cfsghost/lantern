@@ -203,8 +203,14 @@ co(function *() {
 			var page = yield ReactApp.render(this.request.path, curState, {
 				cookie: this.req.headers.cookie
 			});
+
+			// Using service name by default
+			if (!page.state.Window.title) {
+				page.state.Window.title = settings.general.service.name;
+			}
+
 			yield this.render('index', {
-				title: page.state.Window.title || settings.general.service.name,
+				title: page.state.Window.title,
 				content: page.content,
 				state: JSON.stringify(page.state)
 			});
