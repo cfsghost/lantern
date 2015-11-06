@@ -62,6 +62,7 @@ export default function() {
 
 			return class Initializer extends React.Component {
 				static isInitializer = true;
+				static component = Component;
 				static contextTypes = {
 					flux: React.PropTypes.object
 				};
@@ -77,13 +78,13 @@ export default function() {
 
 				render() {
 					return (
-						<Component ref='compoennt' {...this.props} />
+						<Component {...this.props} />
 					);
 				}
 			};
 		} else {
 			// Define what store this component required
-			Component.refs.component.preActions = Component.refs.component.preActions.concat(args);
+			Component.component.preActions = Component.component.preActions.concat(args);
 		}
 	};
 };
