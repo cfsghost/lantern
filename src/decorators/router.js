@@ -1,12 +1,17 @@
 import React from 'react';
 
 export default function(target) {
-	if (!target.contextTypes)
-		target.contextTypes = {};
 
-	target.contextTypes.history = React.PropTypes.object;
+	var Component = target;
+	if (target.isInitializer)
+		Component = target.component;
 
-	target.prototype.__defineGetter__('history', function() {
+	if (!Component.contextTypes)
+		Component.contextTypes = {};
+
+	Component.contextTypes.history = React.PropTypes.object;
+
+	Component.prototype.__defineGetter__('history', function() {
 		return this.context.history;
 	});
 };

@@ -1,13 +1,17 @@
 import React from 'react';
 
 export default function(target) {
-	if (!target.contextTypes)
-		target.contextTypes = {};
+	var Component = target;
+	if (target.isInitializer)
+		Component = target.component;
 
-	if (!target.contextTypes.flux)
-		target.contextTypes.flux = React.PropTypes.object;
+	if (!Component.contextTypes)
+		Component.contextTypes = {};
 
-	target.prototype.__defineGetter__('flux', function() {
+	if (!Component.contextTypes.flux)
+		Component.contextTypes.flux = React.PropTypes.object;
+
+	Component.prototype.__defineGetter__('flux', function() {
 		return this.context.flux;
 	});
 };

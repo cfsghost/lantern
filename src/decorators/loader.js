@@ -1,9 +1,13 @@
 import flux from './flux';
 
 export default function(target) {
-	flux(target);
 
-	target.prototype.__defineGetter__('loader', function() {
+	var Component = target;
+	if (target.isInitializer)
+		Component = target.component;
+
+	flux(Component);
+	Component.prototype.__defineGetter__('loader', function() {
 		return this.context.flux.loader;
 	});
 };
