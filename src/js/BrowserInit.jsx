@@ -20,7 +20,11 @@ var initRoutes = function(routeSettings) {
 	var routes = {
 		path: '/',
 		component: App,
-		childRoutes: []
+		childRoutes: [],
+		onLeave: function() {
+			// Reset window title
+			Fluky.dispatch('action.Window.setTitle', Fluky.getState('Service').name);
+		}
 	};
 
 	// Loading routes
@@ -49,7 +53,11 @@ var initRoutes = function(routeSettings) {
 
 			routes.childRoutes.push({
 				path: route.path,
-				component: route.handler
+				component: route.handler,
+				onLeave: function() {
+					// Reset window title
+					Fluky.dispatch('action.Window.setTitle', Fluky.getState('Service').name);
+				}
 			});
 		}
 	}
@@ -66,7 +74,7 @@ export default class BrowserInit extends React.Component {
 
 		return (
 			<Entry flux={Fluky}>
-				<Router routes={routes} history={history} />
+				<Router routes={routes} history={history} onUpdate={this.onUpdate} />
 			</Entry>
 		);
 	}

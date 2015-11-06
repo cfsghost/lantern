@@ -6,6 +6,10 @@ import { flux } from 'Decorator';
 @flux
 class Window extends React.Component {
 
+	componentWillMount() {
+		this.flux.on('state.Window', this.flux.bindListener(this.onChange));
+	}
+
 	componentDidMount() {
 		if (!this.flux.isBrowser)
 			return;
@@ -18,6 +22,8 @@ class Window extends React.Component {
 	}
 
 	componentWillUnmount() {
+		this.flux.off('state.Window', this.onChange);
+
 		if (!this.flux.isBrowser)
 			return;
 
@@ -31,6 +37,16 @@ class Window extends React.Component {
 
 	onScroll = () => {
 		this.flux.dispatch('action.Window.scroll', document.body.scrollTop);
+	}
+
+	onChange = () => {
+
+		if (!this.flux.isBrowser)
+			return;
+
+		var store = this.flux.getState('Window');
+
+		document.title = store.title;
 	}
 
 	render() {
