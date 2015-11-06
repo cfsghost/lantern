@@ -10,7 +10,7 @@ export default function(page) {
 		};
 
 		var _do = preAction(pageInit);
-console.log(123123123);
+
 		return _do(Component);
 	}
 };

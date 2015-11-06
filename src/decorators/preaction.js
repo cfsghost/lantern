@@ -37,6 +37,7 @@ function handleActions(Component, props, context) {
 				props: props,
 				doAction: doAction.bind({
 					Component: Component,
+					i18n: Component.i18n || undefined,
 					flux: context.flux
 				})
 			});
