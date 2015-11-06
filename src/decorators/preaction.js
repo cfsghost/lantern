@@ -35,9 +35,10 @@ function handleActions(Component, props, context) {
 		if (action instanceof Function) {
 			action.call(Component, {
 				props: props,
+				i18n: context.flux.locale || undefined,
+				flux: context.flux,
 				doAction: doAction.bind({
 					Component: Component,
-					i18n: Component.i18n || undefined,
 					flux: context.flux
 				})
 			});
