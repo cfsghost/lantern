@@ -27,7 +27,7 @@ function doAction() {
 	this.flux.dispatch.apply(this.flux, args);
 }
 
-function handleActions(Component, context) {
+function handleActions(Component, props, context) {
 	// Pre-calling actions to fetch stores
 	for (var index in Component.preActions) {
 		var action = Component.preActions[index];
@@ -55,28 +55,34 @@ export default function() {
 	return function(Component) {
 		flux(Component);
 
-		// Define what store this component required
-		Component.preActions = args;
+		if (!Component.isInitializer) {
+			// Define what store this component required
+			Component.preActions = args;
 
-		return class Initializer extends React.Component {
-			static contextTypes = {
-				flux: React.PropTypes.object
-			};
+			return class Initializer extends React.Component {
+				static isInitializer = true;
+				static contextTypes = {
+					flux: React.PropTypes.object
+				};
 
-			constructor(props, context) {
-				super(props, context);
+				constructor(props, context) {
+					super(props, context);
 
-				// Do not fetch data twice
-				if (!context.flux.disabledEventHandler) {
-					handleActions(Component, context);
+					// Do not fetch data twice
+					if (!context.flux.disabledEventHandler) {
+						handleActions(Component, props, context);
+					}
 				}
-			}
 
-			render() {
-				return (
-					<Component {...this.props} />
-				);
-			}
-		};
+				render() {
+					return (
+						<Component ref='compoennt' {...this.props} />
+					);
+				}
+			};
+		} else {
+			// Define what store this component required
+			Component.refs.component.preActions = Component.refs.component.preActions.concat(args);
+		}
 	};
 };

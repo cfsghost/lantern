@@ -204,7 +204,7 @@ co(function *() {
 				cookie: this.req.headers.cookie
 			});
 			yield this.render('index', {
-				title: settings.general.service.name,
+				title: page.state.Window.title || settings.general.service.name,
 				content: page.content,
 				state: JSON.stringify(page.state)
 			});

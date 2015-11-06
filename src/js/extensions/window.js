@@ -1,9 +1,16 @@
 export default function *() {
 
 	var store = this.getState('Window', {
+		title: null,
 		width: 100,
 		height: 100,
 		scrollTop: 0
+	});
+
+	this.on('store.Window.setTitle', function *(title) {
+		store.title = title;
+
+		this.dispatch('state.Window');
 	});
 
 	this.on('store.Window.resize', function *(width, height) {
