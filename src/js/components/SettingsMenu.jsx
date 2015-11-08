@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import I18n from 'Extension/I18n.jsx';
+
 // Decorators
 import { router, flux, i18n } from 'Decorator';
 
