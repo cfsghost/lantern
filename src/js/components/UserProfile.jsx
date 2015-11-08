@@ -82,7 +82,9 @@ class UserProfile extends React.Component {
 
 					<div className='ui segments'>
 						<div className='ui secondary segment'>
-							<h5 className='ui header'>Public Profile</h5>
+							<h5 className='ui header'>
+								<I18n sign='user_profile.public_profile'>Public Profile</I18n>
+							</h5>
 						</div>
 
 						<div className='ui very padded segment'>
@@ -96,7 +98,9 @@ class UserProfile extends React.Component {
 							})(this)}
 
 							<div className={nameClasses}>
-								<label>Display Name</label>
+								<label>
+									<I18n sign='user_profile.display_name'>Display Name</I18n>
+								</label>
 								<div className={'ui left input'}>
 									<input
 										type='text'
@@ -109,7 +113,9 @@ class UserProfile extends React.Component {
 							</div>
 
 							<div className={emailClasses}>
-								<label>E-mail Address</label>
+								<label>
+									<I18n sign='user_profile.email'>E-mail Address</I18n>
+								</label>
 								<div className={'ui left input'}>
 									<input
 										type='text'
@@ -122,7 +128,9 @@ class UserProfile extends React.Component {
 							</div>
 
 							<div className='field'>
-								<button className={'ui teal' + (this.state.busy ? ' loading' : '') + ' button' } onClick={this.updateProfile}>Update Profile</button>
+								<button className={'ui teal' + (this.state.busy ? ' loading' : '') + ' button' } onClick={this.updateProfile}>
+									<I18n sign='user_profile.update_button'>Update Profile</I18n>
+								</button>
 							</div>
 
 						</div>

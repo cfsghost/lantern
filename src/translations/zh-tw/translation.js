@@ -29,6 +29,10 @@ module.exports = {
 	'forgot.submit_button': '送出',
 	'user_profile.header': '使用者資料',
 	'user_profile.subheader': '個人化資訊',
+	'user_profile.public_profile': '公開資訊',
+	'user_profile.display_name': '顯示名稱',
+	'user_profile.email': '電子郵件信箱',
+	'user_profile.update_button': '更新資訊',
 	'account_settings.header': '帳號設定',
 	'account_settings.subheader': '密碼和驗證資訊',
 };
