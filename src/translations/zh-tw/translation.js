@@ -26,5 +26,7 @@ module.exports = {
 	'forgot.header': '您忘記密碼了嗎？',
 	'forgot.desc': '請輸入你的電子郵件信箱，我們將會立即寄送密碼重設信給您。',
 	'forgot.enter_email': '輸入有效的電子郵件信箱',
-	'forgot.submit_button': '送出'
+	'forgot.submit_button': '送出',
+	'user_profile.header': '使用者資料',
+	'user_profile.subheader': '個人化資訊'
 };

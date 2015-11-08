@@ -1,4 +1,5 @@
 import React from 'react';
+import I18n from 'Extension/I18n.jsx';
 
 // Decorators
 import { router, flux, i18n, preAction } from 'Decorator';
@@ -74,8 +75,8 @@ class UserProfile extends React.Component {
 				<div className='ui form'>
 					<h1 className='ui header'>
 						<div className='content'>
-							Profile
-							<div className='sub header'>Personal information</div>
+							<I18n sign='user_profile.header'>Profile</I18n>
+							<div className='sub header'><I18n sign='user_profile.subheader'>Personal information</I18n></div>
 						</div>
 					</h1>
 

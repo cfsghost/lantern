@@ -36,7 +36,9 @@ class SettingsMenu extends React.Component {
 
 		return (
 			<div className='ui right floated teal secondary vertical pointing menu'>
-				<Link to='/settings/profile' activeClassName='active' className='item'>Profile</Link>
+				<Link to='/settings/profile' activeClassName='active' className='item'>
+					<I18n sign='user_profile.header'>Profile</I18n>
+				</Link>
 				<Link to='/settings/account' activeClassName='active' className='item'>Account Settings</Link>
 			</div>
 		);
