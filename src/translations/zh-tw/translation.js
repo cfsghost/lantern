@@ -28,5 +28,7 @@ module.exports = {
 	'forgot.enter_email': '輸入有效的電子郵件信箱',
 	'forgot.submit_button': '送出',
 	'user_profile.header': '使用者資料',
-	'user_profile.subheader': '個人化資訊'
+	'user_profile.subheader': '個人化資訊',
+	'account_settings.header': '帳號設定',
+	'account_settings.subheader': '密碼和驗證資訊',
 };

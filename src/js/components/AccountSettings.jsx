@@ -163,8 +163,10 @@ class AccountSettings extends React.Component {
 				<div className='ui form'>
 					<h1 className='ui header'>
 						<div className='content'>
-							Account Settings
-							<div className='sub header'>Password and identifiable information</div>
+							<I18n sign='account_settings.header'>Account Settings</I18n>
+							<div className='sub header'>
+								<I18n sign='account_settings.subheader'>Password and identifiable information</I18n>
+							</div>
 						</div>
 					</h1>
 

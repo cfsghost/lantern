@@ -41,7 +41,9 @@ class SettingsMenu extends React.Component {
 				<Link to='/settings/profile' activeClassName='active' className='item'>
 					<I18n sign='user_profile.header'>Profile</I18n>
 				</Link>
-				<Link to='/settings/account' activeClassName='active' className='item'>Account Settings</Link>
+				<Link to='/settings/account' activeClassName='active' className='item'>
+					<I18n sign='account_settings.header'>Account Settings</I18n>
+				</Link>
 			</div>
 		);
 	}
