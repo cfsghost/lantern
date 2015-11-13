@@ -172,7 +172,7 @@ export default function *() {
 			this.dispatch('state.User');
 		} catch(e) {
 
-			if (res.status == 401) {
+			if (e.status == 401) {
 				store.status = 'login-failed';
 
 				this.dispatch('state.User');

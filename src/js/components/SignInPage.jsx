@@ -41,7 +41,11 @@ class SignInPage extends React.Component {
 
 		// No need to sign in if logined already
 		if (user.logined) {
-			this.history.pushState(null, '/');
+			if (this.props.location.query.target)
+				this.history.pushState(null, this.props.location.query.target);
+			else
+				this.history.pushState(null, '/');
+
 			return;
 		}
 
@@ -83,6 +87,11 @@ class SignInPage extends React.Component {
 			);
 		}
 
+		var target = undefined;
+		if (this.props.location.query.target) {
+			target = this.props.location.query.target;
+		}
+
 		return (
 			<div className='main-page'>
 				<Header />
@@ -119,7 +128,7 @@ class SignInPage extends React.Component {
 									</div>
 									<div className='field ui teal message'>
 										<div><Link to='/forgot'><I18n sign='sign_in.forgot_password'>Forgot your password?</I18n></Link></div>
-										<div><I18n sign='sign_in.no_account_yet'>No Account yet?</I18n> <Link to='/signup'><I18n sign='sign_in.sign_up'>Sign Up</I18n></Link></div>
+										<div><I18n sign='sign_in.no_account_yet'>No Account yet?</I18n> <Link to='/signup' query={{ target: target }}><I18n sign='sign_in.sign_up'>Sign Up</I18n></Link></div>
 									</div>
 								</div>
 							</div>
@@ -128,18 +137,18 @@ class SignInPage extends React.Component {
 
 							<div className={'ui center aligned basic segment'}>
 								<div className='ui buttons'>
-									<a href='/auth/facebook' className='ui facebook icon button'>
+									<Link to='/auth/facebook' query={{ target: target }} className='ui facebook icon button'>
 										<i className='facebook icon' />
-									</a>
-									<a href='/auth/github' className='ui github icon button'>
+									</Link>
+									<Link to='/auth/github' query={{ target: target }} className='ui github icon button'>
 										<i className='github icon' />
-									</a>
-									<a href='/auth/google' className='ui google plus icon button'>
+									</Link>
+									<Link to='/auth/google' query={{ target: target }} className='ui google plus icon button'>
 										<i className='google plus icon' />
-									</a>
-									<a href='/auth/linkedin' className='ui linkedin icon button'>
+									</Link>
+									<Link to='/auth/linkedin' query={{ target: target }} className='ui linkedin icon button'>
 										<i className='linkedin icon' />
-									</a>
+									</Link>
 								</div>
 							</div>
 

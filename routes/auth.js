@@ -92,23 +92,41 @@ router.post('/signup', function *() {
 });
 
 router.get('/auth/github', function *() {
+	if (this.query.target)
+		this.session.target = this.query.target;
+
 	yield passport.authenticate('github', { scope: [ 'user:email' ] });
 });
 
 router.get('/auth/facebook', function *() {
+	if (this.query.target)
+		this.session.target = this.query.target;
+
 	yield passport.authenticate('facebook', { scope: [ 'email' ] });
 });
 
 router.get('/auth/google', function *() {
+	if (this.query.target)
+		this.session.target = this.query.target;
+
 	yield passport.authenticate('google', { scope: [ 'https://www.googleapis.com/auth/plus.login', 'email' ] });
 });
 
 router.get('/auth/linkedin', function *() {
+	if (this.query.target)
+		this.session.target = this.query.target;
+
 	yield passport.authenticate('linkedin');
 });
 
 router.get('/auth/:serviceName/callback', function *() {
 	var ctx = this;
+
+	var target = '/';
+	if (this.session.target)
+		target = this.session.target;
+
+	delete this.session.target;
 
 	try {
 		yield passport.authenticate(this.params.serviceName, { failureRedirect: '/signin' }, function *(err, user) {
@@ -116,7 +134,7 @@ router.get('/auth/:serviceName/callback', function *() {
 				throw err;
 
 			if (!user) {
-				ctx.redirect('/');
+				ctx.redirect(target);
 				return;
 			}
 
@@ -136,7 +154,7 @@ router.get('/auth/:serviceName/callback', function *() {
 					yield Passport.login(ctx, m);
 
 					// Successful authentication
-					ctx.redirect('/');
+					ctx.redirect(target);
 					return;
 				}
 			} catch(e) {
@@ -158,7 +176,7 @@ router.get('/auth/:serviceName/callback', function *() {
 			var m = yield Passport.login(ctx, member);
 
 			// Successful authentication
-			ctx.redirect('/');
+			ctx.redirect(target);
 		});
 
 	} catch(e) {

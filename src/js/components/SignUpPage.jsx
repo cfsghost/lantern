@@ -28,11 +28,11 @@ class SignUpPage extends React.Component {
 	}
 
 	componentWillMount = () => {
-		this.flux.on('store.User', this.flux.bindListener(this.onChange));
+		this.flux.on('state.User', this.flux.bindListener(this.onChange));
 	}
 
 	componentWillUnmount = () => {
-		this.flux.off('store.User', this.onChange);
+		this.flux.off('state.User', this.onChange);
 	}
 
 	signUp = () => {
@@ -96,7 +96,10 @@ class SignUpPage extends React.Component {
 
 		// No need to sign in if logined already
 		if (user.logined) {
-			this.history.pushState(null, '/');
+			if (this.props.location.query.target)
+				this.history.pushState(null, this.props.location.query.target);
+			else
+				this.history.pushState(null, '/');
 			return;
 		}
 
