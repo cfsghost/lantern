@@ -71,6 +71,13 @@ class SignInPage extends React.Component {
 		}
 	}
 
+	toURL = (url, target) => {
+		if (target)
+			return url + '?target=' + target;
+
+		return url;
+	}
+
 	render() {
 		var message;
 		var fieldClass = 'field';
@@ -137,18 +144,18 @@ class SignInPage extends React.Component {
 
 							<div className={'ui center aligned basic segment'}>
 								<div className='ui buttons'>
-									<Link to='/auth/facebook' query={{ target: target }} className='ui facebook icon button'>
+									<a href={this.toURL('/auth/facebook', target)} className='ui facebook icon button'>
 										<i className='facebook icon' />
-									</Link>
-									<Link to='/auth/github' query={{ target: target }} className='ui github icon button'>
+									</a>
+									<a href={this.toURL('/auth/github', target)} className='ui github icon button'>
 										<i className='github icon' />
-									</Link>
-									<Link to='/auth/google' query={{ target: target }} className='ui google plus icon button'>
+									</a>
+									<a href={this.toURL('/auth/google', target)} className='ui google plus icon button'>
 										<i className='google plus icon' />
-									</Link>
-									<Link to='/auth/linkedin' query={{ target: target }} className='ui linkedin icon button'>
+									</a>
+									<a href={this.toURL('/auth/linkedin', target)} className='ui linkedin icon button'>
 										<i className='linkedin icon' />
-									</Link>
+									</a>
 								</div>
 							</div>
 
