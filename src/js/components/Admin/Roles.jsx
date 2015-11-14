@@ -15,7 +15,7 @@ import { router, flux, i18n, preAction } from 'Decorator';
 class RoleItem extends React.Component {
 
 	componentDidMount = () => {
-		$(this.refs.dropdown.getDOMNode()).dropdown();
+		$(this.refs.dropdown).dropdown();
 	}
 
 	render() {
@@ -50,13 +50,13 @@ class RoleItem extends React.Component {
 class SearchBar extends React.Component {
 
 	componentDidMount = () => {
-		$(this.refs.field.getDOMNode()).dropdown();
+		$(this.refs.field).dropdown();
 	}
 
 	onSubmit = () => {
 
-		var field = this.refs.field.getDOMNode().value;
-		var keywords = this.refs.keywords.getDOMNode().value;
+		var field = this.refs.field.value;
+		var keywords = this.refs.keywords.value;
 		var conditions = {};
 		if (keywords)
 			conditions[field] = keywords;
@@ -118,19 +118,19 @@ class NewRoleModal extends React.Component {
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.visible) {
 			// Clear input field
-			this.refs.name.getDOMNode().value = '';
-			this.refs.desc.getDOMNode().value = '';
+			this.refs.name.value = '';
+			this.refs.desc.value = '';
 
-			$(this.refs.component.getDOMNode()).modal('show');
+			$(this.refs.component).modal('show');
 		} else {
-			$(this.refs.component.getDOMNode()).modal('hide');
+			$(this.refs.component().modal('hide');
 		}
 	}
 
 	onCreate = () => {
 		var perms = this.refs.permission.getCurrentPermissions();
-		var name = this.refs.name.getDOMNode().value;
-		var desc = this.refs.desc.getDOMNode().value;
+		var name = this.refs.name.value;
+		var desc = this.refs.desc.value;
 
 		this.flux.dispatch('action.Admin.Roles.create', name, desc, perms);
 	}

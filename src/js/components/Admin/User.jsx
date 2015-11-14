@@ -39,8 +39,8 @@ class Profile extends React.Component {
 	}
 
 	onChange = () => {
-		var name = this.refs.name.getDOMNode().value;
-		var email = this.refs.email.getDOMNode().value;
+		var name = this.refs.name.value;
+		var email = this.refs.email.value;
 
 		this.setState({
 			data: {
@@ -145,8 +145,8 @@ class User extends React.Component {
 	componentDidMount() {
 		var self = this;
 
-		$(this.refs.tab.getDOMNode()).find('.item').tab();
-		$(this.refs.roles.getDOMNode()).dropdown({
+		$(this.refs.tab).find('.item').tab();
+		$(this.refs.roles).dropdown({
 			onChange: function(values) {
 				console.log('Changed');
 

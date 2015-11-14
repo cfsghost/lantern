@@ -27,7 +27,7 @@ class PermissionGroup extends React.Component {
 	componentDidMount = () => {
 		var self = this;
 
-		$(this.refs.checkbox.getDOMNode())
+		$(this.refs.checkbox)
 			.checkbox({
 				onChecked: function() {
 
@@ -54,11 +54,11 @@ class PermissionGroup extends React.Component {
 
 		// set parent checkbox state, but dont trigger its onChange callback
 		if (this.state.allChecked) {
-			$(this.refs.checkbox.getDOMNode()).checkbox('set checked');
+			$(this.refs.checkbox).checkbox('set checked');
 		} else if(this.state.allUnchecked) {
-			$(this.refs.checkbox.getDOMNode()).checkbox('set unchecked');
+			$(this.refs.checkbox).checkbox('set unchecked');
 		} else {
-			$(this.refs.checkbox.getDOMNode()).checkbox('set indeterminate');
+			$(this.refs.checkbox).checkbox('set indeterminate');
 		}
 	}
 
@@ -180,7 +180,7 @@ class PermissionItem extends React.Component {
 	componentDidMount = () => {
 		var self = this;
 
-		var $component = $(this.refs.component.getDOMNode());
+		var $component = $(this.refs.component);
 
 		$component.checkbox({
 			onChange: function() {
@@ -191,9 +191,9 @@ class PermissionItem extends React.Component {
 
 	componentDidUpdate = () => {
 		if (this.state.checked) {
-			$(this.refs.component.getDOMNode()).checkbox('set checked');
+			$(this.refs.component).checkbox('set checked');
 		} else {
-			$(this.refs.component.getDOMNode()).checkbox('set unchecked');
+			$(this.refs.component).checkbox('set unchecked');
 		}
 	}
 
@@ -258,7 +258,7 @@ class PermissionPanel extends React.Component {
 
 		var perms = {};
 
-		$(this.refs.component.getDOMNode())
+		$(this.refs.component)
 			.find('.ui.child.checkbox')
 			.each(function(index, checkbox) {
 				var $checkbox = $(checkbox);
