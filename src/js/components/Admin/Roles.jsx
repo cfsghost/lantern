@@ -123,7 +123,7 @@ class NewRoleModal extends React.Component {
 
 			$(this.refs.component).modal('show');
 		} else {
-			$(this.refs.component().modal('hide');
+			$(this.refs.component).modal('hide');
 		}
 	}
 
