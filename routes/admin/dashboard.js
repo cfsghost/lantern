@@ -1,6 +1,7 @@
 var Router = require('koa-router');
 var Utils = require('../../lib/utils.js');
 var Member = require('../../lib/member');
+var Permission = require('../../lib/permission');
 var Middleware = require('../../lib/middleware');
 
 var router = module.exports = new Router();
@@ -13,7 +14,7 @@ router.get('/admin/api/dashboard', function *() {
 			count: yield Member.count()
 		},
 		admin: {
-			count: 0
+		   count: yield Permission.count({ 'admin.access': true })
 		},
 		service: {
 			name: Utils.getServiceName(),
