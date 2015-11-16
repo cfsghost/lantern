@@ -116,10 +116,10 @@ var configs = module.exports = [
 				},
 				{ test: /\.css$/, loader: 'style!css' },
 				{ test: /\.less$/, loader: 'style!css!less' },
-				{ test: /\.png$/,  loader: "file-loader" },
-				{ test: /\.jpg$/,  loader: "file-loader" },
-				{ test: /\.gif$/,  loader: "file-loader" },
-				{ test: /\.woff$/, loader: "file-loader" }
+				{ test: /\.png$/,  loader: "url-loader?limit=100000000" },
+				{ test: /\.jpg$/,  loader: "url-loader?limit=100000000" },
+				{ test: /\.gif$/,  loader: "url-loader?limit=100000000" },
+				{ test: /\.woff$/, loader: "url-loader?limit=100000000" }
 			],
 			plugins: [
 				new webpack.IgnorePlugin(new RegExp('^('
