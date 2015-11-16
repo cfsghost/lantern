@@ -65,6 +65,9 @@ var configs = module.exports = [
 				{ test: /\.jpg$/,  loader: "url-loader?limit=1000" },
 				{ test: /\.gif$/,  loader: "url-loader?limit=1000" },
 				{ test: /\.woff$/, loader: "url-loader?limit=1000" }
+			],
+			noParse: [
+				/moment-with-locales/
 			]
 		},
 		externals: {
@@ -72,6 +75,7 @@ var configs = module.exports = [
 		},
 		resolve: {
 			alias: {
+				'moment': 'moment/min/moment-with-locales.min.js',
 				Source: __dirname + '/src',
 				Extension: __dirname + '/src/extensions',
 				Decorator: __dirname + '/src/decorators',
@@ -106,7 +110,10 @@ var configs = module.exports = [
 		module: {
 			loaders: [
 				{ test: /\.json$/, loader: 'json-loader' },
-				{ test: /\.jsx?$/, loader: 'babel-loader?optional[]=runtime&stage=0', exclude: /(node_modules|bower_components)/ },
+				{ test: /\.jsx?$/,
+					loader: 'babel-loader?optional[]=runtime&stage=0',
+					exclude: /(node_modules|bower_components)/
+				},
 				{ test: /\.css$/, loader: 'style!css' },
 				{ test: /\.less$/, loader: 'style!css!less' },
 				{ test: /\.png$/,  loader: "file-loader" },
@@ -119,10 +126,14 @@ var configs = module.exports = [
 					+ fs.readdirSync('./src/externals').map(function(module) {
 						return module
 					}).join('|') + ')$'))
+			],
+			noParse: [
+				/moment-with-locales/
 			]
 		},
 		resolve: {
 			alias: {
+				'moment': 'moment/min/moment-with-locales.min.js',
 				Source: __dirname + '/src',
 				Extension: __dirname + '/src/extensions',
 				Decorator: __dirname + '/src/decorators',
@@ -131,6 +142,8 @@ var configs = module.exports = [
 		}
 	}
 ];
+
+console.log(path.resolve(__dirname, 'node_modules/react/dist/react.min.js'));
 
 // Internationalization and Localization
 var translationPath = path.join(__dirname, 'src', 'translations');

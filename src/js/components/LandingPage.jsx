@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Header from './Header.jsx';
 import I18n from 'Extension/I18n.jsx';
 
@@ -30,8 +31,8 @@ class LandingPage extends React.Component {
 	}
 
 	about = () => {
-		var $node = $(this.refs.app_section.getDOMNode());
-		var $header = $(React.findDOMNode(this.refs.header));
+		var $node = $(this.refs.app_section);
+		var $header = $(ReactDOM.findDOMNode(this.refs.header));
 
 		$('html, body').stop().animate({
 			scrollTop: $node.offset().top - $header.height()

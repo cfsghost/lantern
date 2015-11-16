@@ -1,8 +1,7 @@
 import React from 'react';
-import instantiateReactComponent from 'react/lib/instantiateReactComponent';
 import ReactDOMServer from 'react-dom/server';
 import { match, RoutingContext } from 'react-router';
-import Fluky from 'fluky/lib/core';
+import Fluky from 'fluky';
 import Entry from './Entry.jsx';
 import App from './App.jsx';
 
@@ -62,7 +61,7 @@ function generateNewContent(fluky, component, callback) {
 var initEntry = function(error, redirectLocation, renderProps, state, userdata, callback) {
 
 	// Initializing FLUX framework
-	var fluky = new Fluky();
+	var fluky = Fluky.createInstance();
 
 	fluky.options = {
 		userdata: userdata,
