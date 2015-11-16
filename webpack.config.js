@@ -143,8 +143,6 @@ var configs = module.exports = [
 	}
 ];
 
-console.log(path.resolve(__dirname, 'node_modules/react/dist/react.min.js'));
-
 // Internationalization and Localization
 var translationPath = path.join(__dirname, 'src', 'translations');
 fs.readdirSync(translationPath).map(function(locale) {
