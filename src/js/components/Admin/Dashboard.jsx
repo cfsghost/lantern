@@ -1,4 +1,5 @@
 import React from 'react';
+import I18n from 'Extension/I18n.jsx';
 import AdminLayout from './AdminLayout.jsx';
 
 // Decorators
@@ -51,8 +52,10 @@ class Dashboard extends React.Component {
 					<h1 className='ui header'>
 						<i className='dashboard icon' />
 						<div className='content'>
-							Dashboard
-							<div className='sub header'>Service information</div>
+							<I18n sign='admin_dashboard.header'>Dashboard</I18n>
+							<div className='sub header'>
+								<I18n sign='admin_dashboard.subheader'>Service information</I18n>
+							</div>
 						</div>
 					</h1>
 
@@ -61,11 +64,15 @@ class Dashboard extends React.Component {
 							<div className='ui padded red segment'>
 								<div className='ui divided selection list'>
 									<div className='item'>
-										<div className='ui red horizontal blue label'>Service Name</div>
+										<div className='ui red horizontal blue label'>
+											<I18n sign='admin_dashboard.service_name'>Service Name</I18n>
+										</div>
 										{this.state.serviceName}
 									</div>
 									<div className='item'>
-										<div className='ui red horizontal teal label'>External URL</div>
+										<div className='ui red horizontal teal label'>
+											<I18n sign='admin_dashboard.external_url'>External URL</I18n>
+										</div>
 										{this.state.externalURL}
 									</div>
 								</div>
@@ -79,7 +86,9 @@ class Dashboard extends React.Component {
 										<i className='users icon' />
 										{this.state.userCount}
 									</div>
-									<div className='label'>Users</div>
+									<div className='label'>
+										<I18n sign='admin_dashboard.users'>Users</I18n>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -92,7 +101,9 @@ class Dashboard extends React.Component {
 										<i className='spy icon' />
 										{this.state.adminCount}
 									</div>
-									<div className='label'>Admins</div>
+									<div className='label'>
+										<I18n sign='admin_dashboard.admins'>Admins</I18n>
+									</div>
 								</div>
 							</div>
 

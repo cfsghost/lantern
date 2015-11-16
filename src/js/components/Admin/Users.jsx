@@ -2,6 +2,8 @@ import crypto from 'crypto';
 import React from 'react';
 import { Link } from 'react-router';
 
+import I18n from 'Extension/I18n.jsx';
+
 // Components
 import AdminLayout from './AdminLayout.jsx';
 import Avatar from '../Avatar.jsx';
@@ -191,8 +193,10 @@ class Users extends React.Component {
 							<h1 className='ui header'>
 								<i className='users icon' />
 								<div className='content'>
-									Users
-									<div className='sub header'>User management</div>
+									<I18n sign='admin_users.header'>Users</I18n>
+									<div className='sub header'>
+										<I18n sign='admin_users.subheader'>User Management</I18n>
+									</div>
 								</div>
 							</h1>
 						</div>

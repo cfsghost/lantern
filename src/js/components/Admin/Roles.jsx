@@ -2,6 +2,8 @@ import crypto from 'crypto';
 import React from 'react';
 import { Link } from 'react-router';
 
+import I18n from 'Extension/I18n.jsx';
+
 // Components
 import AdminLayout from './AdminLayout.jsx';
 import PermissionPanel from './PermissionPanel.jsx';
@@ -265,8 +267,10 @@ class Roles extends React.Component {
 							<h1 className='ui header'>
 								<i className='users icon' />
 								<div className='content'>
-									Roles
-									<div className='sub header'>Role management</div>
+									<I18n sign='admin_roles.header'>Roles</I18n>
+									<div className='sub header'>
+										<I18n sign='admin_roles.subheader'>Role management</I18n>
+									</div>
 								</div>
 							</h1>
 						</div>
