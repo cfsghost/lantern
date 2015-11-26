@@ -77,9 +77,46 @@ export default function() {
 					}
 				}
 
+				componentDidMount() {
+
+					// Making a proxy for methods of component
+					for (var method in this.refs.component) {
+
+						switch(method) {
+						case 'render':
+						case 'componentWillMount':
+						case 'componentDidMount':
+						case 'componentWillUnmount':
+						case 'componentWillReceiveProps':
+						case '_reactInternalInstance':
+						case 'isReactComponent':
+						case 'state':
+						case 'setState':
+						case 'forceUpdate':
+						case 'props':
+						case 'context':
+						case 'refs':
+						case 'updater':
+							continue;
+						}
+
+						(function(self, method) {
+							Object.defineProperty(self, method, {
+								get: function() {
+									console.log('111', arguments);
+									return self.refs.component[method];
+								},
+								set: function(value) {
+									self.refs.component[method] = value;
+								}
+							});
+						})(this, method);
+					}
+				}
+
 				render() {
 					return (
-						<Component {...this.props} />
+						<Component ref='component' {...this.props} />
 					);
 				}
 			};

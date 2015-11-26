@@ -50,6 +50,7 @@ class Profile extends React.Component {
 	}
 
 	save = () => {
+		console.log(this.refs.permission);
 		this.props.onSave({
 			name: this.state.data.name,
 			desc: this.state.data.desc,

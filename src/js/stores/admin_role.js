@@ -37,7 +37,7 @@ export default function *() {
 
 		// Saving
 		var res = yield this.request
-			.put('/admin/api/user/' + id)
+			.put('/admin/api/role/' + id)
 			.send({
 				name: profile.name,
 				desc: profile.desc,

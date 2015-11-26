@@ -20,7 +20,7 @@ router.get('/admin/api/role/:id', function *() {
 	};
 });
 
-router.put('/admin/api/user/:id', function *() {
+router.put('/admin/api/role/:id', function *() {
 
 	if (!this.request.body.name || !this.request.body.desc) {
 		this.status = 401;
