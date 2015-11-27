@@ -123,7 +123,9 @@ class NewRoleModal extends React.Component {
 			this.refs.name.value = '';
 			this.refs.desc.value = '';
 
-			$(this.refs.component).modal('show');
+			$(this.refs.component).modal({				
+			    onApprove: this.onCreate
+			}).modal('show');
 		} else {
 			$(this.refs.component).modal('hide');
 		}
