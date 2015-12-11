@@ -72,7 +72,7 @@ export default function() {
 					super(props, context);
 
 					// Do not fetch data twice
-					if (!context.flux.disabledEventHandler) {
+					if (!context.flux.disabledEventHandler && !context.flux.isBrowser) {
 						handleActions(Component, props, context);
 					}
 				}
@@ -103,7 +103,6 @@ export default function() {
 						(function(self, method) {
 							Object.defineProperty(self, method, {
 								get: function() {
-									console.log('111', arguments);
 									return self.refs.component[method];
 								},
 								set: function(value) {
@@ -111,6 +110,10 @@ export default function() {
 								}
 							});
 						})(this, method);
+					}
+
+					if (this.flux.isBrowser) {
+						handleActions(Component, this.props, this.context);
 					}
 				}
 
