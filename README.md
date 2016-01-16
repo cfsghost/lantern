@@ -41,13 +41,14 @@ node app.js dev
 
 * Fast to setup and easy to customize
 * UI is pretty cool and fantasic
-* Widely use ES6 and ES7+ (Generator and classes)
+* Widely use ES6 and ES7+ (Generator, classes and decorator)
 * Isomorphic Architecture
 * Support permission management
 * Support user database system
 * Support Hot loading without webpack-dev-server
 * Support i18n for multiple language
 * Support third-party Authorization (Facebook/Github/Google/Linkedin)
+* Support Hot-load mechanism
 
 ## Dependencies
 
@@ -55,7 +56,7 @@ node app.js dev
 * Koa web framework
 * MongoDB
 * Fluky - Event-based framework for flux data flow pattern
-* babel 5 - Used to support ES6/ES7+
+* babel 6 - Used to support ES6/ES7+
 * React v0.14+
 * react-router 1.0.0+ - router for React
 * [Semantic UI](http://semantic-ui.com/) - Front-end UI toolkit
