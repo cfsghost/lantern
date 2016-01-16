@@ -43,6 +43,7 @@ node app.js dev
 * UI is pretty cool and fantasic
 * Widely use ES6 and ES7+ (Generator, classes and decorator)
 * Isomorphic Architecture
+* Provided a lot useful extensions to speed up the development.
 * Support permission management
 * Support user database system
 * Support Hot loading without webpack-dev-server
