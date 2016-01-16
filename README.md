@@ -63,6 +63,10 @@ node app.js dev
 * [Semantic UI](http://semantic-ui.com/) - Front-end UI toolkit
 * Webpack
 * Passport
+* 
+
+## Showcases
+* [Hackathon Taiwan](http://hackathon.tw/)
 
 License
 -
