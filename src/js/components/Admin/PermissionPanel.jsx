@@ -48,7 +48,7 @@ class PermissionGroup extends React.Component {
 					self.forceUpdate();
 				}
 			});
-	}
+	};
 
 	componentDidUpdate = () => {
 
@@ -60,7 +60,7 @@ class PermissionGroup extends React.Component {
 		} else {
 			$(this.refs.checkbox).checkbox('set indeterminate');
 		}
-	}
+	};
 
 	componentWillReceiveProps = (nextProps) => {
 		var perms = {};
@@ -93,7 +93,7 @@ class PermissionGroup extends React.Component {
 			newState.checked = nextProps.checked;
 
 		this.setState(newState);
-	}
+	};
 
 	setupCheckbox = () => {
 
@@ -110,7 +110,7 @@ class PermissionGroup extends React.Component {
 
 		this.state.allChecked = allChecked;
 		this.state.allUnchecked = allUnchecked;
-	}
+	};
 
 	onPermChecked = (id, checked) => {
 
@@ -120,7 +120,7 @@ class PermissionGroup extends React.Component {
 		this.setupCheckbox();
 
 		this.forceUpdate();
-	}
+	};
 
 	render = () => {
 		var permComps = [];
@@ -154,7 +154,7 @@ class PermissionGroup extends React.Component {
 				</div>
 			</div>
 		);
-	}
+	};
 
 }
 
@@ -187,7 +187,7 @@ class PermissionItem extends React.Component {
 				self.props.onChecked(self.props.permid, $component.checkbox('is checked'));
 			}
 		});
-	}
+	};
 
 	componentDidUpdate = () => {
 		if (this.state.checked) {
@@ -195,13 +195,13 @@ class PermissionItem extends React.Component {
 		} else {
 			$(this.refs.component).checkbox('set unchecked');
 		}
-	}
+	};
 
 	componentWillReceiveProps = (nextProps) => {
 		this.setState({
 			checked: nextProps.checked
 		});
-	}
+	};
 
 	render = () => {
 		return (
@@ -210,7 +210,7 @@ class PermissionItem extends React.Component {
 				<label>{this.props.name}</label>
 			</div>
 		);
-	}
+	};
 
 }
 
@@ -233,17 +233,17 @@ class PermissionPanel extends React.Component {
 
 	componentWillMount = () => {
 		this.flux.on('state.Admin.Permission', this.flux.bindListener(this.onChange));
-	}
+	};
 
 	componentWillUnmount = () => {
 		this.flux.off('state.Admin.Permission', this.onChange);
-	}
+	};
 
 	componentWillReceiveProps = (nextProps) => {
 		this.setState({
 			perms: nextProps.perms || {}
 		});
-	}
+	};
 
 	onChange = () => {
 		var permission = this.flux.getState('Admin.Permission');
@@ -252,7 +252,7 @@ class PermissionPanel extends React.Component {
 			availPerms: permission.availPerms,
 			groups: permission.groups
 		});
-	}
+	};
 
 	getCurrentPermissions = () => {
 
@@ -266,7 +266,7 @@ class PermissionPanel extends React.Component {
 			});
 
 		return perms;
-	}
+	};
 
 
 	render() {

@@ -33,11 +33,11 @@ class Window extends React.Component {
 
 	updateDimensions = () => {
 		this.flux.dispatch('action.Window.resize', $(window).width(), $(window).height());
-	}
+	};
 
 	onScroll = () => {
 		this.flux.dispatch('action.Window.scroll', document.body.scrollTop);
-	}
+	};
 
 	onChange = () => {
 
@@ -47,7 +47,7 @@ class Window extends React.Component {
 		var store = this.flux.getState('Window');
 
 		document.title = store.title;
-	}
+	};
 
 	render() {
 		return <div />;

@@ -18,11 +18,11 @@ class UserItem extends React.Component {
 
 	componentDidMount = () => {
 		$(this.refs.dropdown).dropdown();
-	}
+	};
 
 	deleteUser = () => {
 		this.flux.dispatch('action.Admin.Users.deleteOne', this.props.id);
-	}
+	};
 
 	render() {
 		var avatar_hash = crypto.createHash('md5').update(this.props.email).digest('hex');
@@ -59,7 +59,7 @@ class SearchBar extends React.Component {
 
 	componentDidMount = () => {
 		$(this.refs.field).dropdown();
-	}
+	};
 
 	onSubmit = () => {
 
@@ -70,7 +70,7 @@ class SearchBar extends React.Component {
 			conditions[field] = keywords;
 
 		this.flux.dispatch('action.Admin.Users.query', conditions);
-	}
+	};
 
 	render() {
 
@@ -141,11 +141,11 @@ class Users extends React.Component {
 
 	componentWillMount = () => {
 		this.flux.on('state.Admin.Users', this.flux.bindListener(this.onChange));
-	}
+	};
 
 	componentWillUnmount = () => {
 		this.flux.off('state.Admin.Users', this.onChange);
-	}
+	};
 
 	onChange = () => {
 		var state = this.flux.getState('Admin.Users');
@@ -157,7 +157,7 @@ class Users extends React.Component {
 			perPage: state.perPage,
 			busy: false
 		});
-	}
+	};
 
 	updateProfile = () => {
 		if (this.state.busy)
@@ -168,7 +168,7 @@ class Users extends React.Component {
 		});
 
 		this.flux.dispatch('action.User.updateProfile', this.state.name);
-	}
+	};
 
 	render() {
 		var users = [];

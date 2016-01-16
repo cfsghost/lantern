@@ -36,18 +36,18 @@ class SettingsPage extends React.Component {
 
 	componentWillMount = () => {
 		this.flux.on('state.User', this.flux.bindListener(this.onChange));
-	}
+	};
 
 	componentWillUnmount = () => {
 		this.flux.off('state.User', this.onChange);
-	}
+	};
 
 	componentDidUpdate = () => {
 //		$(this.refs.sidebar.getDOMNode()).sidebar();
-	}
+	};
 
 	onChange = () => {
-	}
+	};
 
 	render() {
 		return (

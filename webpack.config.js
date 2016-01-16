@@ -11,6 +11,7 @@ var configs = module.exports = [
 				'./src/js/browser.jsx'
 			],
 			vendors: [
+				'babel-polyfill',
 				'react',
 				'react-dom',
 				'react-router',
@@ -40,13 +41,13 @@ var configs = module.exports = [
 					loader: 'babel',
 					exclude: /(node_modules|bower_components)/,
 					query: {
-						stage: 0,
-						optional: [ 'runtime' ],
+						cacheDirectory: true,
+						presets: [ 'react', 'es2015', 'stage-0' ],
 						plugins: [
-							'react-transform'
-						],
-						extra: {
-							'react-transform': {
+							'add-module-exports',
+							'transform-decorators-legacy',
+							'syntax-async-functions',
+							[ 'react-transform', {
 								'transforms': [{
 									'transform': 'react-transform-hmr',
 									'imports': ['react'],
@@ -55,8 +56,8 @@ var configs = module.exports = [
 									'transform': 'react-transform-catch-errors',
 									'imports': ['react', 'redbox-react']
 								}]
-							}
-						}
+							}]
+						],
 					}
 				},
 				{ test: /\.css$/, loader: 'style!css' },
@@ -86,7 +87,10 @@ var configs = module.exports = [
 	{
 		name: 'Server-side rendering',
 		entry: {
-			app: './src/js/server.jsx'
+			app: [
+				'babel-polyfill',
+				'./src/js/server.jsx'
+			]
 		},
 		target: 'node',
 		output: {
@@ -110,9 +114,19 @@ var configs = module.exports = [
 		module: {
 			loaders: [
 				{ test: /\.json$/, loader: 'json-loader' },
-				{ test: /\.jsx?$/,
-					loader: 'babel-loader?optional[]=runtime&stage=0',
-					exclude: /(node_modules|bower_components)/
+				{
+					test: /\.jsx?$/,
+					loader: 'babel',
+					exclude: /(node_modules|bower_components)/,
+					query: {
+						cacheDirectory: true,
+						presets: [ 'react', 'es2015', 'stage-0' ],
+						plugins: [
+							'add-module-exports',
+							'transform-decorators-legacy',
+							'syntax-async-functions'
+						]
+					}
 				},
 				{ test: /\.css$/, loader: 'style!css' },
 				{ test: /\.less$/, loader: 'style!css!less' },

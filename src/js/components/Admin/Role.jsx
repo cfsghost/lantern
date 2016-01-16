@@ -12,7 +12,7 @@ class Profile extends React.Component {
 
 	static propTypes = {
 		onSave: React.PropTypes.func.isRequired
-	}
+	};
 
 	constructor(props, context) {
 		super(props, context);
@@ -35,7 +35,7 @@ class Profile extends React.Component {
 				perms: nextProps.data.perms
 			}
 		});
-	}
+	};
 
 	onChange = () => {
 		var name = this.refs.name.value;
@@ -47,7 +47,7 @@ class Profile extends React.Component {
 				desc: desc
 			}
 		});
-	}
+	};
 
 	save = () => {
 		console.log(this.refs.permission);
@@ -56,7 +56,7 @@ class Profile extends React.Component {
 			desc: this.state.data.desc,
 			perms: this.refs.permission.getCurrentPermissions()
 		});
-	}
+	};
 
 	render() {
 
@@ -136,16 +136,16 @@ class Role extends React.Component {
 
 	componentWillMount = () => {
 		this.flux.on('state.Admin.Role', this.flux.bindListener(this.onChange));
-	}
+	};
 
 	componentWillUnmount = () => {
 		this.flux.off('state.Admin.Role', this.onChange);
-	}
+	};
 
 	componentDidMount() {
 
 		$(this.refs.tab).find('.item').tab();
-	}
+	};
 
 	onChange = () => {
 		var state = this.flux.getState('Admin.Role');
@@ -159,7 +159,7 @@ class Role extends React.Component {
 			},
 			saving: false
 		});
-	}
+	};
 
 	onSaveProfile = (data) => {
 
@@ -168,7 +168,7 @@ class Role extends React.Component {
 		});
 
 		this.flux.dispatch('action.Admin.Role.saveProfile', this.state.id, data);
-	}
+	};
 
 	render() {
 		return (

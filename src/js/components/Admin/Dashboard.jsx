@@ -27,11 +27,11 @@ class Dashboard extends React.Component {
 
 	componentWillMount = () => {
 		this.flux.on('state.Admin.Dashboard', this.flux.bindListener(this.onChange));
-	}
+	};
 
 	componentWillUnmount = () => {
 		this.flux.off('state.Admin.Dashboard', this.onChange);
-	}
+	};
 
 	onChange = () => {
 		var state = this.flux.getState('Admin.Dashboard');
@@ -42,7 +42,7 @@ class Dashboard extends React.Component {
 			userCount: state.user.count,
 			adminCount: state.admin.count
 		});
-	}
+	};
 
 	render() {
 

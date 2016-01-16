@@ -17,14 +17,14 @@ class AdminLayout extends React.Component {
 
 	componentWillMount = () => {
 		this.flux.on('state.User', this.flux.bindListener(this.onChange));
-	}
+	};
 
 	componentWillUnmount = () => {
 		this.flux.off('state.User', this.onChange);
-	}
+	};
 
 	onChange = () => {
-	}
+	};
 
 	render() {
 		return (

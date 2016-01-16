@@ -18,7 +18,7 @@ class RoleItem extends React.Component {
 
 	componentDidMount = () => {
 		$(this.refs.dropdown).dropdown();
-	}
+	};
 
 	render() {
 		return (
@@ -53,7 +53,7 @@ class SearchBar extends React.Component {
 
 	componentDidMount = () => {
 		$(this.refs.field).dropdown();
-	}
+	};
 
 	onSubmit = () => {
 
@@ -64,7 +64,7 @@ class SearchBar extends React.Component {
 			conditions[field] = keywords;
 
 		this.flux.dispatch('action.Admin.Roles.query', conditions);
-	}
+	};
 
 	render() {
 
@@ -137,7 +137,7 @@ class NewRoleModal extends React.Component {
 		var desc = this.refs.desc.value;
 
 		this.flux.dispatch('action.Admin.Roles.create', name, desc, perms);
-	}
+	};
 
 	render() {
 		return (
@@ -212,11 +212,11 @@ class Roles extends React.Component {
 
 	componentWillMount = () => {
 		this.flux.on('state.Admin.Roles', this.flux.bindListener(this.onChange));
-	}
+	};
 
 	componentWillUnmount = () => {
 		this.flux.off('state.Admin.Roles', this.onChange);
-	}
+	};
 
 	onChange = () => {
 		var state = this.flux.getState('Admin.Roles');
@@ -228,7 +228,7 @@ class Roles extends React.Component {
 			perPage: state.perPage,
 			busy: false
 		});
-	}
+	};
 
 	updateProfile = () => {
 		if (this.state.busy)
@@ -239,13 +239,13 @@ class Roles extends React.Component {
 		});
 
 		this.flux.dispatch('action.User.updateProfile', this.state.name);
-	}
+	};
 
 	newRole = () => {
 		this.setState({
 			newRoleModal: true
 		});
-	}
+	};
 
 	render() {
 		var roles = [];

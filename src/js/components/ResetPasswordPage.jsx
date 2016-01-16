@@ -57,7 +57,7 @@ class ResetPasswordPage extends React.Component {
 					success: success
 				});
 			}.bind(this));
-	}
+	};
 
 	handleChange = () => {
 		var isValid = true;
@@ -75,7 +75,7 @@ class ResetPasswordPage extends React.Component {
 		this.setState({
 			readyToSubmit: isValid
 		});
-	}
+	};
 
 	render() {
 

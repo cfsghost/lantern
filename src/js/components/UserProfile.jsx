@@ -24,11 +24,11 @@ class UserProfile extends React.Component {
 
 	componentWillMount = () => {
 		this.flux.on('state.User', this.flux.bindListener(this.onChange));
-	}
+	};
 
 	componentWillUnmount = () => {
 		this.flux.off('state.User', this.onChange);
-	}
+	};
 
 	onChange = () => {
 
@@ -39,7 +39,7 @@ class UserProfile extends React.Component {
 			email: user.email,
 			busy: false
 		});
-	}
+	};
 
 	updateProfile = () => {
 		if (this.state.busy)
@@ -50,7 +50,7 @@ class UserProfile extends React.Component {
 		});
 
 		this.flux.dispatch('action.User.updateProfile', this.state.name);
-	}
+	};
 
 	render() {
 		var emailClasses = 'field';

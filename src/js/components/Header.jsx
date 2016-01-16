@@ -24,12 +24,12 @@ class Header extends React.Component {
 	componentWillMount = () => {
 		this.flux.on('state.User', this.flux.bindListener(this.onChange));
 		this.flux.on('state.Service', this.flux.bindListener(this.onChange));
-	}
+	};
 
 	componentWillUnmount = () => {
 		this.flux.off('state.User', this.onChange);
 		this.flux.off('state.Service', this.onChange);
-	}
+	};
 
 	componentDidMount() {
 
@@ -45,7 +45,7 @@ class Header extends React.Component {
 			user: this.flux.getState('User'),
 			service: this.flux.getState('Service')
 		});
-	}
+	};
 
 	render() {
 

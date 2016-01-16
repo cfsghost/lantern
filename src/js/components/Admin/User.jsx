@@ -15,7 +15,7 @@ class Profile extends React.Component {
 
 	static propTypes = {
 		onSave: React.PropTypes.func.isRequired
-	}
+	};
 
 	constructor(props, context) {
 		super(props, context);
@@ -36,7 +36,7 @@ class Profile extends React.Component {
 				email: nextProps.data.email
 			}
 		});
-	}
+	};
 
 	onChange = () => {
 		var name = this.refs.name.value;
@@ -48,11 +48,11 @@ class Profile extends React.Component {
 				email: email
 			}
 		});
-	}
+	};
 
 	save = () => {
 		this.props.onSave(this.state.data);
-	}
+	};
 
 	render() {
 
@@ -135,12 +135,12 @@ class User extends React.Component {
 	componentWillMount = () => {
 		this.flux.on('state.Admin.User', this.flux.bindListener(this.onChange));
 		this.flux.on('state.Admin.Roles', this.flux.bindListener(this.onChange));
-	}
+	};
 
 	componentWillUnmount = () => {
 		this.flux.off('state.Admin.User', this.onChange);
 		this.flux.off('state.Admin.Roles', this.onChange);
-	}
+	};
 
 	componentDidMount() {
 		var self = this;
@@ -225,7 +225,7 @@ class User extends React.Component {
 			roles: state.roles,
 			saving: false
 		});
-	}
+	};
 
 	onSaveProfile = (data) => {
 
@@ -234,7 +234,7 @@ class User extends React.Component {
 		});
 
 		this.flux.dispatch('action.Admin.User.saveProfile', this.state.id, data);
-	}
+	};
 
 	onSavePermission = () => {
 		this.setState({
@@ -245,7 +245,7 @@ class User extends React.Component {
 			this.state.id,
 			this.state.roles,
 			this.refs.permission.getCurrentPermissions());
-	}
+	};
 
 	render() {
 		var roles = [];

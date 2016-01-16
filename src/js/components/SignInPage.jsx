@@ -23,17 +23,17 @@ class SignInPage extends React.Component {
 
 	componentWillMount = () => {
 		this.flux.on('state.User', this.flux.bindListener(this.onChange));
-	}
+	};
 
 	componentWillUnmount = () => {
 		this.flux.off('state.User', this.onChange);
-	}
+	};
 
 	signIn = () => {
 		this.flux.dispatch('action.User.signIn',
 			this.refs.email.value,
 			this.refs.password.value);
-	}
+	};
 
 	onChange = () => {
 
@@ -61,7 +61,7 @@ class SignInPage extends React.Component {
 				error: true
 			});
 		}
-	}
+	};
 
 	onKeyDown = (event) => {
 
@@ -69,14 +69,14 @@ class SignInPage extends React.Component {
 		if (event.keyCode === 13) {
 			this.signIn();
 		}
-	}
+	};
 
 	toURL = (url, target) => {
 		if (target)
 			return url + '?target=' + target;
 
 		return url;
-	}
+	};
 
 	render() {
 		var message;

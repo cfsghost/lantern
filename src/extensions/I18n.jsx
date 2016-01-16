@@ -13,11 +13,11 @@ class I18n extends React.Component {
 
 	static getMessage = (...args) => {
 		return this.flux.locale.getMessage.apply(this, args);
-	}
+	};
 
 	static getFmtMessage = (...args) => {
 		return this.flux.locale.getFmtMessage.apply(this, args);
-	}
+	};
 
 	render() {
 		var msg = '';

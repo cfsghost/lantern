@@ -61,7 +61,7 @@ class ForgotPage extends React.Component {
 					success: success
 				});
 			}.bind(this));
-	}
+	};
 
 	handleChange = () => {
 		var email = this.refs.email.value;
@@ -78,7 +78,7 @@ class ForgotPage extends React.Component {
 		this.setState({
 			readyToSubmit: isValid
 		});
-	}
+	};
 
 	render() {
 
