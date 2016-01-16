@@ -89,17 +89,27 @@ var initEntry = function(error, redirectLocation, renderProps, state, userdata, 
 		generateNewContent(fluky, component, callback);
 	}
 
+	function *rendered() {
+
+		fluky.off('action.Lantern.rendered', rendered);
+		fluky.serverRendering = true;
+
+		generateNewContent(fluky, component, callback);
+	}
+
 	// Wait until everything's done
-	fluky.on('idle', done);
+	//fluky.on('idle', done);
+	fluky.on('action.Lantern.rendered', rendered);
 
 	// Start to initialize page
-	fluky.serverRendering = true;
 	var html = ReactDOMServer.renderToStaticMarkup(component);
 
 	setImmediate(function() {
+		var componentRef = fluky.getState('Lantern').componentRef;
+		if (!componentRef) {
 		// There is no need to prefetch
-		if (!fluky._refs) {
-			fluky.off('idle', done);
+//		if (!fluky._refs) {
+//			fluky.off('idle', done);
 
 			// Generate immediately
 			callback(null, {

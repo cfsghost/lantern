@@ -8,17 +8,17 @@ export default function() {
 		flux(Component);
 
 		if (!Component.isInitializer) {
-			// Define what action this component required
-			Component.preActions = args;
+			// Define what state this component will be waiting for
+			Component.wait = args;
 
 			return Initializer(Component);
 		} else {
-			// Define what action this component required
+			// Define what state this component will be waiting for
 
-			if (!Component.component.preActions)
-				Component.component.preActions = [];
+			if (!Component.component.wait)
+				Component.component.wait = [];
 
-			Component.component.preActions = Component.component.preActions.concat(args);
+			Component.component.wait = Component.component.wait.concat(args);
 		}
 	};
 };

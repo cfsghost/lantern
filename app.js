@@ -194,7 +194,8 @@ co(function *() {
 				User: this.state.user || {},
 				Localization: localization,
 				Service: {
-					name: Utils.getServiceName()
+					name: Utils.getServiceName(),
+					externalUrl: Utils.getExternalUrl()
 				}
 			};
 			curState.User.logined = this.isAuthenticated();
@@ -212,6 +213,7 @@ co(function *() {
 			yield this.render('index', {
 				title: page.state.Window.title,
 				content: page.content,
+				window: page.state.Window,
 				state: JSON.stringify(page.state)
 			});
 			console.timeEnd(id);

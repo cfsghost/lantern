@@ -47,6 +47,29 @@ class Window extends React.Component {
 		var store = this.flux.getState('Window');
 
 		document.title = store.title;
+
+		// Remove open graph metadata
+		$('head meta').each(function() {
+			var $self = $(this);
+
+			var property = $self.attr('property');
+			if (!property)
+				return;
+
+			if (property.split[0] != 'og')
+				return;
+
+			$self.remove()
+
+		});
+
+		// setup open graph metadata
+		for (var key in store.ogMeta) {
+			var value = store.ogMeta[key];
+
+			var $meta = $('<meta>').attr(key, value);
+			$('head').append($meta);
+		}
 	};
 
 	render() {

@@ -3,6 +3,9 @@ html
 	head
 		meta(name='viewport', content='width=device-width, initial-scale=1.0')
 		meta(http-equiv='X-UA-Compatible', content='IE=edge')
+		meta
+		- for (var property in window.ogMeta)
+			meta(property=property, content=window.ogMeta[property])
 		
 		title #{title}
 

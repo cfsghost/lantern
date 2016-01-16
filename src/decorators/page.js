@@ -1,4 +1,4 @@
-import preAction from './preaction';
+import postAction from './postaction';
 
 export default function(page) {
 
@@ -14,9 +14,14 @@ export default function(page) {
 			// Setup window title
 			if (_page.title)
 				handle.doAction('Window.setTitle', _page.title);
+
+			if (_page.ogMeta) {
+				handle.doAction('Window.setOGMetaProperties', _page.ogMeta);
+			}
+
 		};
 
-		var _do = preAction(pageInit);
+		var _do = postAction(pageInit);
 
 		return _do(Component);
 	}
