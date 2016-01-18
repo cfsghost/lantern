@@ -18,6 +18,9 @@ export default function *() {
 	this.on('store.Window.resize', function *(width, height) {
 		var store = this.getState('Window');
 
+		if (width == store.width && height == store.height)
+			return;
+
 		store.width = width;
 		store.height = height;
 
