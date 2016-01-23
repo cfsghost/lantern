@@ -35,7 +35,7 @@ module.exports = {
 	'user_profile.update_button': '更新資訊',
 	'account_settings.header': '帳號設定',
 	'account_settings.subheader': '密碼和驗證資訊',
-	'admin_dashboard.header': '系統監控',
+	'admin_dashboard.header': '系統總覽',
 	'admin_dashboard.subheader': '服務資訊',
 	'admin_dashboard.service_name': '服務名稱',
 	'admin_dashboard.external_url': '外部網址',
