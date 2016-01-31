@@ -46,17 +46,7 @@ var configs = module.exports = [
 						plugins: [
 							'add-module-exports',
 							'transform-decorators-legacy',
-							'syntax-async-functions',
-							[ 'react-transform', {
-								'transforms': [{
-									'transform': 'react-transform-hmr',
-									'imports': ['react'],
-									'locals': ['module']
-								}, {
-									'transform': 'react-transform-catch-errors',
-									'imports': ['react', 'redbox-react']
-								}]
-							}]
+							'syntax-async-functions'
 						],
 					}
 				},

@@ -36,6 +36,36 @@ if (process.argv.length == 3) {
 		var webpackConfig = require('./webpack.config');
 		var compiler = webpack(webpackConfig[0]);
 
+		// Enabled hotload mechanism
+		webpackConfig.forEach(function(config) {
+
+			if (config.name != 'Browser')
+				return;
+
+			for (var index in config.module.loaders) {
+				var loader = config.module.loaders[index];
+
+				if (loader.loader != 'babel')
+					continue;
+
+				if (!loader.query)
+					continue;
+
+				loader.query.plugins.push([
+					'react-transform', {
+						'transforms': [{
+							'transform': 'react-transform-hmr',
+							'imports': ['react'],
+							'locals': ['module']
+						}, {
+							'transform': 'react-transform-catch-errors',
+							'imports': ['react', 'redbox-react']
+						}]
+					}
+				]);
+			}
+		});
+
 		app.use(require('koa-webpack-dev-middleware')(compiler, {
 			noInfo: true,
 			publicPath: webpackConfig[0].output.publicPath
