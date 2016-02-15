@@ -30,7 +30,7 @@ var configs = module.exports = [
 				'window.moment': 'moment'
 			}),
 			new CopyWebpackPlugin([
-				{ from: './src/public', to: './public' }
+				{ from: './src/public', to: '../' }
 			]),
 			new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),
 			new webpack.optimize.OccurenceOrderPlugin(),
