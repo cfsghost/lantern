@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var webpack = require('webpack');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var configs = module.exports = [
 	{
@@ -28,6 +29,9 @@ var configs = module.exports = [
 			new webpack.ProvidePlugin({
 				'window.moment': 'moment'
 			}),
+			new CopyWebpackPlugin([
+				{ from: './src/public', to: './public' }
+			]),
 			new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),
 			new webpack.optimize.OccurenceOrderPlugin(),
 		    new webpack.HotModuleReplacementPlugin(),
