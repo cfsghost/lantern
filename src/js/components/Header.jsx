@@ -46,7 +46,9 @@ class Header extends React.Component {
 					<div>{this.state.service.name}</div>
 				</Link>
 
-				<LoginState user={this.state.user} />
+				<div className={'right menu'}>
+					<LoginState user={this.state.user} />
+				</div>
 			</div>
 		);
 	}
