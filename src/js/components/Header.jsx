@@ -16,8 +16,8 @@ class Header extends React.Component {
 		super(props, context);
 
 		this.state = {
-			user: this.flux.getState('User'),
-			service: this.flux.getState('Service')
+			user: context.flux.getState('User'),
+			service: context.flux.getState('Service')
 		};
 	}
 
