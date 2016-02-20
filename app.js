@@ -34,13 +34,21 @@ if (process.argv.length == 3) {
 
 		var webpack = require('webpack');
 		var webpackConfig = require('./webpack.config');
-		var compiler = webpack(webpackConfig[0]);
 
 		// Enabled hotload mechanism
 		webpackConfig.forEach(function(config) {
 
 			if (config.name != 'Browser')
 				return;
+
+			if (!(config.entry.app instanceof Array)) {
+				config.entry.app = [
+					config.entry.app
+				];
+			}
+
+			config.entry.app.splice(0, 0, 'webpack-hot-middleware/client');
+			config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
 			for (var index in config.module.loaders) {
 				var loader = config.module.loaders[index];
@@ -64,13 +72,17 @@ if (process.argv.length == 3) {
 					}
 				]);
 			}
-		});
 
-		app.use(require('koa-webpack-dev-middleware')(compiler, {
-			noInfo: true,
-			publicPath: webpackConfig[0].output.publicPath
-		}));
-		app.use(require('koa-webpack-hot-middleware')(compiler));
+			var compiler = webpack(config);
+			compiler.run(function() {
+
+				app.use(require('koa-webpack-dev-middleware')(compiler, {
+					noInfo: true,
+					publicPath: config.output.publicPath
+				}));
+				app.use(require('koa-webpack-hot-middleware')(compiler));
+			});
+		});
 	}
 }
 
