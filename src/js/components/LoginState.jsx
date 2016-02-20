@@ -53,11 +53,9 @@ class LoginState extends React.Component {
 			);
 		} else {
 			loginState = (
-				<Link to='/signin'>
-					<div className={'item'}>
-						<i className={'sign in icon'} />
-						<I18n sign='header.menu.sign_in'>Sign In</I18n>
-					</div>
+				<Link className='item' to='/signin'>
+					<i className={'sign in icon'} />
+					<I18n sign='header.menu.sign_in'>Sign In</I18n>
 				</Link>
 			);
 		}
