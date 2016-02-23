@@ -7,6 +7,14 @@ import Avatar from './Avatar.jsx';
 
 class LoginState extends React.Component {
 
+	static propTypes = {
+		displayName: React.PropTypes.bool
+	};
+
+	static defaultProps = {
+		displayName: true
+	};
+
 	componentDidMount() {
 
 		// Enabling dropdown menu
@@ -35,7 +43,13 @@ class LoginState extends React.Component {
 
 			loginState = (
 				<div ref='dropdownMenu' className='ui dropdown item'>
-					<span><Avatar hash={this.props.user.avatar_hash} size={20} /> <span>{this.props.user.name}</span></span>
+					<span>
+						<Avatar hash={this.props.user.avatar_hash} size={20} />
+						{(() => {
+							if (this.props.displayName)
+								return <span>{this.props.user.name}</span>;
+						})()}
+					</span>
 					<i className='dropdown icon'></i>
 					<div className='menu'>
 						<Link to='/settings' className='item'>
