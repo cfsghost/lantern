@@ -46,7 +46,7 @@ export default function *() {
 								});
 							};
 
-							return;
+							continue;
 						}
 
 						// It was already loaded
