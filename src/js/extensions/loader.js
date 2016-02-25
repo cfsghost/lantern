@@ -1,8 +1,11 @@
 var co = require('co');
+import events from 'events';
 
 export default function *() {
 
 	var ctx = this;
+
+	var pending = new events.EventEmitter();
 
 	var store = this.getState('Loader', {
 		css: [],
@@ -33,13 +36,32 @@ export default function *() {
 
 					for (var index in urls) {
 
+						var url = urls[index];
+
+						// Waiting if script is still loading
+						if (pending.listenerCount(url)) {
+							yield function(done) {
+								pending.once(url, function() {
+									done();
+								});
+							};
+
+							return;
+						}
+
 						// It was already loaded
-						if (store.script.indexOf(urls[index]) != -1)
+						if (store.script.indexOf(url) != -1)
 							continue;
 
-						store.script.push(urls[index]);
+						store.script.push(url);
 						yield function(done) {
-							scriptjs(urls[index], done);
+							pending.once(url, function() {
+								done();
+							});
+
+							scriptjs(url, function() {
+								pending.emit(url);
+							});
 						};
 					}
 
