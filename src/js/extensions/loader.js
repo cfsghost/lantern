@@ -6,6 +6,7 @@ export default function *() {
 	var ctx = this;
 
 	var pending = new events.EventEmitter();
+	pending.setMaxListeners(0);
 
 	var store = this.getState('Loader', {
 		css: [],
