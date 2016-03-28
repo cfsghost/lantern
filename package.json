@@ -78,6 +78,7 @@
     "react": ">=0.14.1",
     "react-dom": ">=0.14.1",
     "react-router": ">=1.0.0rc3",
+    "restpack": "^0.0.4",
     "scriptjs": "^2.5.8",
     "superagent": "^1.3.0",
     "xoauth2": "^1.1.0"

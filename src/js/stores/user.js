@@ -181,7 +181,18 @@ export default function *() {
 		}
 	});
 
-	this.on('store.User.signUp', function *(email, password, name) {
+	this.on('action.User.updateStatus', function *(status) {
+		store.logined = status.logined;
+		store.name = status.name;
+		store.username = status.email;
+		store.email = status.email;
+		store.login_time = status.login_time;
+		store.avatar_hash = status.avatar_hash;
+		store.permissions = status.permissions;
+		this.dispatch('state.User');
+	});
+
+	this.on('store.User.signUp', function *(user) {
 
 		var store = this.getState('User');
 
@@ -189,30 +200,39 @@ export default function *() {
 			var res = yield this.request
 				.post('/signup')
 				.send({
-					email: email,
-					password: password,
-					name: name
+					username: user.username || undefined,
+					email: user.email,
+					password: user.password,
+					name: user.name
 				});
 
-			switch(res.status) {
-			case 200:
+			var restpack = this.restful.parse(res.status, res.body);
+
+console.log(restpack, res.body);
+			switch(restpack.status) {
+			case this.restful.Status.OK:
+				var data = restpack.getData();
+
 				// Updating store
 				store.status = 'normal';
 				store.logined = true;
-				store.name = name;
-				store.username = email;
-				store.email = email;
-				store.login_time = res.body.data.login_time;
-				store.avatar_hash = res.body.data.avatar_hash;
-				store.permissions = res.body.data.permissions;
+				store.name = user.name;
+				store.username = user.email;
+				store.email = user.email;
+				store.login_time = data.login_time;
+				store.avatar_hash = data.avatar_hash;
+				store.permissions = data.permissions;
 				break;
 			}
 
 			this.dispatch('state.User');
 		} catch(e) {
+console.log(e);
+			var restpack = this.restful.parse(e.status, e.response.body);
+			console.log(restpack);
 
-			switch(e.status) {
-			case 500:
+			switch(restpack.status) {
+			case this.restful.Status.ValidationFailed:
 				store.status = 'signup-error';
 				break;
 

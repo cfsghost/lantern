@@ -1,8 +1,10 @@
 var crypto = require('crypto');
 var Router = require('koa-router');
 var passport = require('koa-passport');
+var RestPack = require('restpack');
 var Member = require('../lib/member');
 var Passport = require('../lib/passport');
+var settings = require('../lib/config.js');
 
 var router = module.exports = new Router();
 
@@ -44,22 +46,80 @@ router.post('/signin', function *(next) {
 });
 
 router.post('/signup', function *() {
+	var username = this.request.body.username || null;
 	var name = this.request.body.name || null;
 	var password = this.request.body.password || null;
 	var email = this.request.body.email || null;
 
+	// Create a dataset for restful API
+	var restpack = new RestPack();
+
+	var regEx;
+
+	// Feature: unique username was enabled
+	if (settings.general.features.uniqueUsername) {
+		regEx = /^[a-z0-9-]+$/;
+		if (!username) {
+
+			// Empty
+			restpack
+				.setStatus(RestPack.Status.ValidationFailed)
+				.appendError('username', RestPack.Code.Required);
+		} else if (!regEx.test(username)) {
+
+			// Invalid
+			restpack
+				.setStatus(RestPack.Status.ValidationFailed)
+				.appendError('username', RestPack.Code.Invalid);
+		}
+	}
+
 	// Check fields
-	if (!name || !password || !email) {
-		this.status = 400;
+	if (!name || !password || !email || restpack.status == RestPack.Status.ValidationFailed) {
+		restpack.setStatus(RestPack.Status.ValidationFailed);
+
+		if (!name)
+			restpack.appendError('name', RestPack.Code.Required);
+
+		if (!password)
+			restpack.appendError('password', RestPack.Code.Required);
+
+		if (!email)
+			restpack.appendError('email', RestPack.Code.Required);
+
+		// Response
+		restpack.sendKoa(this);
 		return;
 	}
 
 	// Check whether user exists or not
+	var fields = {
+		email: email
+	};
+
+	if (settings.general.features.uniqueUsername) {
+		fields.username = username;
+	}
+
 	try {
-		// TODO: It should create a record directly if account was available.
-		var ret = yield Member.getMemberByEmail(email);
-		if (ret) {
-			this.status = 409;
+		var ret = yield Member.exists(fields);
+
+		if (ret.email) {
+			restpack
+				.setStatus(RestPack.Status.ValidationFailed)
+				.appendError('email', RestPack.Code.AlreadyExist);
+		}
+
+		if (settings.general.features.uniqueUsername) {
+			if (ret.username) {
+				restpack
+					.setStatus(RestPack.Status.ValidationFailed)
+					.appendError('username', RestPack.Code.AlreadyExist);
+			}
+		}
+
+		if (restpack.status == RestPack.Status.ValidationFailed) {
+			restpack.sendKoa(this);
 			return;
 		}
 	} catch(e) {
@@ -69,12 +129,18 @@ router.post('/signup', function *() {
 	}
 
 	// Create a new member
+	var data = {
+		name: name,
+		password: password,
+		email: email
+	};
+
+	if (settings.general.features.uniqueUsername) {
+		data.username = username;
+	}
+
 	try {
-		var member = yield Member.create({
-			name: name,
-			password: password,
-			email: email
-		});
+		var member = yield Member.create(data);
 	} catch(e) {
 		console.log(e);
 		this.status = 500;
@@ -85,10 +151,9 @@ router.post('/signup', function *() {
 	var m = yield Passport.login(this, member);
 
 	// Return result to client
-	this.body = {
-		success: true,
-		data: m
-	};
+	restpack
+		.setData(m)
+		.sendKoa(this);
 });
 
 router.get('/auth/github', function *() {
@@ -159,6 +224,11 @@ router.get('/auth/:serviceName/callback', function *() {
 				}
 			} catch(e) {
 				throw e;
+			}
+
+			// Feature: unique username was enabled
+			if (settings.general.features.uniqueUsername) {
+
 			}
 
 			// Create a new member with no password

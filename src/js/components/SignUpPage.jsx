@@ -16,6 +16,9 @@ class SignUpPage extends React.Component {
 
 		this.state = {
 			error: false,
+			username_error: false,
+			username_existing_error: false,
+			username_empty_error: false,
 			email_existing_error: false,
 			email_error: false,
 			email_empty_error: false,
@@ -28,14 +31,15 @@ class SignUpPage extends React.Component {
 	}
 
 	componentWillMount = () => {
-		this.flux.on('state.User', this.flux.bindListener(this.onChange));
+		this.flux.on('state.SignUp', this.flux.bindListener(this.onChange));
 	};
 
 	componentWillUnmount = () => {
-		this.flux.off('state.User', this.onChange);
+		this.flux.off('state.SignUp', this.onChange);
 	};
 
 	signUp = () => {
+		var features = this.flux.getState('Features');
 		var email = this.refs.email.value.trim();
 		var name = this.refs.name.value.trim();
 		var password = this.refs.password.value;
@@ -52,12 +56,40 @@ class SignUpPage extends React.Component {
 			name_empty_error: false
 		};
 
+		var regEx;
+
+		// Unique username is enabled
+		if (features.uniqueUsername) {
+			var username = this.refs.username.value.trim();
+
+			regEx = /^[a-z0-9-]+$/;
+
+			state.username_error = false;
+			state.username_empty_error = false;
+			state.username_existing_error = false;
+
+			if (username == '') {
+				state.error = true;
+				state.username_error = true;
+				state.username_empty_error = true;
+			} else if (!regEx.test(username)) {
+				state.error = true;
+				state.username_error = true;
+			}
+		}
+
+		// Check e-mail
+		regEx = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
 		if (email == '') {
 			state.error = true;
 			state.email_error = true;
 			state.email_empty_error = true;
+		} else if (!regEx.test(email)) {
+			state.error = true;
+			state.email_error = true;
 		}
 
+		// Check name
 		if (name == '') {
 			state.error = true;
 			state.name_error = true;
@@ -69,10 +101,8 @@ class SignUpPage extends React.Component {
 			state.password_error = true;
 			state.password_empty_error = true;
 			state.confirm_error = true;
-		}
-
-		// Two passwords should be the same
-		if (password != confirm_password) {
+		} else if (password != confirm_password) {
+			// Two passwords should be the same
 			state.error = true;
 			state.confirm_error = true;
 		}
@@ -83,94 +113,120 @@ class SignUpPage extends React.Component {
 			return;
 		}
 
+		// Prepare user info fo signing up
+		var userInfo = {
+			email: email,
+			password: password,
+			name: name
+		};
+
+		if (features.uniqueUsername) {
+			userInfo.username = this.refs.username.value.trim();
+		}
+
 		// Sign up now
-		this.flux.dispatch('action.User.signUp',
-			this.refs.email.value,
-			this.refs.password.value,
-			this.refs.name.value);
+		this.flux.dispatch('action.User.signUp', userInfo);
 	};
 
 	onChange = () => {
-
+		var signUp = this.flux.getState('SignUp');
 		var user = this.flux.getState('User');
 
-		// No need to sign in if logined already
-		if (user.logined) {
-			if (this.props.location.query.target)
-				this.history.pushState(null, this.props.location.query.target);
-			else
-				this.history.pushState(null, '/');
+		if (signUp.status == 'success') {
+			// No need to sign in if logined already
+			if (user.logined) {
+				if (this.props.location.query.target) {
+					this.history.pushState(null, this.props.location.query.target);
+				} else {
+					this.history.pushState(null, '/');
+				}
+			}
+
 			return;
 		}
 
 		var updateState = {}
-		switch(user.status) {
-		case 'signup-failed-existing-account':
-			updateState.email_existing_error = true;
+		for (var index in signUp.errors) {
+			var err = signUp.errors[index];
 
-		case 'signup-failed':
-			updateState.error = true;
-
-			// Clear password inputbox
-			this.refs.password.value = ''; 
-			this.refs.confirm_password.value = ''; 
-
-			// Focus on email inputbox
-			this.refs.email.select();
-
-			this.setState(updateState);
+			switch(err.code) {
+			case 'Required':
+				updateState.error = true;
+				updateState[err.field + '_error'] = true;
+				updateState[err.field + '_empty_error'] = true;
+				break;
+			case 'Invalid':
+				updateState.error = true;
+				updateState[err.field + '_error'] = true;
+				break;
+			case 'AlreadyExist':
+				updateState.error = true;
+				updateState[err.field + '_error'] = true;
+				updateState[err.field + '_existing_error'] = true;
+				break;
+			}
 		}
+
+		this.setState(updateState);
+
+		// Clear password inputbox
+		this.refs.password.value = ''; 
+		this.refs.confirm_password.value = ''; 
+
+		// Focus on email inputbox
+		this.refs.email.select();
 	};
 
 	render() {
+
+		var features = this.flux.getState('Features');
+		var usernameClasses = 'required field';
 		var emailClasses = 'required field';
 		var nameClasses = 'required field';
 		var passwordClasses = 'required field';
 		var confirmClasses = 'required field';
-		var message;
+		var errItems = [];
 		var fieldClass = 'field';
+
 		if (this.state.error) {
 			fieldClass += ' error';
 
+			if (features.uniqueUsername) {
+				if (this.state.username_existing_error) {
+					usernameClasses += ' error';
+					errItems.push('Account exists already. Please type another username then try again');
+				} else if (this.state.username_empty_error) {
+					usernameClasses += ' error';
+					errItems.push('Please enter username');
+				} else if (this.state.username_error) {
+					usernameClasses += ' error';
+					errItems.push('Username can only contain alphanumeric lowercase characters and dashes(-)');
+				}
+			}
+
 			if (this.state.email_existing_error) {
 				emailClasses += ' error';
-				message = (
-					<div className='ui negative icon message'>
-						<i className={'warning sign icon'} />
-						<div className='content'>
-							<div className='header'>Failed to Sign Up</div>
-							<p>Account exists already. Please type another e-mail address then try again</p>
-						</div>
-					</div>
-				);
-			} else {
-
-				message = (
-					<div className='ui negative icon message'>
-						<i className={'warning sign icon'} />
-						<div className='content'>
-							<div className='header'>Failed to Sign Up</div>
-							<p>Please check all fields then try again</p>
-						</div>
-					</div>
-				);
-
-				if (this.state.email_error) {
-					emailClasses += ' error';
-				}
+				errItems.push('E-mail exists already. Please type another e-mail address then try again');
+			} else if (this.state.email_error) {
+				emailClasses += ' error';
+				errItems.push('E-mail is invalid');
 			}
 
 			if (this.state.name_error) {
 				nameClasses += ' error';
+				errItems.push('Name is invalid');
 			}
 
 			if (this.state.password_error) {
 				passwordClasses += ' error';
+				confirmClasses += ' error';
+				errItems.push('Password is invalid');
+			} else if (this.state.confirm_error) {
+				passwordClasses += ' error';
+				confirmClasses += ' error';
+				errItems.push('Password doesn\'t match confirmation');
 			}
 
-			if (this.state.confirm_error) {
-				confirmClasses += ' error';
-			}
 		}
 
 		return (
@@ -187,14 +243,48 @@ class SignUpPage extends React.Component {
 								<div className='content'><I18n sign='sign_up.header'>Create a New Account</I18n></div>
 							</h1>
 							<div className={'ui basic segment'}>
-								{message}
+								{(() => {
+									if (errItems.length) {
+										var messages = [];
+										for (var index in errItems) {
+											messages.push(<li key={index}>{errItems[index]}</li>);
+										}
+
+										return (
+											<div className='ui negative icon message'>
+												<i className={'warning sign icon'} />
+												<div className='content'>
+													<div className='header'>Failed to Sign Up</div>
+													<ul>
+														{messages}
+													</ul>
+												</div>
+											</div>
+										);
+									}
+								})()}
 
 								<div className='ui form'>
+
+									{(() => {
+										if (features.uniqueUsername) {
+
+											return (
+												<div className={usernameClasses}>
+													<label><I18n sign='sign_up.username'>Username</I18n></label>
+													<div className={'ui left icon input'}>
+														<i className={'user icon'} />
+														<input type='text' ref='username' name='username' placeholder='fredchien' />
+													</div>
+												</div>
+											);
+										}
+									})()}
 
 									<div className={nameClasses}>
 										<label><I18n sign='sign_up.display_name'>Display Name</I18n></label>
 										<div className={'ui left icon input'}>
-											<i className={'user icon'} />
+											<i className={'tag icon'} />
 											<input type='text' ref='name' name='name' placeholder='Fred Chien' />
 										</div>
 									</div>

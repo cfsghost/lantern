@@ -8,6 +8,7 @@ import admin_roles from './admin_roles';
 import admin_role from './admin_role';
 
 export default {
+	signup: require('./signup'),
 	user: user,
 	admin: admin,
 	admin_users: admin_users,

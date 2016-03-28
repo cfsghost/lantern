@@ -8,7 +8,7 @@ var Member = new mongoose.Schema({
 	salt: String,
 	gender: Number,
 	birthday: Date,
-	hashname: { type: String },
+	username: { type: String, unique: true },
 	phone: String,
 	idno: String,
 	tokens: [ String ],

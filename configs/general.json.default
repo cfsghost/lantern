@@ -6,6 +6,9 @@
 	"server": {
 		"port": 3001
 	},
+	"features": {
+		"uniqueUsername": false
+	},
 	"mailer": {
 		"service": "Gmail",
 		"auth": {
