@@ -9,6 +9,7 @@ import Header from './Header.jsx';
 
 @router
 @flux
+@i18n
 class SignUpPage extends React.Component {
 
 	constructor() {
@@ -194,37 +195,47 @@ class SignUpPage extends React.Component {
 			if (features.uniqueUsername) {
 				if (this.state.username_existing_error) {
 					usernameClasses += ' error';
-					errItems.push('Account exists already. Please type another username then try again');
+					errItems.push(this.i18n.getMessage('sign_up.username_existing_error', 'Account exists already. Please type another username then try again'));
 				} else if (this.state.username_empty_error) {
 					usernameClasses += ' error';
-					errItems.push('Please enter username');
+					errItems.push(this.i18n.getMessage('sign_up.username_empty_error', 'Please enter username'));
 				} else if (this.state.username_error) {
 					usernameClasses += ' error';
-					errItems.push('Username can only contain alphanumeric lowercase characters and dashes(-)');
+					errItems.push(this.i18n.getMessage('sign_up.username_invalid_error', 'Username can only contain alphanumeric lowercase characters and dashes(-)'));
 				}
 			}
 
 			if (this.state.email_existing_error) {
 				emailClasses += ' error';
-				errItems.push('E-mail exists already. Please type another e-mail address then try again');
+				errItems.push(this.i18n.getMessage('sign_up.email_existing_error', 'E-mail exists already. Please type another e-mail address then try again'));
+			} else if (this.state.email_empty_error) {
+				emailClasses += ' error';
+				errItems.push(this.i18n.getMessage('sign_up.email_empty_error', 'Please enter e-mail'));
 			} else if (this.state.email_error) {
 				emailClasses += ' error';
-				errItems.push('E-mail is invalid');
+				errItems.push(this.i18n.getMessage('sign_up.email_invalid_error', 'E-mail is invalid'));
 			}
 
-			if (this.state.name_error) {
+			if (this.state.name_empty_error) {
+				nameClasses += ' error';
+				errItems.push(this.i18n.getMessage('sign_up.name_empty_error', 'Please enter name'));
+			} else if (this.state.name_error) {
 				nameClasses += ' error';
 				errItems.push('Name is invalid');
 			}
 
-			if (this.state.password_error) {
+			if (this.state.password_empty_error) {
+				passwordClasses += ' error';
+				confirmClasses += ' error';
+				errItems.push(this.i18n.getMessage('sign_up.password_empty_error', 'Please enter password'));
+			} else if (this.state.password_error) {
 				passwordClasses += ' error';
 				confirmClasses += ' error';
 				errItems.push('Password is invalid');
 			} else if (this.state.confirm_error) {
 				passwordClasses += ' error';
 				confirmClasses += ' error';
-				errItems.push('Password doesn\'t match confirmation');
+				errItems.push(this.i18n.getMessage('sign_up.confirm_error', 'Password doesn\'t match confirmation'));
 			}
 
 		}
@@ -254,7 +265,9 @@ class SignUpPage extends React.Component {
 											<div className='ui negative icon message'>
 												<i className={'warning sign icon'} />
 												<div className='content'>
-													<div className='header'>Failed to Sign Up</div>
+													<div className='header'>
+														<I18n sign='sign_up.failed'>Failed to Sign Up</I18n>
+													</div>
 													<ul>
 														{messages}
 													</ul>
