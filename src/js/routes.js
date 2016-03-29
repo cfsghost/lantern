@@ -32,6 +32,10 @@ module.exports = [
 		handler: SignUpPage
 	},
 	{
+		path: '/signup_setup',
+		handler: require('./components/SignUpSetupPage.jsx')
+	},
+	{
 		path: '/settings',
 		redirect: '/settings/profile'
 	},

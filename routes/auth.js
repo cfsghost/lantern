@@ -1,4 +1,5 @@
 var crypto = require('crypto');
+var querystring = require('querystring');
 var Router = require('koa-router');
 var passport = require('koa-passport');
 var RestPack = require('restpack');
@@ -51,6 +52,12 @@ router.post('/signup', function *() {
 	var password = this.request.body.password || null;
 	var email = this.request.body.email || null;
 
+	// Sign up via thrid party
+	if (this.session.signUpAuthorized) {
+		name = this.session.signUpAuthorized.user.name;
+		email = this.session.signUpAuthorized.user.email;
+	}
+
 	// Create a dataset for restful API
 	var restpack = new RestPack();
 
@@ -74,21 +81,33 @@ router.post('/signup', function *() {
 		}
 	}
 
+	if (!password) {
+		if (!this.session.signUpAuthorized) {
+			restpack
+				.setStatus(RestPack.Status.ValidationFailed)
+				.appendError('password', RestPack.Code.Required);
+		} else if (settings.general.features.requiredPassword) {
+			restpack
+				.setStatus(RestPack.Status.ValidationFailed)
+				.appendError('password', RestPack.Code.Required);
+		}
+	}
+
 	// Check fields
-	if (!name || !password || !email || restpack.status == RestPack.Status.ValidationFailed) {
+	if (!name || !email) {
 		restpack.setStatus(RestPack.Status.ValidationFailed);
 
 		if (!name)
 			restpack.appendError('name', RestPack.Code.Required);
 
-		if (!password)
-			restpack.appendError('password', RestPack.Code.Required);
-
 		if (!email)
 			restpack.appendError('email', RestPack.Code.Required);
+	}
 
+	if (restpack.status == RestPack.Status.ValidationFailed) {
 		// Response
 		restpack.sendKoa(this);
+
 		return;
 	}
 
@@ -139,6 +158,11 @@ router.post('/signup', function *() {
 		data.username = username;
 	}
 
+	if (this.session.signUpAuthorized) {
+		data.signup_service = this.session.signUpAuthorized.service;
+		data[this.session.signUpAuthorized.service] = this.session.signUpAuthorized.user.id;
+	}
+
 	try {
 		var member = yield Member.create(data);
 	} catch(e) {
@@ -154,6 +178,8 @@ router.post('/signup', function *() {
 	restpack
 		.setData(m)
 		.sendKoa(this);
+
+	delete this.session.signUpAuthorized;
 });
 
 router.get('/auth/github', function *() {
@@ -210,9 +236,12 @@ router.get('/auth/:serviceName/callback', function *() {
 				if (m) {
 
 					// Check if bad guy use user's email to register account on third party service
-					if (m.signup_service != ctx.params.serviceName) {
-						ctx.status = 409;
-						return;
+					if (!m[ctx.params.serviceName]) {
+
+						// Update id which is in third party service
+						var data = {};
+						data[ctx.params.serviceName] = user.id;
+						yield Member.save(m._id, data);
 					}
 
 					// Store login information in session
@@ -227,17 +256,28 @@ router.get('/auth/:serviceName/callback', function *() {
 			}
 
 			// Feature: unique username was enabled
-			if (settings.general.features.uniqueUsername) {
+			if (settings.general.features.uniqueUsername || settings.general.features.requiredPassword) {
 
+				ctx.session.signUpAuthorized = {
+					service: ctx.params.serviceName,
+					user: user
+				};
+
+				ctx.redirect('/signup_setup?' + querystring.stringify({ target: target }));
+				return;
 			}
 
 			// Create a new member with no password
 			try {
-				var member = yield Member.create({
+				var data = {
 					name: user.name,
 					email: user.email,
 					signup_service: ctx.params.serviceName
-				});
+				};
+
+				data[ctx.params.serviceName] = user.id;
+
+				var member = yield Member.create(data);
 			} catch(e) {
 				throw e;
 			}
@@ -247,8 +287,8 @@ router.get('/auth/:serviceName/callback', function *() {
 
 			// Successful authentication
 			ctx.redirect(target);
-		});
 
+		});
 	} catch(e) {
 		console.log(e);
 		ctx.status = 500;
