@@ -235,7 +235,7 @@ co(function *() {
 			var curState = {
 				User: this.state.user || {},
 				Localization: localization,
-				Features: settings.general.features,
+				Features: settings.general.features || {},
 				Service: {
 					name: Utils.getServiceName(),
 					externalUrl: Utils.getExternalUrl()
