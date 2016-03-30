@@ -54,6 +54,8 @@ module.exports = {
 	'account_settings.new_password': '新的密码',
 	'account_settings.confirm': '再次确认新密码',
 	'account_settings.update_password_button': '更新密码',
+	'account_settings.update_password_success': '密码变更成功',
+	'account_settings.update_password_success_message': '下一次登入时可以使用新的密码',
 	'admin_dashboard.header': '系统总览',
 	'admin_dashboard.subheader': '服务资讯',
 	'admin_dashboard.service_name': '服务名称',

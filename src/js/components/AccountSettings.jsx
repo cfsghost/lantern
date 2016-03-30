@@ -96,8 +96,12 @@ class ChangePassword extends React.Component {
 					<div className='ui positive icon message'>
 						<i className={'checkmark icon'} />
 						<div className='content'>
-							<div className='header'>Password updated successfully</div>
-							<p>The new password will be used next time the logs in</p>
+							<div className='header'>
+								<I18n sign='account_settings.update_password_success'>Password updated successfully</I18n>
+							</div>
+							<p>
+								<I18n sign='account_settings.update_password_success_message'>The new password will be used next time the logs in</I18n>
+							</p>
 						</div>
 					</div>
 				);
