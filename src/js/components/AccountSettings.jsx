@@ -107,7 +107,9 @@ class ChangePassword extends React.Component {
 		return (
 			<div className='ui segments'>
 				<div className='ui secondary segment'>
-					<h5 className='ui header'>Change Password</h5>
+					<h5 className='ui header'>
+						<I18n sign='account_settings.change_password'>Change Password</I18n>
+					</h5>
 				</div>
 
 				<div className='ui very padded segment'>
@@ -123,7 +125,9 @@ class ChangePassword extends React.Component {
 					{message}
 
 					<div className={passwordClasses}>
-						<label>New Password</label>
+						<label>
+							<I18n sign='account_settings.new_password'>New Password</I18n>
+						</label>
 						<div className={'ui left icon input'}>
 							<i className={'lock icon'} />
 							<input
@@ -135,7 +139,9 @@ class ChangePassword extends React.Component {
 					</div>
 
 					<div className={confirmClasses}>
-						<label>Confirm new password</label>
+						<label>
+							<I18n sign='account_settings.confirm'>Confirm new password</I18n>
+						</label>
 						<div className={'ui left icon input'}>
 							<i className={'lock icon'} />
 							<input
@@ -149,7 +155,9 @@ class ChangePassword extends React.Component {
 					<div className='field'>
 						<button
 							className={'ui ' + (!this.state.readyToUpdate ? 'disabled' : '') + ' teal button'}
-							onClick={this.updatePassword}>Update Password</button>
+							onClick={this.updatePassword}>
+							<I18n sign='account_settings.update_password_button'>Update Password</I18n>
+						</button>
 					</div>
 				</div>
 			</div>
