@@ -46,7 +46,6 @@ class ChangePassword extends React.Component {
 						state.msg = err;
 					} else if (success) {
 						state.updateSuccess = true;
-						state.msg = 'The new password will be used next time the logs in';
 					}
 
 					this.setState(state);
