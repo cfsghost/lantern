@@ -168,7 +168,7 @@ export default function(Component) {
 				if (!ret) {
 					handleActions(Initializer.component, this.props, this.context, false);
 					this.context.flux.dispatch('action.Lantern.removeComponentRef');
-
+				} else {
 					var self = this;
 					var render = function *() {
 						context.flux.off('action.Lantern.rendered', render);
