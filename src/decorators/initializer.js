@@ -64,7 +64,6 @@ function wait(Component, props, context) {
 	var ref = Component.wait.length;
 	for (var index in Component.wait) {
 		var state = 'state.' + Component.wait[index];
-
 		var handler = function *() {
 
 			// handle it for once
@@ -98,8 +97,13 @@ export default function(Component) {
 		constructor(props, context) {
 			super(props, context);
 
+			this.state = {
+				ready: false
+			};
+
 			// Do not fetch data twice
 			if (!context.flux.disabledEventHandler && !context.flux.isBrowser) {
+				
 				context.flux.dispatch('action.Lantern.addComponentRef');
 
 				// Setup listeners to wait for state updating
@@ -164,6 +168,14 @@ export default function(Component) {
 				if (!ret) {
 					handleActions(Initializer.component, this.props, this.context, false);
 					this.context.flux.dispatch('action.Lantern.removeComponentRef');
+
+					var self = this;
+					var render = function *() {
+						context.flux.off('action.Lantern.rendered', render);
+
+						self.forceUpdate();
+					};
+					context.flux.on('action.Lantern.rendered', render);
 				}
 			}
 		}
