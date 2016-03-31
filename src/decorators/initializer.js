@@ -171,11 +171,11 @@ export default function(Component) {
 				} else {
 					var self = this;
 					var render = function *() {
-						context.flux.off('action.Lantern.rendered', render);
+						self.context.flux.off('action.Lantern.rendered', render);
 
 						self.forceUpdate();
 					};
-					context.flux.on('action.Lantern.rendered', render);
+					this.context.flux.on('action.Lantern.rendered', render);
 				}
 			}
 		}
