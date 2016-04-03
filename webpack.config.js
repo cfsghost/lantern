@@ -26,7 +26,8 @@ var configs = module.exports = [
 		plugins: [
 			new webpack.DefinePlugin({ '_BROWSER': true }),
 			new webpack.ProvidePlugin({
-				'window.moment': 'moment'
+				'window.moment': 'moment',
+				'moment': 'moment'
 			}),
 			new CopyWebpackPlugin([
 				{ from: './src/public', to: '../' }
@@ -98,6 +99,10 @@ var configs = module.exports = [
 			return module
 		}),
 		plugins: [
+			new webpack.ProvidePlugin({
+				'window.moment': 'moment',
+				'moment': 'moment'
+			}),
 			new webpack.DefinePlugin({
 				'global.GENTLY': false,
 				'_BROWSER': false
