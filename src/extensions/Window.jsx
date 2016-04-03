@@ -8,6 +8,9 @@ class Window extends React.Component {
 
 	componentWillMount() {
 		this.flux.on('state.Window', this.flux.bindListener(this.onChange));
+
+		// Setting locale
+		moment.locale(this.flux.getState('Localization').currentLocale);
 	}
 
 	componentDidMount() {
