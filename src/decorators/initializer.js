@@ -169,15 +169,18 @@ export default function(Component) {
 					handleActions(Initializer.component, this.props, this.context, false);
 					this.context.flux.dispatch('action.Lantern.removeComponentRef');
 				} else {
-					var self = this;
-					var render = function *() {
-						self.context.flux.off('action.Lantern.rendered', render);
-
-						self.forceUpdate();
-					};
-					this.context.flux.on('action.Lantern.rendered', render);
+					this.context.flux.on('action.Lantern.rendered', this.onLanternRendered);
 				}
 			}
+		}
+
+		onLanternRendered = () => {
+			this.context.flux.off('action.Lantern.rendered', this.onLanternRendered);
+			this.forceUpdate();
+		};
+
+		componentWillUnmount() {
+			this.context.flux.off('action.Lantern.rendered', this.onLanternRendered);
 		}
 
 		render() {
