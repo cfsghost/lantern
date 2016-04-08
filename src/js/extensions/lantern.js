@@ -1,7 +1,14 @@
 export default function *() {
 
 	var store = this.getState('Lantern', {
+		inheritServerState: false,
 		componentRef: 0
+	});
+
+	this.on('action.Lantern.setInheritServerState', function *(state) {
+		store.inheritServerState = state;
+
+		this.dispatch('state.Lantern');
 	});
 
 	this.on('action.Lantern.addComponentRef', function *() {

@@ -74,6 +74,7 @@ var initEntry = function(error, redirectLocation, renderProps, state, userdata, 
 
 	// Loading parts of frameworks
 	fluky.load(Actions, Stores, Extensions);
+	fluky.dispatch('action.Lantern.setInheritServerState', true);
 
 	var component = (
 		<Entry flux={fluky}>

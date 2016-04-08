@@ -98,7 +98,7 @@ export default function(Component) {
 		constructor(props, context) {
 			super(props, context);
 
-			this.ready = true;
+			this.ready = false;
 
 			// Do not fetch data twice
 			if (!context.flux.disabledEventHandler && !context.flux.isBrowser) {
@@ -158,22 +158,22 @@ export default function(Component) {
 				this.context.router.setRouteLeaveHook(this.props.route, this.onPageLeave);
 
 			// do not execute again if it's done on server-side
-			if (!this.ready) {
+			if (!this.context.flux.getState('Lantern').inheritServerState) {
+				this.context.flux.dispatch('action.Lantern.setInheritServerState', false);
 				this.preAction(Initializer);
 			}
 		}
 
 		onPageLeave = (nextLocation) => {
+			this.ready = false;
 
 			// Show something before leaving
-			if (this.refs.component.onLeave)
+			if (this.refs.component.onLeave) {
 				return this.refs.component.onLeave(nextLocation);
-
-			this.ready = false;
+			}
 		};
 
 		componentDidUpdate() {
-
 			// do preAction if router is using the same component to reload page
 			if (!this.ready) {
 				this.preAction(Initializer);
@@ -200,6 +200,7 @@ export default function(Component) {
 		};
 
 		onLanternRendered = () => {
+			this.ready = true;
 			this.context.flux.off('action.Lantern.rendered', this.onLanternRendered);
 			this.forceUpdate();
 		};
