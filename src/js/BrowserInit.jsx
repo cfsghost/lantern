@@ -34,7 +34,6 @@ var initRoutes = function(routeSettings) {
 			routes.indexRoute = {
 				component: route.handler,
 				onLeave: function() {
-					console.log('LEAVING');
 					Fluky.dispatch('action.Lantern.setInheritServerState', false);
 
 					// Reset window title
@@ -61,7 +60,6 @@ var initRoutes = function(routeSettings) {
 				path: route.path,
 				component: route.handler,
 				onLeave: function() {
-					console.log('LEAVING');
 					Fluky.dispatch('action.Lantern.setInheritServerState', false);
 
 					// Reset window title
