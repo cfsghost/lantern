@@ -98,11 +98,7 @@ export default function(Component) {
 		constructor(props, context) {
 			super(props, context);
 
-			this.state = {
-				ready: false
-			};
-
-			this.ready = false;
+			this.ready = true;
 
 			// Do not fetch data twice
 			if (!context.flux.disabledEventHandler && !context.flux.isBrowser) {
@@ -161,7 +157,10 @@ export default function(Component) {
 			if (this.props.route)
 				this.context.router.setRouteLeaveHook(this.props.route, this.onPageLeave);
 
-			this.preAction(Initializer);
+			// do not execute again if it's done on server-side
+			if (!this.ready) {
+				this.preAction(Initializer);
+			}
 		}
 
 		onPageLeave = (nextLocation) => {
