@@ -159,7 +159,6 @@ export default function(Component) {
 
 			// do not execute again if it's done on server-side
 			if (!this.context.flux.getState('Lantern').inheritServerState) {
-				this.context.flux.dispatch('action.Lantern.setInheritServerState', false);
 				this.preAction(Initializer);
 			}
 		}
@@ -200,6 +199,11 @@ export default function(Component) {
 		};
 
 		onLanternRendered = () => {
+
+			if (this.context.flux.getState('Lantern').inheritServerState) {
+				this.context.flux.dispatch('action.Lantern.setInheritServerState', false);
+			}
+
 			this.ready = true;
 			this.context.flux.off('action.Lantern.rendered', this.onLanternRendered);
 			this.forceUpdate();
