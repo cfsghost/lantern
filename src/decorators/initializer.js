@@ -91,7 +91,8 @@ export default function(Component) {
 		static isInitializer = true;
 		static component = Component;
 		static contextTypes = {
-			flux: React.PropTypes.object
+			flux: React.PropTypes.object,
+			router: React.PropTypes.object
 		};
 
 		constructor(props, context) {
@@ -100,6 +101,8 @@ export default function(Component) {
 			this.state = {
 				ready: false
 			};
+
+			this.ready = false;
 
 			// Do not fetch data twice
 			if (!context.flux.disabledEventHandler && !context.flux.isBrowser) {
@@ -155,24 +158,47 @@ export default function(Component) {
 				})(this, method);
 			}
 
-			if (this.flux.isBrowser) {
-				this.context.flux.dispatch('action.Lantern.addComponentRef');
+			if (this.props.route)
+				this.context.router.setRouteLeaveHook(this.props.route, this.onPageLeave);
 
-				// Setup listeners to wait for state updating
-				var ret = wait(Initializer.component, this.props, this.context);
+			this.preAction(Initializer);
+		}
 
-				// handle actions
-				handleActions(Initializer.component, this.props, this.context, true);
+		onPageLeave = (nextLocation) => {
 
-				// No need to wait any state, so just complete initialization work
-				if (!ret) {
-					handleActions(Initializer.component, this.props, this.context, false);
-					this.context.flux.dispatch('action.Lantern.removeComponentRef');
-				} else {
-					this.context.flux.on('action.Lantern.rendered', this.onLanternRendered);
-				}
+			// Show something before leaving
+			if (this.refs.component.onLeave)
+				return this.refs.component.onLeave(nextLocation);
+
+			this.ready = false;
+		};
+
+		componentDidUpdate() {
+
+			// do preAction if router is using the same component to reload page
+			if (!this.ready) {
+				this.preAction(Initializer);
 			}
 		}
+
+		preAction = (Initializer) => {
+			this.ready = true;
+			this.context.flux.dispatch('action.Lantern.addComponentRef');
+
+			// Setup listeners to wait for state updating
+			var ret = wait(Initializer.component, this.props, this.context);
+
+			// handle actions
+			handleActions(Initializer.component, this.props, this.context, true);
+
+			// No need to wait any state, so just complete initialization work
+			if (!ret) {
+				handleActions(Initializer.component, this.props, this.context, false);
+				this.context.flux.dispatch('action.Lantern.removeComponentRef');
+			} else {
+				this.context.flux.on('action.Lantern.rendered', this.onLanternRendered);
+			}
+		};
 
 		onLanternRendered = () => {
 			this.context.flux.off('action.Lantern.rendered', this.onLanternRendered);
