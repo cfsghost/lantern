@@ -9,7 +9,7 @@ import AdminLayout from './AdminLayout.jsx';
 import Avatar from '../Avatar.jsx';
 
 // Decorators
-import { router, flux, i18n, preAction } from 'Decorator';
+import { router, flux, i18n, preAction, wait } from 'Decorator';
 
 @flux
 @i18n
@@ -123,6 +123,7 @@ class PageNavigator extends React.Component {
 @flux
 @i18n
 @preAction('Admin.Users.query')
+@wait('Admin.Users')
 class Users extends React.Component {
 
 	constructor(props, context) {

@@ -7,7 +7,7 @@ import AdminLayout from './AdminLayout.jsx';
 import PermissionPanel from './PermissionPanel.jsx';
 
 // Decorators
-import { router, flux, i18n, preAction } from 'Decorator';
+import { router, flux, i18n, preAction, wait } from 'Decorator';
 
 @flux
 @i18n
@@ -110,6 +110,7 @@ class Profile extends React.Component {
 	handle.doAction('Admin.User.get', handle.props.params.userid);
 	handle.doAction('Admin.Roles.query', {}, { permissions: true });
 })
+@wait('Admin.User', 'Admin.Roles')
 class User extends React.Component {
 
 	constructor(props, context) {
