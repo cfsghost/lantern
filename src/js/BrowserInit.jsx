@@ -32,7 +32,14 @@ var initRoutes = function(routeSettings) {
 
 		if (route.path == '/') {
 			routes.indexRoute = {
-				component: route.handler
+				component: route.handler,
+				onLeave: function() {
+					console.log('LEAVING');
+					Fluky.dispatch('action.Lantern.setInheritServerState', false);
+
+					// Reset window title
+					Fluky.dispatch('action.Window.setTitle', Fluky.getState('Service').name);
+				}
 			};
 			continue;
 		}
@@ -54,6 +61,9 @@ var initRoutes = function(routeSettings) {
 				path: route.path,
 				component: route.handler,
 				onLeave: function() {
+					console.log('LEAVING');
+					Fluky.dispatch('action.Lantern.setInheritServerState', false);
+
 					// Reset window title
 					Fluky.dispatch('action.Window.setTitle', Fluky.getState('Service').name);
 				}
