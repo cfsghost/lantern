@@ -53,17 +53,16 @@ node app.js dev
 
 ## Dependencies
 
-* Node.js 0.12+ or io.js
+* Node.js 0.12+
 * Koa web framework
 * MongoDB
 * Fluky - Event-based framework for flux data flow pattern
 * babel 6 - Used to support ES6/ES7+
-* React v0.14+
-* react-router 1.0.0+ - router for React
+* React v15.0.0+
+* react-router 2.0.0+ - router for React
 * [Semantic UI](http://semantic-ui.com/) - Front-end UI toolkit
 * Webpack
 * Passport
-* 
 
 ## Showcases
 * [Hackathon Taiwan](http://hackathon.tw/)
