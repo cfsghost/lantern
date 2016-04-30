@@ -10,6 +10,9 @@ import Actions from './actions';
 import Stores from './stores';
 import Extensions from './extensions';
 
+// Server doesn't need setState method
+React.Component.prototype.setState = function() {};
+
 var options = {};
 var routes = null;
 
