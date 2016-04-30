@@ -1,8 +1,15 @@
 export default function *() {
 
 	var store = this.getState('Lantern', {
+		redirect: null,
 		inheritServerState: false,
 		componentRef: 0
+	});
+
+	this.on('action.Lantern.redirectUrl', function *(url) {
+		store.redirect = url;
+
+		this.dispatch('action.Lantern.rendered');
 	});
 
 	this.on('action.Lantern.setInheritServerState', function *(state) {

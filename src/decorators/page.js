@@ -11,11 +11,16 @@ export default function(page) {
 				_page = page(handle);
 			}
 
+			if (_page.hasOwnProperty('redirect')) {
+				handle.flux.dispatch('action.Lantern.redirectUrl', _page.redirect);
+				return;
+			}
+
 			// Setup window title
-			if (_page.title)
+			if (_page.hasOwnProperty('title'))
 				handle.doAction('Window.setTitle', _page.title);
 
-			if (_page.ogMeta) {
+			if (_page.hasOwnProperty('ogMeta')) {
 				handle.doAction('Window.setOGMetaProperties', _page.ogMeta);
 			}
 

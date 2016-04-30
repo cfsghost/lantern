@@ -248,6 +248,13 @@ co(function *() {
 				cookie: this.req.headers.cookie
 			});
 
+			// Redirect
+			if (page.redirect) {
+				this.redirect(page.redirect);
+				console.timeEnd(id);
+				return;
+			}
+
 			// Using service name by default
 			if (!page.state.Window.title) {
 				page.state.Window.title = settings.general.service.name;

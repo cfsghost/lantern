@@ -98,6 +98,16 @@ var initEntry = function(error, redirectLocation, renderProps, state, userdata, 
 		fluky.off('action.Lantern.rendered', rendered);
 		fluky.serverRendering = true;
 
+		// Redirect
+		var lanternStore = fluky.getState('Lantern');
+		if (lanternStore.redirect) {
+			callback(null, {
+				redirect: lanternStore.redirect
+			});
+
+			return;
+		}
+
 		generateNewContent(fluky, component, callback);
 	}
 
