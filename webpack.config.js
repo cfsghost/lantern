@@ -21,7 +21,8 @@ var configs = module.exports = [
 		output: {
 			path: __dirname + '/public/assets/',
 			publicPath: '/assets/',
-			filename: 'bundle.js'
+			filename: 'bundle.js',
+			chunkFilename: '[chunkhash].chunk.js'
 		},
 		plugins: [
 			new webpack.DefinePlugin({ '_BROWSER': true }),
@@ -90,7 +91,8 @@ var configs = module.exports = [
 			libraryTarget: 'commonjs2',
 			path: __dirname + '/build',
 			publicPath: '/assets/',
-			filename: 'server.js'
+			filename: 'server.js',
+			chunkFilename: '[chunkhash].chunk.js'
 		},
 		node: {
 			__filename: true
