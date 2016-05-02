@@ -33,7 +33,6 @@ var configs = module.exports = [
 				{ from: './src/public', to: '../' }
 			]),
 			new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),
-			new webpack.optimize.OccurenceOrderPlugin(),
 			new webpack.NoErrorsPlugin()
 		],
 		module: {
