@@ -35,10 +35,23 @@ var initRoutes = function() {
 			continue;
 		}
 
-		routes.childRoutes.push({
-			path: route.path,
-			component: route.handler
-		});
+		if (route.getHandler) {
+
+			// Load component directly
+			route.getHandler({}, function(err, component) {
+
+				routes.childRoutes.push({
+					path: route.path,
+					component: component
+				});
+			});
+		} else {
+
+			routes.childRoutes.push({
+				path: route.path,
+				component: route.handler
+			});
+		}
 	}
 
 	return routes;

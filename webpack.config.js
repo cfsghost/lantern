@@ -70,6 +70,7 @@ var configs = module.exports = [
 		resolve: {
 			alias: {
 				'moment': 'moment/min/moment-with-locales.min.js',
+				hotpot: __dirname + '/framework',
 				Source: __dirname + '/src',
 				Extension: __dirname + '/src/extensions',
 				Decorator: __dirname + '/src/decorators',
@@ -145,6 +146,7 @@ var configs = module.exports = [
 		resolve: {
 			alias: {
 				'moment': 'moment/min/moment-with-locales.min.js',
+				hotpot: __dirname + '/framework',
 				Source: __dirname + '/src',
 				Extension: __dirname + '/src/extensions',
 				Decorator: __dirname + '/src/decorators',

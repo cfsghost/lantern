@@ -56,16 +56,23 @@ var initRoutes = function(routeSettings) {
 			})(route.redirect);
 		} else {
 
-			routes.childRoutes.push({
+			var routeRule = {
 				path: route.path,
-				component: route.handler,
 				onLeave: function() {
 					Fluky.dispatch('action.Lantern.setInheritServerState', false);
 
 					// Reset window title
 					Fluky.dispatch('action.Window.setTitle', Fluky.getState('Service').name);
 				}
-			});
+			};
+
+			if (route.getHandler) {
+				routeRule.getComponent = route.getHandler;
+			} else {
+				routeRule.component = route.handler;
+			}
+
+			routes.childRoutes.push(routeRule);
 		}
 	}
 
