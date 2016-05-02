@@ -61,6 +61,9 @@ var configs = module.exports = [
 				{ test: /\.woff$/, loader: "url-loader?limit=1000" }
 			],
 			noParse: [
+				'react/dist/react.min.js',
+				'react-dom/dist/react-dom.min.js',
+				'react-router/umd/ReactRouter.min.js',
 				/moment-with-locales/
 			]
 		},
@@ -69,6 +72,9 @@ var configs = module.exports = [
 		},
 		resolve: {
 			alias: {
+				'react$': 'react/dist/react.min.js',
+				'react-dom$': 'react-dom/dist/react-dom.min.js',
+				'react-router$': 'react-router/umd/ReactRouter.min.js',
 				'moment': 'moment/min/moment-with-locales.min.js',
 				hotpot: __dirname + '/framework',
 				Source: __dirname + '/src',
@@ -141,11 +147,17 @@ var configs = module.exports = [
 					}).join('|') + ')$'))
 			],
 			noParse: [
+				'react/dist/react.min.js',
+				'react-dom/dist/react-dom.min.js',
+				'react-router/umd/ReactRouter.min.js',
 				/moment-with-locales/
 			]
 		},
 		resolve: {
 			alias: {
+				'react$': 'react/dist/react.min.js',
+				'react-dom$': 'react-dom/dist/react-dom.min.js',
+				'react-router$': 'react-router/umd/ReactRouter.min.js',
 				'moment': 'moment/min/moment-with-locales.min.js',
 				hotpot: __dirname + '/framework',
 				Source: __dirname + '/src',
