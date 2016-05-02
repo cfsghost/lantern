@@ -221,7 +221,7 @@ co(function *() {
 		// Register path for pages
 		router.get(route.path, Middleware.allow(route.allow || null), function *() {
 
-			var id = '[' + Date.now() + '] ' + this.req.url;
+			var id = '[' + new Date().toISOString().replace('T', ' ').replace('Z', '') + '] ' + this.req.url;
 			console.time(id);
 
 			// Locale
