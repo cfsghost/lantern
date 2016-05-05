@@ -28,9 +28,11 @@ var Localization = require('./lib/localization');
 var app = koa();
 
 // Hot Load
+var devMode = false;
 if (process.argv.length == 3) {
 	if (process.argv[2] == 'dev') {
 		console.log('Starting on development mode ...');
+		devMode = true;
 
 		var webpack = require('webpack');
 		var webpackConfig = require('./webpack.config');
@@ -81,6 +83,8 @@ if (process.argv.length == 3) {
 					publicPath: config.output.publicPath
 				}));
 				app.use(require('koa-webpack-hot-middleware')(compiler));
+
+				run();
 			});
 		});
 	}
@@ -164,123 +168,129 @@ app.use(require('./routes/admin/permission').middleware());
 app.use(require('./routes/admin/roles').middleware());
 app.use(require('./routes/admin/role').middleware());
 
-co(function *() {
+function run() {
 
-	// Initializing react app
-	var ReactApp = require('./build/server.js');
-	ReactApp.init({
-		externalUrl: Utils.getExternalUrl()
-	});
+	co(function *() {
 
-	// Initializing APIs
-	yield Mailer.init();
-	yield Database.init();
+		// Initializing react app
+		var ReactApp = require('./build/server.js');
+		ReactApp.init({
+			externalUrl: Utils.getExternalUrl()
+		});
 
-	// Initializing routes for front-end rendering
-	var router = new Router();
-	for (var index in ReactApp.routes) {
-		var route = ReactApp.routes[index];
+		// Initializing APIs
+		yield Mailer.init();
+		yield Database.init();
 
-		// NotFound Page
-		if (!route.path) {
-			app.use(function *pageNotFound(next) {
+		// Initializing routes for front-end rendering
+		var router = new Router();
+		for (var index in ReactApp.routes) {
+			var route = ReactApp.routes[index];
 
-				// Be the last handler
-				yield next;
+			// NotFound Page
+			if (!route.path) {
+				app.use(function *pageNotFound(next) {
 
-				if (this.status != 404)
-					return;
+					// Be the last handler
+					yield next;
 
-				if (this.json || this.body || !this.idempotent)
-					return;
+					if (this.status != 404)
+						return;
 
-				// Rendering
-				var page = yield ReactApp.render('/404');
-				yield this.render('index', {
-					title: settings.general.service.name,
-					content: page.content,
-					state: page.state
+					if (this.json || this.body || !this.idempotent)
+						return;
+
+					// Rendering
+					var page = yield ReactApp.render('/404');
+					yield this.render('index', {
+						title: settings.general.service.name,
+						content: page.content,
+						state: page.state
+					});
+
+					// Do not trigger koa's 404 handling
+					this.message = null;
 				});
-
-				// Do not trigger koa's 404 handling
-				this.message = null;
-			});
-			continue;
-		}
-
-		// Redirect
-		if (route.redirect) {
-			(function(route) {
-				router.get(route.path, function *() {
-					this.redirect(route.redirect);
-				});
-			})(route);
-			continue;
-		}
-
-		// Register path for pages
-		router.get(route.path, Middleware.allow(route.allow || null), function *() {
-
-			var id = '[' + new Date().toISOString().replace('T', ' ').replace('Z', '') + '] ' + this.req.url;
-			console.time(id);
-
-			// Locale
-			var localization = {
-				currentLocale: this.getLocaleFromHeader()
-			};
-			localization.messages = yield Localization.getTranslations([ localization.currentLocale ]);
-			localization.currentMessage = localization.messages[localization.currentLocale] || {};
-			
-			// Reset initial state with session for new page
-			var curState = {
-				User: this.state.user || {},
-				Localization: localization,
-				Features: settings.general.features || {},
-				Service: {
-					name: Utils.getServiceName(),
-					externalUrl: Utils.getExternalUrl()
-				}
-			};
-			curState.User.logined = this.isAuthenticated();
-
-			// Rendering page with current state and cookie to client-side
-			var page = yield ReactApp.render(this.request.path, curState, {
-				cookie: this.req.headers.cookie
-			});
+				continue;
+			}
 
 			// Redirect
-			if (page.redirect) {
-				this.redirect(page.redirect);
+			if (route.redirect) {
+				(function(route) {
+					router.get(route.path, function *() {
+						this.redirect(route.redirect);
+					});
+				})(route);
+				continue;
+			}
+
+			// Register path for pages
+			router.get(route.path, Middleware.allow(route.allow || null), function *() {
+
+				var id = '[' + new Date().toISOString().replace('T', ' ').replace('Z', '') + '] ' + this.req.url;
+				console.time(id);
+
+				// Locale
+				var localization = {
+					currentLocale: this.getLocaleFromHeader()
+				};
+				localization.messages = yield Localization.getTranslations([ localization.currentLocale ]);
+				localization.currentMessage = localization.messages[localization.currentLocale] || {};
+				
+				// Reset initial state with session for new page
+				var curState = {
+					User: this.state.user || {},
+					Localization: localization,
+					Features: settings.general.features || {},
+					Service: {
+						name: Utils.getServiceName(),
+						externalUrl: Utils.getExternalUrl()
+					}
+				};
+				curState.User.logined = this.isAuthenticated();
+
+				// Rendering page with current state and cookie to client-side
+				var page = yield ReactApp.render(this.request.path, curState, {
+					cookie: this.req.headers.cookie
+				});
+
+				// Redirect
+				if (page.redirect) {
+					this.redirect(page.redirect);
+					console.timeEnd(id);
+					return;
+				}
+
+				// Using service name by default
+				if (!page.state.Window.title) {
+					page.state.Window.title = settings.general.service.name;
+				}
+
+				yield this.render('index', {
+					title: page.state.Window.title,
+					content: page.content,
+					window: page.state.Window,
+					state: JSON.stringify(page.state)
+				});
 				console.timeEnd(id);
-				return;
-			}
-
-			// Using service name by default
-			if (!page.state.Window.title) {
-				page.state.Window.title = settings.general.service.name;
-			}
-
-			yield this.render('index', {
-				title: page.state.Window.title,
-				content: page.content,
-				window: page.state.Window,
-				state: JSON.stringify(page.state)
 			});
-			console.timeEnd(id);
+		}
+		app.use(router.middleware());
+
+		// Localization
+		var localization = new Router();
+		localization.get('/lang/:locale', function *() {
+			this.body = yield Localization.getRawTranslation(this.params.locale);
+			this.type = 'application/json';
 		});
-	}
-	app.use(router.middleware());
+		app.use(localization.middleware());
 
-	// Localization
-	var localization = new Router();
-	localization.get('/lang/:locale', function *() {
-		this.body = yield Localization.getRawTranslation(this.params.locale);
-		this.type = 'application/json';
+		// Start the server
+		app.listen(settings.general.server.port, function() {
+			console.log('server is running at port', settings.general.server.port);
+		});
 	});
-	app.use(localization.middleware());
+}
 
-	// Start the server
-	app.listen(settings.general.server.port, function() {
-		console.log('server is running at port', settings.general.server.port);
-	});
-});
+if (!devMode)
+	run();
