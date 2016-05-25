@@ -245,9 +245,10 @@ function run() {
 				localization.currentMessage = localization.messages[localization.currentLocale] || {};
 				
 				// Reset initial state with session for new page
-				var curState = Object.assign({}, defState);
-				curState.User = this.state.user || {};
-				curState.Localization = localization;
+				var curState = Object.assign({
+					User: this.state.user || {},
+					Localization: localization
+				}, defState);
 				curState.User.logined = this.isAuthenticated();
 
 				// Rendering page with current state and cookie to client-side
