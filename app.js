@@ -225,6 +225,13 @@ function run() {
 			}
 
 			// Register path for pages
+			var defState = {
+				Features: settings.general.features || {},
+				Service: {
+					name: Utils.getServiceName(),
+					externalUrl: Utils.getExternalUrl()
+				}
+			};
 			router.get(route.path, Middleware.allow(route.allow || null), function *() {
 
 				var id = '[' + new Date().toISOString().replace('T', ' ').replace('Z', '') + '] ' + this.req.url;
@@ -238,15 +245,9 @@ function run() {
 				localization.currentMessage = localization.messages[localization.currentLocale] || {};
 				
 				// Reset initial state with session for new page
-				var curState = {
-					User: this.state.user || {},
-					Localization: localization,
-					Features: settings.general.features || {},
-					Service: {
-						name: Utils.getServiceName(),
-						externalUrl: Utils.getExternalUrl()
-					}
-				};
+				var curState = Object.assign({}, defState);
+				curState.User = this.state.user || {};
+				curState.Localization = localization;
 				curState.User.logined = this.isAuthenticated();
 
 				// Rendering page with current state and cookie to client-side
