@@ -1,6 +1,6 @@
 # Lantern
 
-An isomorphic web application built with modern technologies, which contains basic functionality, fundamental design and workable architecture. Good to be used to create your project quickly.
+An isomorphic web application built with "Universal JavaScript" and modern technologies, which contains basic functionality, fundamental design and workable architecture. Good to be used to create your project quickly.
 
 The architecture design was already done for isomorphic. The views and frontend stuffs which are implemented with React can be rendered on server-side and client-side both and using the same configuration of routes. The good news is, there is no need to learn anti-pattern flux framework(e.g., redux) for isomorphic. Lantern provided an easy way for developers who are already familar with flux pattern.
 
@@ -42,6 +42,7 @@ node app.js dev
 * Fast to setup and easy to customize
 * UI is pretty cool and fantasic
 * Widely use ES6 and ES7+ (Generator, classes and decorator)
+* Provided a lot of universal JavaScript solutions for development
 * Isomorphic Architecture
 * Provided a lot useful extensions to speed up the development.
 * Support permission management
@@ -50,11 +51,11 @@ node app.js dev
 * Support i18n for multiple language
 * Support third-party Authorization (Facebook/Github/Google/Linkedin)
 * Support Hot-load mechanism
-
+* 
 ## Dependencies
 
 * Node.js 0.12+
-* Koa web framework
+* Koa web framework 1.0
 * MongoDB
 * Fluky - Event-based framework for flux data flow pattern
 * babel 6 - Used to support ES6/ES7+
