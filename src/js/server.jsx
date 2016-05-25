@@ -98,14 +98,6 @@ var initEntry = function(error, redirectLocation, renderProps, state, userdata, 
 		</Entry>
 	);
 
-	function *done() {
-
-		// just fire once
-		fluky.off('idle', done);
-
-		generateNewContent(fluky, component, callback);
-	}
-
 	function *rendered() {
 
 		fluky.off('action.Lantern.rendered', rendered);
@@ -125,7 +117,6 @@ var initEntry = function(error, redirectLocation, renderProps, state, userdata, 
 	}
 
 	// Wait until everything's done
-	//fluky.on('idle', done);
 	fluky.on('action.Lantern.rendered', rendered);
 
 	// Start to initialize page
@@ -134,9 +125,6 @@ var initEntry = function(error, redirectLocation, renderProps, state, userdata, 
 	setImmediate(function() {
 		var componentRef = fluky.getState('Lantern').componentRef;
 		if (!componentRef) {
-		// There is no need to prefetch
-//		if (!fluky._refs) {
-//			fluky.off('idle', done);
 
 			// Generate immediately
 			callback(null, {
