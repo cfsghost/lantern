@@ -49,7 +49,9 @@ var configs = module.exports = [
 						plugins: [
 							'add-module-exports',
 							'transform-decorators-legacy',
-							'syntax-async-functions'
+							'syntax-async-functions',
+							'transform-react-constant-elements',
+							'transform-react-inline-elements'
 						],
 					}
 				},
@@ -129,7 +131,9 @@ var configs = module.exports = [
 						plugins: [
 							'add-module-exports',
 							'transform-decorators-legacy',
-							'syntax-async-functions'
+							'syntax-async-functions',
+							'transform-react-constant-elements',
+							'transform-react-inline-elements'
 						]
 					}
 				},
