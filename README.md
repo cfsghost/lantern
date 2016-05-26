@@ -1,6 +1,6 @@
 # Lantern
 
-An isomorphic web application built with modern technologies, which contains basic functionality, fundamental design and workable architecture. Good to be used to create your project quickly.
+An isomorphic web application built with "Universal JavaScript" and modern technologies, which contains basic functionality, fundamental design and workable architecture. Good to be used to create your project quickly.
 
 The architecture design was already done for isomorphic. The views and frontend stuffs which are implemented with React can be rendered on server-side and client-side both and using the same configuration of routes. The good news is, there is no need to learn anti-pattern flux framework(e.g., redux) for isomorphic. Lantern provided an easy way for developers who are already familar with flux pattern.
 
@@ -42,7 +42,8 @@ node app.js dev
 * Fast to setup and easy to customize
 * UI is pretty cool and fantasic
 * Widely use ES6 and ES7+ (Generator, classes and decorator)
-* Isomorphic Architecture
+* Provided a lot of universal JavaScript solutions for development
+* Isomorphic Architecture (React server-rendering by using universal JavaScript)
 * Provided a lot useful extensions to speed up the development.
 * Support permission management
 * Support user database system
@@ -54,7 +55,7 @@ node app.js dev
 ## Dependencies
 
 * Node.js 0.12+
-* Koa web framework
+* Koa web framework 1.0
 * MongoDB
 * Fluky - Event-based framework for flux data flow pattern
 * babel 6 - Used to support ES6/ES7+
@@ -63,6 +64,74 @@ node app.js dev
 * [Semantic UI](http://semantic-ui.com/) - Front-end UI toolkit
 * Webpack
 * Passport
+
+## Benchmarks
+
+Testing for rendering page with React on server side.
+
+Environment:
+* Apple MacBook Pro Retina 2013 (i7 2.4 GHz/8GB RAM)
+* 1 Node.js process
+
+Results:
+```
+$ ab -r -c 100 -n 1000 http://localhost:3001/
+This is ApacheBench, Version 2.3 <$Revision: 1706008 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Completed 600 requests
+Completed 700 requests
+Completed 800 requests
+Completed 900 requests
+Completed 1000 requests
+Finished 1000 requests
+
+
+Server Software:        
+Server Hostname:        localhost
+Server Port:            3001
+
+Document Path:          /
+Document Length:        7936 bytes
+
+Concurrency Level:      100
+Time taken for tests:   3.808 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      8073000 bytes
+HTML transferred:       7936000 bytes
+Requests per second:    262.59 [#/sec] (mean)
+Time per request:       380.817 [ms] (mean)
+Time per request:       3.808 [ms] (mean, across all concurrent requests)
+Transfer rate:          2070.23 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    2   0.9      1       5
+Processing:   217  367  69.3    380     546
+Waiting:      213  364  69.5    377     544
+Total:        220  369  69.1    381     547
+WARNING: The median and mean for the initial connection time are not within a normal deviation
+        These results are probably not that reliable.
+
+Percentage of the requests served within a certain time (ms)
+  50%    381
+  66%    401
+  75%    421
+  80%    433
+  90%    443
+  95%    461
+  98%    537
+  99%    541
+ 100%    547 (longest request)
+```
 
 ## Showcases
 * [Hackathon Taiwan](http://hackathon.tw/)
