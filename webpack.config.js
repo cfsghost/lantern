@@ -45,13 +45,11 @@ var configs = module.exports = [
 					exclude: /(node_modules|bower_components)/,
 					query: {
 						cacheDirectory: true,
-						presets: [ 'react', 'es2015', 'stage-0' ],
+						presets: [ 'react', 'es2015', 'stage-0', 'react-optimize' ],
 						plugins: [
 							'add-module-exports',
 							'transform-decorators-legacy',
-							'syntax-async-functions',
-							'transform-react-constant-elements',
-							'transform-react-inline-elements'
+							'syntax-async-functions'
 						],
 					}
 				},
@@ -127,13 +125,11 @@ var configs = module.exports = [
 					exclude: /(node_modules|bower_components)/,
 					query: {
 						cacheDirectory: true,
-						presets: [ 'react', 'es2015', 'stage-0' ],
+						presets: [ 'react', 'es2015', 'stage-0', 'react-optimize' ],
 						plugins: [
 							'add-module-exports',
 							'transform-decorators-legacy',
-							'syntax-async-functions',
-							'transform-react-constant-elements',
-							'transform-react-inline-elements'
+							'syntax-async-functions'
 						]
 					}
 				},

@@ -8,6 +8,14 @@ var session = require('koa-session');
 var passport = require('koa-passport');
 var locale = require('koa-locale');
 var co = require('co');
+var cluster = require('cluster');
+
+if (!cluster.isMaster) {
+
+	return;
+}
+
+const worker = cluster.fork();
 
 // Loading settings
 var settings = require('./lib/config.js');
