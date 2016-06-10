@@ -48,6 +48,8 @@ module.exports = {
 	'user_profile.display_name': '显示名称',
 	'user_profile.email': '电子邮件信箱',
 	'user_profile.update_button': '更新资讯',
+	'user_profile.avatar_header': '个人头像',
+	'user_profile.upload_avatar_button': '上传新头像',
 	'account_settings.header': '帐号设定',
 	'account_settings.subheader': '密码和验证资讯',
 	'account_settings.change_password': '变更密码',

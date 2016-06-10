@@ -167,7 +167,7 @@ class UserProfile extends React.Component {
 					<div className='ui segments'>
 						<div className='ui secondary segment'>
 							<h5 className='ui header'>
-								<I18n sign='user_profile.public_avatar'>Avatar</I18n>
+								<I18n sign='user_profile.avatar_header'>Avatar</I18n>
 							</h5>
 						</div>
 
