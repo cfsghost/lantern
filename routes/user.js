@@ -1,11 +1,16 @@
+var path = require('path');
+var fs = require('fs');
 var Router = require('koa-router');
 var passport = require('koa-passport');
+var RestPack = require('restpack');
 var settings = require('../lib/config');
 var Member = require('../lib/member');
 var Passport = require('../lib/passport');
 var Middleware = require('../lib/middleware');
 var Mailer = require('../lib/mailer');
 var Utils = require('../lib/utils');
+var Storage = require('../lib/storage');
+var Uploader = require('../lib/uploader');
 
 var router = module.exports = new Router();
 
@@ -132,4 +137,76 @@ router.post('/user/reset_password', function *() {
 	this.body = {
 		success: success
 	};
+});
+
+router.post('/user/upload/avatar', function *(next) {
+
+	if (!Uploader.checkRequest(this))
+		return yield next;
+
+	var parts = Uploader.parse(this);
+
+	// We receive only one file
+	var part = yield Uploader.getFile(parts);
+
+	switch(part.mimeType) {
+	case 'image/png':
+	case 'image/jpeg':
+		break;
+
+	default:
+		// TODO: return error message
+		return;
+	}
+
+	// Saving
+	var filepath = yield Uploader.saveFile(part);
+});
+
+router.put('/apis/user/self/avatar', Middleware.requireAuthorized, function *(next) {
+
+	// Create a dataset for restful API
+	var restpack = new RestPack();
+
+	var file = yield Uploader.getBase64File(this.request.body.data);
+
+	// Getting path to store avatar file
+	var storagePath = yield Storage.getPath('avatar');
+
+	// Only support PNG
+	if (file.type != 'image/png') {
+
+		restpack
+			.setStatus(RestPack.Status.ValidationFailed)
+			.appendError('type', RestPack.Code.Invalid)
+			.sendKoa(this);
+
+		return;
+	}
+
+	var filepath = path.join(storagePath, this.state.user.id + '.png');
+
+	// Saving
+	yield Uploader.saveFile(file.stream, filepath);
+
+	// Save
+	try {
+		var member = yield Member.save(this.state.user.id, {
+			avatar: true,
+			avatar_hash: ''
+		});
+	} catch(e) {
+		this.status = 500;
+		return;
+	}
+
+	// Update session
+	this.state.user.avatar = true;
+	if (this.state.user.avatar_hash)
+		delete this.state.user.avatar_hash;
+
+	// Return result to client
+	restpack
+		.setData({})
+		.sendKoa(this);
 });

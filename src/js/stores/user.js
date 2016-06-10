@@ -10,6 +10,7 @@ export default function *() {
 		logined: false,
 		permissions: {},
 		login_time: null,
+		avatar: false,
 		avatar_hash: null
 	});
 
@@ -166,6 +167,7 @@ export default function *() {
 			store.email = username;
 			store.name = res.body.data.name;
 			store.login_time = res.body.data.login_time;
+			store.avatar = res.body.data.avatar;
 			store.avatar_hash = res.body.data.avatar_hash;
 			store.permissions = res.body.data.permissions;
 
@@ -181,11 +183,18 @@ export default function *() {
 		}
 	});
 
+	this.on('action.User.updateAvatar', function *(settings) {
+
+		store.avatar = settings.avatar;
+		this.dispatch('state.User');
+	});
+
 	this.on('action.User.updateStatus', function *(status) {
 		store.logined = status.logined;
 		store.name = status.name;
 		store.username = status.email;
 		store.email = status.email;
+		store.avatar = status.avatar;
 		store.login_time = status.login_time;
 		store.avatar_hash = status.avatar_hash;
 		store.permissions = status.permissions;

@@ -1,6 +1,10 @@
 import React from 'react';
 import I18n from 'Extension/I18n.jsx';
 
+// Components
+import Avatar from './Avatar.jsx';
+import AvatarUploader from './AvatarUploader.jsx';
+
 // Decorators
 import { router, flux, i18n, preAction } from 'Decorator';
 
@@ -18,7 +22,10 @@ class UserProfile extends React.Component {
 			busy: false,
 			error: false,
 			name: state.name,
-			email: state.email
+			email: state.email,
+			id: state.id,
+			avatar: state.avatar || false,
+			avatar_hash: state.avatar_hash
 		};
 	}
 
@@ -37,6 +44,9 @@ class UserProfile extends React.Component {
 		this.setState({
 			name: user.name,
 			email: user.email,
+			id: user.id,
+			avatar: user.avatar || false,
+			avatar_hash: user.avatar_hash,
 			busy: false
 		});
 	};
@@ -50,6 +60,24 @@ class UserProfile extends React.Component {
 		});
 
 		this.flux.dispatch('action.User.updateProfile', this.state.name);
+	};
+
+	uploadAvatar = () => {
+		var formData = new FormData();
+
+		formData.append('avatar', this.refs.avatar.files[0]);
+
+		$.ajax({
+			url: '/user/upload/avatar',
+			type: 'POST',
+			data: formData,
+			contentType: false,
+			processData: false
+		});
+	};
+
+	selectAvatar = () => {
+		$(this.refs.avatar).show().trigger('click').hide();
 	};
 
 	render() {
@@ -133,6 +161,18 @@ class UserProfile extends React.Component {
 								</button>
 							</div>
 
+						</div>
+					</div>
+
+					<div className='ui segments'>
+						<div className='ui secondary segment'>
+							<h5 className='ui header'>
+								<I18n sign='user_profile.public_avatar'>Avatar</I18n>
+							</h5>
+						</div>
+
+						<div className='ui very padded segment'>
+							<AvatarUploader userId={this.state.id} internalAvatar={this.state.avatar} defaultHash={this.state.avatar_hash} size={96} />
 						</div>
 					</div>
 

@@ -9,6 +9,7 @@ var Member = new mongoose.Schema({
 	gender: Number,
 	birthday: Date,
 	username: { type: String, unique: true },
+	avatar: { type: Boolean, default: false },
 	phone: String,
 	idno: String,
 	tokens: [ String ],

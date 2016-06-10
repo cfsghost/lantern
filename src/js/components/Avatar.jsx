@@ -18,40 +18,54 @@ function nearestSize(size) {
 	return sizes[sizes.length - 1];
 }
 
+function getGravatar(hash, size) {
+	return 'https://secure.gravatar.com/avatar/' + hash + '?s=' + size + '&d=mm';
+}
+
+function getAvatarUrl(userId, hash, size) {
+	if (userId)
+		return '/avatar/' + userId + '.png?' + Date.now();
+	else
+		return getGravatar(hash, size);
+}
+
 class Avatar extends React.Component {
-	static propTypes = {
-		hash: React.PropTypes.string,
-		size: React.PropTypes.number
-	};
 
 	static defaultProps = {
+		userId: null,
 		hash: null,
 		size: 200
 	};
 
 	render() {
+		var style = {
+			display: 'inline-block',
+			marginRight: '.25em'
+		};
 
 		if (this.props.size == -1) {
-			var style = {
-				width: '100%'
-			};
+			style.width = '100%';
+
+			var url = getAvatarUrl(this.props.userId, this.props.hash, 256);
 
 			return (
 				<img
-					src={'https://secure.gravatar.com/avatar/' + this.props.hash + '?s=' + 256 + '&d=mm'}
+					src={url}
 					style={style}
-					className='ui avatar image' />
+					className='ui circular image' />
 			);
 		}
 
 		var requestSize = nearestSize(this.props.size);
+		var url = getAvatarUrl(this.props.userId, this.props.hash, requestSize);
 
 		return (
 			<img
-				src={'https://secure.gravatar.com/avatar/' + this.props.hash + '?s=' + requestSize  + '&d=mm'}
+				src={url}
 				width={this.props.size}
 				height={this.props.size}
-				className='ui avatar image' />
+				style={style}
+				className='ui circular image' />
 		);
 	}
 }

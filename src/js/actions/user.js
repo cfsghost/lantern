@@ -23,6 +23,7 @@ export default function *() {
 				username: data.username || data.email,
 				email: data.email,
 				login_time: data.login_time,
+				avatar: data.avatar || false,
 				avatar_hash: data.avatar_hash,
 				permissions: data.permissions
 			});

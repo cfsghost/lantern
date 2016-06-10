@@ -44,7 +44,7 @@ class LoginState extends React.Component {
 			loginState = (
 				<div ref='dropdownMenu' className='ui dropdown item'>
 					<span>
-						<Avatar hash={this.props.user.avatar_hash} size={20} />
+						<Avatar userId={this.props.user.avatar ? this.props.user.id : null} hash={this.props.user.avatar_hash} size={24} />
 						{(() => {
 							if (this.props.displayName)
 								return <span>{this.props.user.name}</span>;

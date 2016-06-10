@@ -8,7 +8,10 @@
 	},
 	"features": {
 		"requiredPassword": false,
-		"uniqueUsername": false
+		"uniqueUsername": false,
+		"avatar": {
+			"changeable": true
+		}
 	},
 	"mailer": {
 		"service": "Gmail",
@@ -30,6 +33,10 @@
 	},
 	"database": {
 		"uri": "mongodb://localhost:27017/lantern"
+	},
+	"storage": {
+		"type": "local",
+		"path": "./storage"
 	},
 	"authorization": {
 		"github": {
