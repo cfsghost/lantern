@@ -138,7 +138,7 @@ router.post('/user/reset_password', function *() {
 		success: success
 	};
 });
-
+/*
 router.post('/user/upload/avatar', function *(next) {
 
 	if (!Uploader.checkRequest(this))
@@ -162,7 +162,7 @@ router.post('/user/upload/avatar', function *(next) {
 	// Saving
 	var filepath = yield Uploader.saveFile(part);
 });
-
+*/
 router.put('/apis/user/self/avatar', Middleware.requireAuthorized, function *(next) {
 
 	// Create a dataset for restful API
