@@ -17,6 +17,7 @@ class UserProfile extends React.Component {
 		super(props, context);
 
 		var state = this.flux.getState('User');
+		var features = this.flux.getState('Features');
 
 		this.state = {
 			busy: false,
@@ -25,7 +26,8 @@ class UserProfile extends React.Component {
 			email: state.email,
 			id: state.id,
 			avatar: state.avatar || false,
-			avatar_hash: state.avatar_hash
+			avatar_hash: state.avatar_hash,
+			features: features
 		};
 	}
 
@@ -164,17 +166,27 @@ class UserProfile extends React.Component {
 						</div>
 					</div>
 
-					<div className='ui segments'>
-						<div className='ui secondary segment'>
-							<h5 className='ui header'>
-								<I18n sign='user_profile.avatar_header'>Avatar</I18n>
-							</h5>
-						</div>
+					{((ctx) => {
+						if (!ctx.state.features.avatar)
+							return;
 
-						<div className='ui very padded segment'>
-							<AvatarUploader userId={this.state.id} internalAvatar={this.state.avatar} defaultHash={this.state.avatar_hash} size={96} />
-						</div>
-					</div>
+						if (!ctx.state.features.avatar.changeable)
+							return;
+
+						return (
+							<div className='ui segments'>
+								<div className='ui secondary segment'>
+									<h5 className='ui header'>
+										<I18n sign='user_profile.avatar_header'>Avatar</I18n>
+									</h5>
+								</div>
+
+								<div className='ui very padded segment'>
+									<AvatarUploader userId={ctx.state.id} internalAvatar={ctx.state.avatar} defaultHash={ctx.state.avatar_hash} size={96} />
+								</div>
+							</div>
+						);
+					})(this)}
 
 				</div>
 			</div>

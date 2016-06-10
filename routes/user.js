@@ -163,50 +163,56 @@ router.post('/user/upload/avatar', function *(next) {
 	var filepath = yield Uploader.saveFile(part);
 });
 */
-router.put('/apis/user/self/avatar', Middleware.requireAuthorized, function *(next) {
 
-	// Create a dataset for restful API
-	var restpack = new RestPack();
+if (settings.general.features.avatar) {
+	if (settings.general.features.avatar.changeable) {
 
-	var file = yield Uploader.getBase64File(this.request.body.data);
+		router.put('/apis/user/self/avatar', Middleware.requireAuthorized, function *(next) {
 
-	// Getting path to store avatar file
-	var storagePath = yield Storage.getPath('avatar');
+			// Create a dataset for restful API
+			var restpack = new RestPack();
 
-	// Only support PNG
-	if (file.type != 'image/png') {
+			var file = yield Uploader.getBase64File(this.request.body.data);
 
-		restpack
-			.setStatus(RestPack.Status.ValidationFailed)
-			.appendError('type', RestPack.Code.Invalid)
-			.sendKoa(this);
+			// Getting path to store avatar file
+			var storagePath = yield Storage.getPath('avatar');
 
-		return;
-	}
+			// Only support PNG
+			if (file.type != 'image/png') {
 
-	var filepath = path.join(storagePath, this.state.user.id + '.png');
+				restpack
+					.setStatus(RestPack.Status.ValidationFailed)
+					.appendError('type', RestPack.Code.Invalid)
+					.sendKoa(this);
 
-	// Saving
-	yield Uploader.saveFile(file.stream, filepath);
+				return;
+			}
 
-	// Save
-	try {
-		var member = yield Member.save(this.state.user.id, {
-			avatar: true,
-			avatar_hash: ''
+			var filepath = path.join(storagePath, this.state.user.id + '.png');
+
+			// Saving
+			yield Uploader.saveFile(file.stream, filepath);
+
+			// Save
+			try {
+				var member = yield Member.save(this.state.user.id, {
+					avatar: true,
+					avatar_hash: ''
+				});
+			} catch(e) {
+				this.status = 500;
+				return;
+			}
+
+			// Update session
+			this.state.user.avatar = true;
+			if (this.state.user.avatar_hash)
+				delete this.state.user.avatar_hash;
+
+			// Return result to client
+			restpack
+				.setData({})
+				.sendKoa(this);
 		});
-	} catch(e) {
-		this.status = 500;
-		return;
 	}
-
-	// Update session
-	this.state.user.avatar = true;
-	if (this.state.user.avatar_hash)
-		delete this.state.user.avatar_hash;
-
-	// Return result to client
-	restpack
-		.setData({})
-		.sendKoa(this);
-});
+}
