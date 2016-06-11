@@ -1,11 +1,11 @@
 var child_process = require('child_process');
 var events = require('events');
 var util = require('util');
+var Utils = require('./lib/utils');
 
 var Renderer = module.exports = function(num) {
 	this.workerNum = num || 1;
 	this.workers = [];
-	this.counter = 0;
 	this.curWorker = 0;
 };
 
@@ -49,7 +49,7 @@ Renderer.prototype.render = function(data) {
 			worker = self.workers[0];
 		}
 
-		var id = self.counter++;
+		var id = Utils.generateToken();
 		self.once(id, function(result) {
 			done(null, result);
 		});
