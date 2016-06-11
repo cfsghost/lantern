@@ -9,6 +9,7 @@ var passport = require('koa-passport');
 var mount = require('koa-mount');
 var locale = require('koa-locale');
 var co = require('co');
+var logger = require('koa-logger');
 
 // Loading settings
 var settings = require('./lib/config.js');
@@ -31,7 +32,14 @@ co(function *() {
 	var Middleware = require('./lib/middleware');
 	var Localization = require('./lib/localization');
 
+	// Starting renderer
+	console.log('Starting renderer ...');
+	var Renderer = require('./renderer');
+	var renderer = new Renderer(2);
+	yield renderer.init();
+
 	var app = koa();
+	app.use(logger());
 
 	// Hot Load
 	var devMode = false;
@@ -252,9 +260,6 @@ co(function *() {
 				};
 				router.get(route.path, Middleware.allow(route.allow || null), function *() {
 
-					var id = '[' + new Date().toISOString().replace('T', ' ').replace('Z', '') + '] ' + this.req.url;
-					console.time(id);
-
 					// Locale
 					var localization = {
 						currentLocale: this.getLocaleFromHeader()
@@ -268,6 +273,35 @@ co(function *() {
 						Localization: localization
 					}, defState);
 					curState.User.logined = this.isAuthenticated();
+
+					// Using renderer
+					var result = yield renderer.render({
+						path: this.request.path,
+						curState: curState,
+						cookie: this.req.headers.cookie
+					});
+
+					// Redirect
+					if (result.page.redirect) {
+						this.redirect(result.page.redirect);
+						return;
+					}
+
+					// Using service name by default
+					if (!result.page.state.Window.title) {
+						result.page.state.Window.title = settings.general.service.name;
+					}
+
+					// TODO: move views rendering to renderer worker process
+					yield this.render('index', {
+						title: result.page.state.Window.title,
+						content: result.page.content,
+						window: result.page.state.Window,
+						state: JSON.stringify(result.page.state)
+					});
+
+/*
+return;
 
 					// Rendering page with current state and cookie to client-side
 					var page = yield ReactApp.render(this.request.path, curState, {
@@ -293,6 +327,7 @@ co(function *() {
 						state: JSON.stringify(page.state)
 					});
 					console.timeEnd(id);
+*/
 				});
 			}
 			app.use(router.middleware());
