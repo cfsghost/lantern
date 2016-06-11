@@ -1,5 +1,8 @@
 var co = require('co');
-var settings = require('./lib/config.js');
+
+try {
+	var settings = require('./lib/config.js');
+} catch(e) {}
 
 // Library
 var Utils = require('./lib/utils');
