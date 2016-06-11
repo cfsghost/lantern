@@ -208,37 +208,36 @@ co(function *() {
 			yield Mailer.init();
 			yield Database.init();
 
+			// Handling for page not found
+			var notFoundRoute = ReactApp.routes.find(function(route) {
+				if (route.path == '/404')
+					return true;
+			});
+
+			if (notFoundRoute) {
+				app.use(function *(next) {
+
+					// Be the last handler
+					yield next;
+
+					if (this.status != 404)
+						return;
+
+					if (this.json || this.body || !this.idempotent)
+						return;
+
+					// Do not trigger koa's 404 handling
+					this.message = null;
+
+					// redirect to 404 page
+					this.redirect('/404');
+				});
+			}
+
 			// Initializing routes for front-end rendering
 			var router = new Router();
 			for (var index in ReactApp.routes) {
 				var route = ReactApp.routes[index];
-
-				// NotFound Page
-				if (!route.path) {
-					app.use(function *pageNotFound(next) {
-
-						// Be the last handler
-						yield next;
-
-						if (this.status != 404)
-							return;
-
-						if (this.json || this.body || !this.idempotent)
-							return;
-
-						// Rendering
-						var page = yield ReactApp.render('/404');
-						yield this.render('index', {
-							title: settings.general.service.name,
-							content: page.content,
-							state: page.state
-						});
-
-						// Do not trigger koa's 404 handling
-						this.message = null;
-					});
-					continue;
-				}
 
 				// Redirect
 				if (route.redirect) {
@@ -300,34 +299,6 @@ co(function *() {
 						state: JSON.stringify(result.page.state)
 					});
 
-/*
-return;
-
-					// Rendering page with current state and cookie to client-side
-					var page = yield ReactApp.render(this.request.path, curState, {
-						cookie: this.req.headers.cookie
-					});
-
-					// Redirect
-					if (page.redirect) {
-						this.redirect(page.redirect);
-						console.timeEnd(id);
-						return;
-					}
-
-					// Using service name by default
-					if (!page.state.Window.title) {
-						page.state.Window.title = settings.general.service.name;
-					}
-
-					yield this.render('index', {
-						title: page.state.Window.title,
-						content: page.content,
-						window: page.state.Window,
-						state: JSON.stringify(page.state)
-					});
-					console.timeEnd(id);
-*/
 				});
 			}
 			app.use(router.middleware());
