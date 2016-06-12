@@ -133,6 +133,7 @@ var initEntry = function(error, redirectLocation, renderProps, state, userdata, 
 			});
 		}
 	});
+
 };
 
 // Server rendering

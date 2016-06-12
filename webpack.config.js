@@ -8,7 +8,7 @@ var configs = module.exports = [
 		name: 'Browser',
 		entry: {
 			app: [
-				'./src/js/browser.jsx'
+				path.join(__dirname, 'src', 'js', 'browser.jsx')
 			],
 			vendors: [
 				'babel-polyfill',
@@ -19,7 +19,7 @@ var configs = module.exports = [
 			]
 		},
 		output: {
-			path: __dirname + '/public/assets/',
+			path: path.join(__dirname, 'public', 'assets'),
 			publicPath: '/assets/',
 			filename: 'bundle.js',
 			chunkFilename: '[chunkhash].chunk.js'
@@ -31,7 +31,7 @@ var configs = module.exports = [
 				'moment': 'moment'
 			}),
 			new CopyWebpackPlugin([
-				{ from: './src/public', to: '../' }
+				{ from: path.join(__dirname, 'src', 'public'), to: '../' }
 			]),
 			new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),
 			new webpack.NoErrorsPlugin()
@@ -89,13 +89,13 @@ var configs = module.exports = [
 		entry: {
 			app: [
 				'babel-polyfill',
-				'./src/js/server.jsx'
+				path.join(__dirname, 'src', 'js', 'server.jsx')
 			]
 		},
 		target: 'node',
 		output: {
 			libraryTarget: 'commonjs2',
-			path: __dirname + '/build',
+			path: path.join(__dirname, 'build'),
 			publicPath: '/assets/',
 			filename: 'server.js',
 			chunkFilename: '[chunkhash].chunk.js'
