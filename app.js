@@ -224,6 +224,47 @@ co(function *() {
 				});
 			}
 
+			var defState = {
+				Features: settings.general.features || {},
+				Service: {
+					name: Utils.getServiceName(),
+					externalUrl: Utils.getExternalUrl()
+				}
+			};
+			function *pageHandler() {
+
+				// Locale
+				var localization = {
+					currentLocale: this.getLocaleFromHeader()
+				};
+				localization.messages = yield Localization.getTranslations([ localization.currentLocale ]);
+				localization.currentMessage = localization.messages[localization.currentLocale] || {};
+				
+				// Reset initial state with session for new page
+				var curState = Object.assign({
+					User: this.state.user || {},
+					Localization: localization
+				}, defState);
+				curState.User.logined = this.isAuthenticated();
+
+				// Using renderer
+				var result = yield renderer.render({
+					path: this.request.path,
+					curState: curState,
+					cookie: this.req.headers.cookie
+				});
+
+				// Redirect
+				if (result.redirect) {
+					this.redirect(result.redirect);
+					return;
+				}
+
+				// Output
+				this.type = 'text/html';
+				this.body = result.html;
+			}
+
 			// Initializing routes for front-end rendering
 			var router = new Router();
 			for (var index in ReactApp.routes) {
@@ -240,46 +281,7 @@ co(function *() {
 				}
 
 				// Register path for pages
-				var defState = {
-					Features: settings.general.features || {},
-					Service: {
-						name: Utils.getServiceName(),
-						externalUrl: Utils.getExternalUrl()
-					}
-				};
-				router.get(route.path, Middleware.allow(route.allow || null), function *() {
-
-					// Locale
-					var localization = {
-						currentLocale: this.getLocaleFromHeader()
-					};
-					localization.messages = yield Localization.getTranslations([ localization.currentLocale ]);
-					localization.currentMessage = localization.messages[localization.currentLocale] || {};
-					
-					// Reset initial state with session for new page
-					var curState = Object.assign({
-						User: this.state.user || {},
-						Localization: localization
-					}, defState);
-					curState.User.logined = this.isAuthenticated();
-
-					// Using renderer
-					var result = yield renderer.render({
-						path: this.request.path,
-						curState: curState,
-						cookie: this.req.headers.cookie
-					});
-
-					// Redirect
-					if (result.redirect) {
-						this.redirect(result.redirect);
-						return;
-					}
-
-					// Output
-					this.type = 'text/html';
-					this.body = result.html;
-				});
+				router.get(route.path, Middleware.allow(route.allow || null), pageHandler);
 			}
 			app.use(router.middleware());
 
