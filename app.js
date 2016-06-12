@@ -2,7 +2,6 @@ var path = require('path');
 var koa = require('koa');
 var Router = require('koa-router');
 var bodyParser = require('koa-bodyparser');
-var views = require('koa-views');
 var serve = require('koa-static');
 var session = require('koa-session');
 var passport = require('koa-passport');
@@ -145,15 +144,6 @@ co(function *() {
 	app.use(passport.initialize());
 	app.use(passport.session());
 
-	// Create render
-	app.use(views(__dirname + '/views', {
-		ext: 'jade',
-		cache: true,
-		map: {
-			html: 'jade'
-		}
-	}));
-
 	// Initializing session and setting it expires in one month
 	app.keys = settings.general.session.keys || [];
 	app.use(session(app, {
@@ -281,24 +271,14 @@ co(function *() {
 					});
 
 					// Redirect
-					if (result.page.redirect) {
-						this.redirect(result.page.redirect);
+					if (result.redirect) {
+						this.redirect(result.redirect);
 						return;
 					}
 
-					// Using service name by default
-					if (!result.page.state.Window.title) {
-						result.page.state.Window.title = settings.general.service.name;
-					}
-
-					// TODO: move views rendering to renderer worker process
-					yield this.render('index', {
-						title: result.page.state.Window.title,
-						content: result.page.content,
-						window: result.page.state.Window,
-						state: JSON.stringify(result.page.state)
-					});
-
+					// Output
+					this.type = 'text/html';
+					this.body = result.html;
 				});
 			}
 			app.use(router.middleware());

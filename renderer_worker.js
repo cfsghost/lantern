@@ -1,4 +1,5 @@
 var co = require('co');
+var consolidate = require('consolidate');
 
 try {
 	var settings = require('./lib/config.js');
@@ -22,9 +23,33 @@ process.on('message', function(task) {
 			cookie: task.data.cookie
 		});
 
-		process.send({
-			id: task.id,
-			page: page
+		var result = [ task.id ];
+
+		// Redirect
+		if (page.redirect) {
+			result.push('D');
+			result.push(page.redirect);
+			process.send(result.join(''));
+			return;
+		}
+
+		// Using service name by default
+		if (!page.state.Window.title) {
+			page.state.Window.title = settings.general.service.name;
+		}
+
+		// Rendering page
+		consolidate.jade('views/index.jade', {
+			cache: true,
+			title: page.state.Window.title,
+			content: page.content,
+			window: page.state.Window,
+			state: JSON.stringify(page.state)
+		}, function(err, html) {
+
+			result.push('C');
+			result.push(html);
+			process.send(result.join(''));
 		});
 
 	});

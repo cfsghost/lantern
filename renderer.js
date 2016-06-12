@@ -15,7 +15,18 @@ Renderer.prototype.init = function() {
 	var self = this;
 
 	function handler(task) {
-		self.emit(task.id, task);
+		var result = {};
+
+		// Convert string to json and html.
+		// For performance issue, we avoid using big json object between processes.
+		result.id = task.substr(0, 32);
+		if (task.substr(32, 1) == 'C') {
+			result.html = task.substr(33);
+		} else {
+			result.redirect = task.substr(33);
+		}
+
+		self.emit(result.id, result);
 	}
 
 	return function(done) {
@@ -49,7 +60,7 @@ Renderer.prototype.render = function(data) {
 			worker = self.workers[0];
 		}
 
-		var id = Utils.generateToken();
+		var id = Utils.generateUniqueId();
 		self.once(id, function(result) {
 			done(null, result);
 		});
