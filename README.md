@@ -45,6 +45,7 @@ node app.js dev
 * Provided a lot of universal JavaScript solutions for development
 * Isomorphic Architecture (React server-rendering by using universal JavaScript)
 * Provided a lot useful extensions to speed up the development.
+* Efficient server rendering
 * Support permission management
 * Support user database system
 * Support Hot loading without webpack-dev-server
@@ -64,6 +65,13 @@ node app.js dev
 * [Semantic UI](http://semantic-ui.com/) - Front-end UI toolkit
 * Webpack
 * Passport
+
+## Efficient Server Rendering
+
+Server rendering machanism of React is synchronous and slow against Node.js event-loop performance. It causes that reduces the number of concurrent connections for single process.
+
+A implementation in Lantern architecture is individual renderer processes for server rendering of react. All of React rendering work is separated from main process to avoid blocking server. (The default number of renderer process is 2)
+
 
 ## Benchmarks
 
