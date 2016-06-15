@@ -30,4 +30,6 @@ Member.methods.validPassword = function(password) {
     return (this.password == password) ? true : false;
 };
 
-module.exports = mongoose.model('Member', Member);
+module.exports = function(lApp) {
+	return mongoose.model('Member', Member);
+};

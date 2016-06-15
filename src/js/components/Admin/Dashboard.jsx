@@ -3,11 +3,12 @@ import I18n from 'Extension/I18n.jsx';
 import AdminLayout from './AdminLayout.jsx';
 
 // Decorators
-import { router, flux, i18n, preAction } from 'Decorator';
+import { router, flux, i18n, preAction, wait } from 'Decorator';
 
 @flux
 @i18n
 @preAction('Admin.Dashboard.query')
+@wait('Admin.Dashboard')
 class Dashboard extends React.Component {
 
 	constructor(props, context) {

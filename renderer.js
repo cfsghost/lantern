@@ -1,9 +1,9 @@
 var child_process = require('child_process');
 var events = require('events');
 var util = require('util');
-var Utils = require('./lib/utils');
 
-var Renderer = module.exports = function(num) {
+var Renderer = module.exports = function(lApp, num) {
+	this.lApp = lApp;
 	this.workerNum = num || 1;
 	this.workers = [];
 	this.curWorker = 0;
@@ -60,6 +60,7 @@ Renderer.prototype.render = function(data) {
 			worker = self.workers[0];
 		}
 
+		var Utils = self.lApp.getLibrary('Utils');
 		var id = Utils.generateUniqueId();
 		self.once(id, function(result) {
 			done(null, result);

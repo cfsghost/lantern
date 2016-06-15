@@ -1,24 +1,30 @@
 var Router = require('koa-router');
-var Utils = require('../../lib/utils.js');
-var Member = require('../../lib/member');
-var Permission = require('../../lib/permission');
-var Middleware = require('../../lib/middleware');
 
-var router = module.exports = new Router();
+module.exports = function(lApp) {
 
-router.use(Middleware.allow('admin.access'));
+	var router = new Router();
 
-router.get('/admin/api/dashboard', function *() {
-	this.body = {
-		user: {
-			count: yield Member.count()
-		},
-		admin: {
-		   count: yield Permission.count({ 'admin.access': true })
-		},
-		service: {
-			name: Utils.getServiceName(),
-			externalURL: Utils.getExternalUrl()
+	var Utils = lApp.getLibrary('Utils');
+	var Member = lApp.getLibrary('Member');
+	var Middleware = lApp.getLibrary('Middleware');
+	var Permission = lApp.getLibrary('Permission');
+
+	router.use(Middleware.allow('admin.access'));
+
+	router.get('/admin/api/dashboard', function *() {
+		this.body = {
+			user: {
+				count: yield Member.count()
+			},
+			admin: {
+			   count: yield Permission.count({ 'admin.access': true })
+			},
+			service: {
+				name: Utils.getServiceName(),
+				externalURL: Utils.getExternalUrl()
+			}
 		}
-	}
-});
+	});
+
+	return router;
+};

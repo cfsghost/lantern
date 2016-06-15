@@ -9,7 +9,7 @@ import AdminLayout from './AdminLayout.jsx';
 import PermissionPanel from './PermissionPanel.jsx';
 
 // Decorators
-import { router, flux, i18n, preAction } from 'Decorator';
+import { router, flux, i18n, preAction, wait } from 'Decorator';
 
 @router
 @flux
@@ -193,6 +193,7 @@ class NewRoleModal extends React.Component {
 @flux
 @i18n
 @preAction('Admin.Roles.query')
+@wait('Admin.Roles')
 class Roles extends React.Component {
 
 	constructor(props, context) {

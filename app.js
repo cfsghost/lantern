@@ -9,35 +9,48 @@ var mount = require('koa-mount');
 var locale = require('koa-locale');
 var co = require('co');
 var logger = require('koa-logger');
-
-// Loading settings
-var settings = require('./lib/config.js');
-if (!settings) {
-	console.error('Failed to load settings');
-	process.exit(1);
-}
+var lampion = require('lampion');
 
 // Initialization
 co(function *() {
 
+	// Initialializing App
+	var lApp = lampion({
+		appPath: __dirname,
+		apiPath: path.join(__dirname, 'routes'),
+		libPath: path.join(__dirname, 'lib'),
+		modelPath: path.join(__dirname, 'models'),
+		configPath: path.join(__dirname, 'configs'),
+		localePath: path.join(__dirname, 'locales'),
+		publicPath: [
+			path.join(__dirname, 'public')
+		]
+	});
+
+	// Listen to log which is coming from app
+	lApp.on('log', console.log);
+
+	// Configuring
+	yield lApp.configure();
+
+	// Settings
+	var settings = lApp.settings;
+
 	// Libraries
-	var Utils = require('./lib/utils');
-	var Mailer = require('./lib/mailer');
-	var Database = require('./lib/database');
-	var Storage = require('./lib/storage');
-	var Uploader = require('./lib/uploader');
-	var Passport = require('./lib/passport');
-	var Member = require('./lib/member');
-	var Middleware = require('./lib/middleware');
-	var Localization = require('./lib/localization');
+	var Utils = lApp.getLibrary('Utils');
+	var Member = lApp.getLibrary('Member');
+	var Storage = lApp.getLibrary('Storage');
+	var Passport = lApp.getLibrary('Passport');
+	var Middleware = lApp.getLibrary('Middleware');
+	var Localization = lApp.getLibrary('Localization');
 
 	// Starting renderer
 	console.log('Starting renderer ...');
 	var Renderer = require('./renderer');
-	var renderer = new Renderer(2);
+	var renderer = new Renderer(lApp, 2);
 	yield renderer.init();
 
-	var app = koa();
+	var app = lApp.getKoaApp();
 	app.use(logger());
 
 	// Enable development mode and Hot Load machanism
@@ -51,12 +64,6 @@ co(function *() {
 			devmode(app, run);
 		}
 	}
-
-	// Initializing storage
-	yield Storage.init();
-
-	// Initializing uploader
-	yield Uploader.init();
 
 	// Static file path
 	app.use(serve(path.join(__dirname, 'public'), { hidden: true }));
@@ -74,24 +81,7 @@ co(function *() {
 	locale(app, 'en');
 
 	// Initializing authenication
-	Passport.init(passport);
-	Passport.local(passport);
-
-	// Setup 3rd-party authorization
-	if (settings.general.authorization.github.enabled)
-		Passport.github(passport);
-
-	if (settings.general.authorization.facebook.enabled)
-		Passport.facebook(passport);
-
-	if (settings.general.authorization.google.enabled)
-		Passport.google(passport);
-
-	if (settings.general.authorization.linkedin.enabled)
-		Passport.linkedin(passport);
-
-	app.use(passport.initialize());
-	app.use(passport.session());
+	Passport.prepare(passport);
 
 	// Initializing session and setting it expires in one month
 	app.keys = settings.general.session.keys || [];
@@ -108,6 +98,7 @@ co(function *() {
 	app.use(function *(next) {
 		// Getting permission if user signed in already
 		if (this.isAuthenticated()) {
+
 			// Getting permission informations for such user
 			var perms = yield Member.getPermissions(this.state.user.id);
 
@@ -124,14 +115,7 @@ co(function *() {
 	});
 
 	// Routes
-	app.use(require('./routes/auth').middleware());
-	app.use(require('./routes/user').middleware());
-	app.use(require('./routes/admin/dashboard').middleware());
-	app.use(require('./routes/admin/users').middleware());
-	app.use(require('./routes/admin/user').middleware());
-	app.use(require('./routes/admin/permission').middleware());
-	app.use(require('./routes/admin/roles').middleware());
-	app.use(require('./routes/admin/role').middleware());
+	lApp.useAPIs();
 
 	function run() {
 
@@ -142,10 +126,6 @@ co(function *() {
 			ReactApp.init({
 				externalUrl: Utils.getExternalUrl()
 			});
-
-			// Initializing APIs
-			yield Mailer.init();
-			yield Database.init();
 
 			// Handling for page not found
 			var notFoundRoute = ReactApp.routes.find(function(route) {
@@ -246,10 +226,14 @@ co(function *() {
 			app.listen(settings.general.server.port, function() {
 				console.log('server is running at port', settings.general.server.port);
 			});
+		}).catch(function(e) {
+			console.error(e);
 		});
 	}
 
 	if (!devMode)
 		run();
 
+}).catch(function(e) {
+	console.error(e);
 });

@@ -17,4 +17,6 @@ permissionFiles.forEach(function(filename) {
 
 var Permission = new mongoose.Schema(schema);
 
-module.exports = mongoose.model('Permission', Permission);
+module.exports = function(lApp) {
+	return mongoose.model('Permission', Permission);
+};

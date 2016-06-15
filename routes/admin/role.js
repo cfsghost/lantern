@@ -1,67 +1,73 @@
 var Router = require('koa-router');
-var Role = require('../../lib/role');
-var Permission = require('../../lib/permission');
-var Middleware = require('../../lib/middleware');
 
-var router = module.exports = new Router();
+module.exports = function(lApp) {
 
-router.use(Middleware.allow('admin.roles'));
+	var router = new Router();
 
-router.get('/admin/api/role/:id', function *() {
+	var Middleware = lApp.getLibrary('Middleware');
+	var Permission = lApp.getLibrary('Permission');
+	var Role = lApp.getLibrary('Role');
 
-	// Fetching a list with specific condition
-	var data = yield Role.getRole(this.params.id);
+	router.use(Middleware.allow('admin.roles'));
 
-	this.body = {
-		id: this.params.id,
-		name: data.name,
-		desc: data.desc,
-		perms: data.permissions
-	};
-});
+	router.get('/admin/api/role/:id', function *() {
 
-router.put('/admin/api/role/:id', function *() {
+		// Fetching a list with specific condition
+		var data = yield Role.getRole(this.params.id);
 
-	if (!this.request.body.name || !this.request.body.desc) {
-		this.status = 401;
-		return;
-	}
+		this.body = {
+			id: this.params.id,
+			name: data.name,
+			desc: data.desc,
+			perms: data.permissions
+		};
+	});
 
-	if (!this.request.body.perms) {
-		this.status = 401;
-		return;
-	}
+	router.put('/admin/api/role/:id', function *() {
 
-	// Validate permissions client given
-	var isValid = yield Permission.validate(Object.keys(this.request.body.perms));
-	if (!isValid) {
-		this.status = 401;
-		return;
-	}
+		if (!this.request.body.name || !this.request.body.desc) {
+			this.status = 401;
+			return;
+		}
 
-	// Save
-	try {
-		var role = yield Role.save(this.params.id, {
-			name: this.request.body.name,
-			desc: this.request.body.desc
-		});
-	} catch(e) {
-		this.status = 500;
-		return;
-	}
+		if (!this.request.body.perms) {
+			this.status = 401;
+			return;
+		}
 
-	// Save permissions
-	var perms = yield Role.updatePermission(this.params.id, this.request.body.perms);
+		// Validate permissions client given
+		var isValid = yield Permission.validate(Object.keys(this.request.body.perms));
+		if (!isValid) {
+			this.status = 401;
+			return;
+		}
 
-	// Prepare data for returning
-	var r = {
-		name: role.name,
-		desc: role.desc,
-		perms: perms
-	};
+		// Save
+		try {
+			var role = yield Role.save(this.params.id, {
+				name: this.request.body.name,
+				desc: this.request.body.desc
+			});
+		} catch(e) {
+			this.status = 500;
+			return;
+		}
 
-	this.body = {
-		success: true,
-		role: r
-	};
-});
+		// Save permissions
+		var perms = yield Role.updatePermission(this.params.id, this.request.body.perms);
+
+		// Prepare data for returning
+		var r = {
+			name: role.name,
+			desc: role.desc,
+			perms: perms
+		};
+
+		this.body = {
+			success: true,
+			role: r
+		};
+	});
+
+	return router;
+};

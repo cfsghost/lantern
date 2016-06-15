@@ -8,12 +8,20 @@ if (!argv._.length) {
 
 var email = argv._[0];
 
+var path = require('path');
 var co = require('co');
-var Database = require('../lib/database');
-var Member = require('../lib/member');
+var lampion = require('lampion');
 
 co(function *() {
-	yield Database.init();
+	var lApp = lampion({
+		worker: true,
+		appPath: path.join(__dirname, '..')
+	});
+
+	yield lApp.configure();
+
+	// Library
+	var Member = lApp.getLibrary('Member');
 
 	try {
 		var m = yield Member.updatePermissionByEmail(email, {
@@ -22,6 +30,8 @@ co(function *() {
 			'admin.roles': true
 		});
 	} catch(e) {
+		console.log(e.stack);
+		return;
 	}
 
 	if (m) {
@@ -31,4 +41,6 @@ co(function *() {
 	}
 
 	process.exit();
+}).catch(function(e) {
+	console.error(e.stack);
 });

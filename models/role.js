@@ -7,4 +7,6 @@ var Role = new mongoose.Schema({
 	permissions: { type: Schema.Types.ObjectId, ref: 'Permission' }
 });
 
-module.exports = mongoose.model('Role', Role);
+module.exports = function(lApp) {
+	return mongoose.model('Role', Role);
+};

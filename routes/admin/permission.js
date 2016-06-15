@@ -1,18 +1,24 @@
 var Router = require('koa-router');
-var Permission = require('../../lib/permission');
-var Middleware = require('../../lib/middleware');
 
-var router = module.exports = new Router();
+module.exports = function(lApp) {
 
-Middleware.allow('admin.access')
+	var router = new Router();
 
-router.get('/admin/api/perms', function *() {
+	var Middleware = lApp.getLibrary('Middleware');
+	var Permission = lApp.getLibrary('Permission');
 
-	// Fetching a list with specific condition
-	var availPerms = yield Permission.getAvailablePermissions();
+	Middleware.allow('admin.access')
 
-	this.body = {
-		groups: availPerms.groups,
-		list: availPerms.perms
-	};
-});
+	router.get('/admin/api/perms', function *() {
+
+		// Fetching a list with specific condition
+		var availPerms = yield Permission.getAvailablePermissions();
+
+		this.body = {
+			groups: availPerms.groups,
+			list: availPerms.perms
+		};
+	});
+
+	return router;
+};
