@@ -37,6 +37,13 @@ Starting up in development mode is able to enable hot loading mechanism, you can
 node app.js dev
 ```
 
+## Run in Production
+
+For production, all of JavaScript will be minimized and optimized with no debug messages and symbols. You should use specific configuration file:
+```
+webpack --config webpack.production.config.js
+```
+
 ## Features
 
 * Fast to setup and easy to customize
