@@ -33,7 +33,7 @@ var configs = module.exports = [
 				'moment': 'moment'
 			}),
 			new CopyWebpackPlugin([
-				{ from: path.join(__dirname, 'src', 'public'), to: outputPath }
+				{ from: path.join(__dirname, 'src', 'public'), to: '../' }
 			]),
 			new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),
 			new webpack.NoErrorsPlugin()
