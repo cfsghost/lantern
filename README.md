@@ -44,6 +44,16 @@ For production, all of JavaScript will be minimized and optimized with no debug 
 webpack --config webpack.production.config.js
 ```
 
+Then you can direct run app with environment variable like this:
+```
+NODE_ENV=production node app.js
+```
+
+If the PM2 you are using for production, just run it with `process.json` provided.
+```
+pm2 start process.json
+```
+
 ## Features
 
 * Fast to setup and easy to customize
