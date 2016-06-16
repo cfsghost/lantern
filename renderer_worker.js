@@ -27,11 +27,14 @@ co(function *() {
 	});
 
 	var pageHandler = co.wrap(function *(task) {
-
-		// Rendering page with current state and cookie to client-side
-		var page = yield ReactApp.render(task.data.path, task.data.curState, {
-			cookie: task.data.cookie
-		});
+		try {
+			// Rendering page with current state and cookie to client-side
+			var page = yield ReactApp.render(task.data.path, task.data.curState, {
+				cookie: task.data.cookie
+			});
+		} catch(e) {
+			return console.log(e.stack);
+		}
 
 		var result = [ task.id ];
 
