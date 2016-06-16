@@ -3,6 +3,8 @@ var path = require('path');
 var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
+var outputPath = (process.env.NODE_ENV == 'production') ? path.join(__dirname, 'dist') : __dirname;
+
 var configs = module.exports = [
 	{
 		name: 'Browser',
@@ -19,19 +21,19 @@ var configs = module.exports = [
 			]
 		},
 		output: {
-			path: path.join(__dirname, 'public', 'assets'),
+			path: path.join(outputPath, 'public', 'assets'),
 			publicPath: '/assets/',
 			filename: 'bundle.js',
 			chunkFilename: '[chunkhash].chunk.js'
 		},
 		plugins: [
-			new webpack.DefinePlugin({ '_BROWSER': true }),
+			new webpack.DefinePlugin({ '_BROWSER': true, '_OUTPUT_PATH': outputPath }),
 			new webpack.ProvidePlugin({
 				'window.moment': 'moment',
 				'moment': 'moment'
 			}),
 			new CopyWebpackPlugin([
-				{ from: path.join(__dirname, 'src', 'public'), to: '../' }
+				{ from: path.join(__dirname, 'src', 'public'), to: outputPath }
 			]),
 			new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),
 			new webpack.NoErrorsPlugin()
@@ -95,7 +97,7 @@ var configs = module.exports = [
 		target: 'node',
 		output: {
 			libraryTarget: 'commonjs2',
-			path: path.join(__dirname, 'build'),
+			path: path.join(outputPath, 'build'),
 			publicPath: '/assets/',
 			filename: 'server.js',
 			chunkFilename: '[chunkhash].chunk.js'
@@ -113,7 +115,8 @@ var configs = module.exports = [
 			}),
 			new webpack.DefinePlugin({
 				'global.GENTLY': false,
-				'_BROWSER': false
+				'_BROWSER': false,
+				'_OUTPUT_PATH': outputPath
 			})
 		],
 		module: {
@@ -177,7 +180,7 @@ fs.readdirSync(translationPath).map(function(locale) {
 		entry: path.join(translationPath, locale, 'translation.js'),
 		output: {
 			libraryTarget: 'commonjs2',
-			path: path.join(__dirname, 'locales'),
+			path: path.join(outputPath, 'locales'),
 			filename: locale + '.js'
 		}
 	});

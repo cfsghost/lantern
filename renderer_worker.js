@@ -1,7 +1,10 @@
+var path = require('path');
 var co = require('co');
 var consolidate = require('consolidate');
 
 var lampion = require('lampion');
+
+var outputPath = (process.env.NODE_ENV == 'production') ? path.join(__dirname, 'dist') : __dirname;
 
 co(function *() {
 
@@ -18,7 +21,7 @@ co(function *() {
 	var Utils = lApp.getLibrary('Utils');
 
 	// Initializing react app
-	var ReactApp = require('./build/server.js');
+	var ReactApp = require(path.join(outputPath, 'build', 'server.js'));
 	ReactApp.init({
 		externalUrl: Utils.getExternalUrl()
 	});

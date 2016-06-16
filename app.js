@@ -11,6 +11,8 @@ var co = require('co');
 var logger = require('koa-logger');
 var lampion = require('lampion');
 
+var outputPath = (process.env.NODE_ENV == 'production') ? path.join(__dirname, 'dist') : __dirname;
+
 // Initialization
 co(function *() {
 
@@ -21,9 +23,9 @@ co(function *() {
 		libPath: path.join(__dirname, 'lib'),
 		modelPath: path.join(__dirname, 'models'),
 		configPath: path.join(__dirname, 'configs'),
-		localePath: path.join(__dirname, 'locales'),
+		localePath: path.join(outputPath, 'locales'),
 		publicPath: [
-			path.join(__dirname, 'public')
+			path.join(outputPath, 'public')
 		]
 	});
 
@@ -66,7 +68,7 @@ co(function *() {
 	}
 
 	// Static file path
-	app.use(serve(path.join(__dirname, 'public'), { hidden: true }));
+	app.use(serve(path.join(outputPath, 'public'), { hidden: true }));
 
 	// Avatar
 	var avatarDir = yield Storage.getPath('avatar');
@@ -122,7 +124,7 @@ co(function *() {
 		co(function *() {
 
 			// Initializing react app
-			var ReactApp = require('./build/server.js');
+			var ReactApp = require(path.join(outputPath, 'build', 'server.js'));
 			ReactApp.init({
 				externalUrl: Utils.getExternalUrl()
 			});
