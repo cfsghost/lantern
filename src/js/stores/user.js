@@ -192,7 +192,7 @@ export default function *() {
 	this.on('action.User.updateStatus', function *(status) {
 		store.logined = status.logined;
 		store.name = status.name;
-		store.username = status.email;
+		store.username = status.username;
 		store.email = status.email;
 		store.avatar = status.avatar;
 		store.login_time = status.login_time;
