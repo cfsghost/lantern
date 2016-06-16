@@ -4,7 +4,7 @@ var consolidate = require('consolidate');
 
 var lampion = require('lampion');
 
-var outputPath = (process.env.NODE_ENV == 'production') ? path.join(__dirname, 'dist') : __dirname;
+var outputPath = (process.env.NODE_ENV == 'production') ? path.join(__dirname, 'dists') : __dirname;
 
 co(function *() {
 

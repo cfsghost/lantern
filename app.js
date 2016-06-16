@@ -11,7 +11,7 @@ var co = require('co');
 var logger = require('koa-logger');
 var lampion = require('lampion');
 
-var outputPath = (process.env.NODE_ENV == 'production') ? path.join(__dirname, 'dist') : __dirname;
+var outputPath = (process.env.NODE_ENV == 'production') ? path.join(__dirname, 'dists') : __dirname;
 
 // Initialization
 co(function *() {
