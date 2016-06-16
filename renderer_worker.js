@@ -10,7 +10,8 @@ co(function *() {
 
 	var lApp = lampion({
 		worker: true,
-		appPath: __dirname
+		appPath: __dirname,
+		localePath: path.join(outputPath, 'locales'),
 	});
 
 	yield lApp.configure();
