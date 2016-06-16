@@ -27,7 +27,7 @@ var configs = module.exports = [
 			chunkFilename: '[chunkhash].chunk.js'
 		},
 		plugins: [
-			new webpack.DefinePlugin({ '_BROWSER': true, '_OUTPUT_PATH': outputPath }),
+			new webpack.DefinePlugin({ '_BROWSER': true }),
 			new webpack.ProvidePlugin({
 				'window.moment': 'moment',
 				'moment': 'moment'
@@ -115,8 +115,7 @@ var configs = module.exports = [
 			}),
 			new webpack.DefinePlugin({
 				'global.GENTLY': false,
-				'_BROWSER': false,
-				'_OUTPUT_PATH': outputPath
+				'_BROWSER': false
 			})
 		],
 		module: {
