@@ -168,6 +168,21 @@ var configs = module.exports = [
 				External: __dirname + '/src/externals'
 			}
 		}
+	},
+	{
+		name: 'Router',
+		entry: path.join(__dirname, 'src', 'js', 'routes.js'),
+		target: 'node',
+		output: {
+			libraryTarget: 'commonjs2',
+			path: path.join(outputPath, 'build'),
+			filename: 'router.js'
+		},
+		module: {
+			preLoaders: [
+				{ test: /\.jsx$/, loader: 'ignore-loader' }
+			]
+		}
 	}
 ];
 

@@ -72,7 +72,7 @@ pm2 start process.json --env production
 
 ## Dependencies
 
-* Node.js 0.12+
+* Node.js v4.0+
 * Koa web framework 1.0
 * MongoDB
 * Fluky - Event-based framework for flux data flow pattern

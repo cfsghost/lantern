@@ -123,17 +123,18 @@ co(function *() {
 
 		co(function *() {
 
-			// Initializing react app
-			var ReactApp = require(path.join(outputPath, 'build', 'server.js'));
-			ReactApp.init({
-				externalUrl: Utils.getExternalUrl()
-			});
+			// Loading router
+			var routes = require(path.join(outputPath, 'build', 'router.js'));
 
 			// Handling for page not found
-			var notFoundRoute = ReactApp.routes.find(function(route) {
-				if (route.path == '/404')
-					return true;
-			});
+			var notFoundRoute = false;
+			for (var index in routes) {
+				var route = routes[index];
+				if (route.path == '/404') {
+					notFoundRoute = true;
+					break;
+				}
+			};
 
 			if (notFoundRoute) {
 				app.use(function *(next) {
@@ -198,8 +199,8 @@ co(function *() {
 
 			// Initializing routes for front-end rendering
 			var router = new Router();
-			for (var index in ReactApp.routes) {
-				var route = ReactApp.routes[index];
+			for (var index in routes) {
+				var route = routes[index];
 
 				// Redirect
 				if (route.redirect) {

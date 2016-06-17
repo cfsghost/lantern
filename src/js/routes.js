@@ -1,4 +1,3 @@
-var hotpot = require('hotpot');
 var LandingPage = require('./components/LandingPage.jsx');
 var ForgotPage = require('./components/ForgotPage.jsx');
 var SignInPage = require('./components/SignInPage.jsx');
