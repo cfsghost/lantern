@@ -67,9 +67,7 @@ co(function *() {
 		});
 	});
 
-	process.on('message', function(task) {
-		pageHandler(task);
-	});
+	process.on('message', pageHandler);
 }).catch(function(e) {
 	console.log(e.stack);
 });
