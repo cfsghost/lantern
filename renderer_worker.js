@@ -70,4 +70,6 @@ co(function *() {
 	process.on('message', function(task) {
 		pageHandler(task);
 	});
+}).catch(function(e) {
+	console.log(e.stack);
 });

@@ -1,30 +1,23 @@
-var LandingPage = require('./components/LandingPage.jsx');
-var ForgotPage = require('./components/ForgotPage.jsx');
-var SignInPage = require('./components/SignInPage.jsx');
-var SettingsPage = require('./components/SettingsPage.jsx');
-var NotFoundPage = require('./components/NotFoundPage.jsx');
-var ResetPasswordPage = require('./components/ResetPasswordPage.jsx');
-
 module.exports = [
 	{
 		path: '/404',
-		handler: NotFoundPage
+		handler: require('./components/NotFoundPage.jsx')
 	},
 	{
 		path: '/',
-		handler: LandingPage
+		handler: require('./components/LandingPage.jsx')
 	},
 	{
 		path: '/signin',
-		handler: SignInPage
+		handler: require('./components/SignInPage.jsx')
 	},
 	{
 		path: '/forgot',
-		handler: ForgotPage
+		handler: require('./components/ForgotPage.jsx')
 	},
 	{
 		path: '/reset_password/:userid/:token',
-		handler: ResetPasswordPage
+		handler: require('./components/ResetPasswordPage.jsx')
 	},
 	{
 		path: '/signup',
@@ -48,7 +41,7 @@ module.exports = [
 	},
 	{
 		path: '/settings/:category',
-		handler: SettingsPage
+		handler: require('./components/SettingsPage.jsx')
 	},
 	{
 		allow: 'admin.access',
