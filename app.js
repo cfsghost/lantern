@@ -171,7 +171,7 @@ co(function *() {
 				};
 				localization.messages = yield Localization.getTranslations([ localization.currentLocale ]);
 				localization.currentMessage = localization.messages[localization.currentLocale] || {};
-				
+
 				// Reset initial state with session for new page
 				var curState = Object.assign({
 					User: this.state.user || {},
@@ -204,18 +204,14 @@ co(function *() {
 
 				// Redirect
 				if (route.redirect) {
-					(function(route) {
-						router.get(route.path, function *() {
-							this.redirect(route.redirect);
-						});
-					})(route);
+					router.redirect(route.path, route.redirect);
 					continue;
 				}
 
 				// Register path for pages
 				router.get(route.path, Middleware.allow(route.allow || null), pageHandler);
 			}
-			app.use(router.middleware());
+			app.use(router.routes());
 
 			// Localization
 			var localization = new Router();
@@ -223,7 +219,7 @@ co(function *() {
 				this.body = yield Localization.getRawTranslation(this.params.locale);
 				this.type = 'application/json';
 			});
-			app.use(localization.middleware());
+			app.use(localization.routes());
 
 			// Start the server
 			app.listen(settings.general.server.port, function() {
