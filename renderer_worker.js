@@ -23,7 +23,7 @@ co(function *() {
 
 	// Initializing react app
 	var ReactApp = require(path.join(outputPath, 'build', 'server.js'));
-	ReactApp.init({
+	yield ReactApp.init({
 		externalUrl: Utils.getExternalUrl()
 	});
 

@@ -1,3 +1,4 @@
+import co from 'co';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
@@ -16,9 +17,7 @@ React.Component.prototype.setState = function() {};
 var options = {};
 var routes = null;
 
-var initRoutes = function() {
-	if (routes)
-		return routes;
+var initRoutes = function(done) {
 
 	routes = {
 		path: '/',
@@ -26,35 +25,43 @@ var initRoutes = function() {
 		childRoutes: []
 	};
 
-	for (var index in server.routes) {
-		var route = server.routes[index];
-		if (route.path == '/') {
-			routes.indexRoute = {
-				component: route.handler
-			};
-			continue;
-		}
+	co(function *() {
+		for (var index in server.routes) {
+			var route = server.routes[index];
 
-		if (route.getHandler) {
+			if (route.path == '/') {
+				routes.indexRoute = {
+					component: route.handler
+				};
+				continue;
+			}
 
-			// Load component directly
-			route.getHandler({}, function(err, component) {
+			if (route.getHandler) {
+				yield function(cb) {
+					route.getHandler({}, function(err, component) {
 
-				routes.childRoutes.push({
-					path: route.path,
-					component: component
-				});
-			});
-		} else {
+						if (err)
+							return cb(err);
+
+						routes.childRoutes.push({
+							path: route.path,
+							component: component
+						});
+
+						cb();
+					});
+				}
+				continue;
+			}
 
 			routes.childRoutes.push({
 				path: route.path,
 				component: route.handler
 			});
 		}
-	}
 
-	return routes;
+		done();
+	}).catch(done);
 }
 
 function createElement(Component, props) {
@@ -142,7 +149,7 @@ var render = function(reqPath, state, userdata) {
 	return function(callback) {
 
 		// Initlaizing react router
-		match({ routes: initRoutes(), 'location': reqPath }, (error, redirectLocation, renderProps) => {
+		match({ routes: routes, 'location': reqPath }, (error, redirectLocation, renderProps) => {
 			if (error)
 				return;
 
@@ -157,9 +164,11 @@ var server = module.exports = {
 	render: render,
 	init: function(opts) {
 
-		if (!opts)
-			return;
+		return function(done) {
 
-		options = opts;
+			options = opts || {};
+
+			initRoutes(done);
+		};
 	}
 };

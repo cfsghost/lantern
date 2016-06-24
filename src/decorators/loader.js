@@ -3,10 +3,12 @@ import flux from './flux';
 export default function(target) {
 
 	var Component = target;
-	if (target.isInitializer)
+	if (target.isInitializer) {
 		Component = target.component;
+	} else {
+		flux(Component);
+	}
 
-	flux(Component);
 	Component.prototype.__defineGetter__('loader', function() {
 		return this.context.flux.loader;
 	});

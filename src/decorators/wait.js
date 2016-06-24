@@ -5,7 +5,6 @@ export default function() {
 	var args = Array.prototype.slice.apply(arguments);
 
 	return function(Component) {
-		flux(Component);
 
 		if (!Component.isInitializer) {
 			// Define what state this component will be waiting for
@@ -14,7 +13,6 @@ export default function() {
 			return Initializer(Component);
 		} else {
 			// Define what state this component will be waiting for
-
 			if (!Component.component.wait)
 				Component.component.wait = [];
 

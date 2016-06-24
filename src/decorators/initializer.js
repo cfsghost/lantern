@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import flux from './flux';
 
 function doAllActions(flux, actions) {
 
@@ -87,6 +86,10 @@ function wait(Component, props, context) {
 
 export default function(Component) {
 
+	// It's a initializer already
+	if (Component.isInitializer)
+		return Component;
+
 	return class Initializer extends React.Component {
 		static isInitializer = true;
 		static component = Component;
@@ -99,6 +102,12 @@ export default function(Component) {
 			super(props, context);
 
 			this.ready = false;
+			this.ignore = (Initializer.component.clientOnly && !context.flux.isBrowser);
+
+			// Only rendering on client side
+			if (this.ignore) {
+				return;
+			}
 
 			// Do not fetch data twice
 			if (!context.flux.disabledEventHandler && !context.flux.isBrowser) {
@@ -160,7 +169,10 @@ export default function(Component) {
 			// do not execute again if it's done on server-side
 			if (!this.context.flux.getState('Lantern').inheritServerState) {
 				this.preAction(Initializer);
+			} else if (!this.ignore) {
+				this.preAction(Initializer);
 			}
+
 		}
 
 		onPageLeave = (nextLocation) => {
@@ -214,6 +226,9 @@ export default function(Component) {
 		}
 
 		render() {
+			if (this.ignore)
+				return null;
+
 			return (
 				<Initializer.component ref='component' {...this.props} />
 			);

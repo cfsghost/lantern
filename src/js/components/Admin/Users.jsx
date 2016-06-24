@@ -9,7 +9,7 @@ import AdminLayout from './AdminLayout.jsx';
 import Avatar from '../Avatar.jsx';
 
 // Decorators
-import { router, flux, i18n, preAction, wait } from 'Decorator';
+import { router, flux, i18n, preAction, wait, clientOnly } from 'Decorator';
 
 @flux
 @i18n
