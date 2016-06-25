@@ -96,6 +96,7 @@ module.exports = function(lApp) {
 			}
 		} catch(e) {
 			this.status = 500;
+			console.log(e.stack);
 			return;
 		}
 
@@ -114,6 +115,7 @@ module.exports = function(lApp) {
 			yield Mailer.sendMailFromService(this.request.body.email, subject, content.join(''));
 		} catch(e) {
 			this.status = 500;
+			console.log(e.stack);
 			return;
 		}
 
