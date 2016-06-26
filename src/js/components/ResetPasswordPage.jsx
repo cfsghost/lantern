@@ -50,7 +50,7 @@ class ResetPasswordPage extends React.Component {
 		this.flux.dispatch('action.User.resetPassword',
 			this.props.userid,
 			this.props.token,
-			this.refs.password.getDOMNode().value, function(err, success) {
+			this.refs.password.value, function(err, success) {
 
 				this.setState({
 					error: err ? true : false,
@@ -62,8 +62,8 @@ class ResetPasswordPage extends React.Component {
 	handleChange = () => {
 		var isValid = true;
 
-		var password = this.refs.password.getDOMNode().value;
-		var confirm_password = this.refs.confirm_password.getDOMNode().value;
+		var password = this.refs.password.value;
+		var confirm_password = this.refs.confirm_password.value;
 
 		if (!password || !confirm_password)
 			isValid = false;
