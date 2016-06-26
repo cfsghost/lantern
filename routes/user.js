@@ -134,6 +134,7 @@ module.exports = function(lApp) {
 			var success = yield Member.changePasswordWithToken(this.request.body.id, this.request.body.token, this.request.body.password);
 		} catch(e) {
 			this.status = 500;
+			console.log(e.stack);
 			return;
 		}
 

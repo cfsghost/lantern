@@ -31,10 +31,6 @@ class SuccessPage extends React.Component {
 @flux
 class ResetPasswordPage extends React.Component {
 
-	static contextTypes = {
-		router: React.PropTypes.func.isRequired
-	};
-
 	constructor(props, context) {
 		super(props, context);
 
@@ -48,8 +44,8 @@ class ResetPasswordPage extends React.Component {
 	submit = () => {
 
 		this.flux.dispatch('action.User.resetPassword',
-			this.props.userid,
-			this.props.token,
+			this.props.params.userid,
+			this.props.params.token,
 			this.refs.password.value, function(err, success) {
 
 				this.setState({
