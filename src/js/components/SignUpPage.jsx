@@ -171,14 +171,17 @@ class SignUpPage extends React.Component {
 		this.setState(updateState);
 
 		// Clear password inputbox
-		this.refs.password.value = ''; 
-		this.refs.confirm_password.value = ''; 
+		this.refs.password.value = '';
+		this.refs.confirm_password.value = '';
 
 		// Focus on email inputbox
 		this.refs.email.select();
 	};
 
 	render() {
+		var labelStyle = {
+			textAlign: 'left'
+		};
 
 		var features = this.flux.getState('Features');
 		var usernameClasses = 'required field';
@@ -284,7 +287,7 @@ class SignUpPage extends React.Component {
 
 											return (
 												<div className={usernameClasses}>
-													<label><I18n sign='sign_up.username'>Username</I18n></label>
+													<label style={labelStyle}><I18n sign='sign_up.username'>Username</I18n></label>
 													<div className={'ui left icon input'}>
 														<i className={'user icon'} />
 														<input type='text' ref='username' name='username' placeholder='fredchien' />
@@ -295,7 +298,7 @@ class SignUpPage extends React.Component {
 									})()}
 
 									<div className={nameClasses}>
-										<label><I18n sign='sign_up.display_name'>Display Name</I18n></label>
+										<label style={labelStyle}><I18n sign='sign_up.display_name'>Display Name</I18n></label>
 										<div className={'ui left icon input'}>
 											<i className={'tag icon'} />
 											<input type='text' ref='name' name='name' placeholder='Fred Chien' />
@@ -303,7 +306,7 @@ class SignUpPage extends React.Component {
 									</div>
 
 									<div className={emailClasses}>
-										<label><I18n sign='sign_up.email'>E-mail Address</I18n></label>
+										<label style={labelStyle}><I18n sign='sign_up.email'>E-mail Address</I18n></label>
 										<div className={'ui left icon input'}>
 											<i className={'mail icon'} />
 											<input type='text' ref='email' name='email' placeholder='fred@example.com' autoFocus={true} />
@@ -311,7 +314,7 @@ class SignUpPage extends React.Component {
 									</div>
 
 									<div className={passwordClasses}>
-										<label><I18n sign='sign_up.password'>Password</I18n></label>
+										<label style={labelStyle}><I18n sign='sign_up.password'>Password</I18n></label>
 										<div className={'ui left icon input'}>
 											<i className={'lock icon'} />
 											<input type='password' ref='password' name='password' />
@@ -319,7 +322,7 @@ class SignUpPage extends React.Component {
 									</div>
 
 									<div className={confirmClasses}>
-										<label><I18n sign='sign_up.confirm'>Confirm</I18n></label>
+										<label style={labelStyle}><I18n sign='sign_up.confirm'>Confirm</I18n></label>
 										<div className={'ui left icon input'}>
 											<i className={'lock icon'} />
 											<input type='password' ref='confirm_password' name='confirm_password' />

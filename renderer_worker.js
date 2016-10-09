@@ -53,7 +53,7 @@ co(function *() {
 		}
 
 		// Rendering page
-		consolidate.jade('views/index.jade', {
+		consolidate.pug('views/index.pug', {
 			cache: true,
 			title: page.state.Window.title,
 			content: page.content,

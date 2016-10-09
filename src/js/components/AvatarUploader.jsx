@@ -64,7 +64,7 @@ class AvatarUploader extends React.Component {
 									}
 								}
 							}
-						}).success(function() {
+						}).done(function() {
 							$button.removeClass('loading disabled');
 							$progress.hide();
 
