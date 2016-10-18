@@ -7,12 +7,12 @@ html
 		meta
 		- for (var property in window.ogMeta)
 			meta(property=property, content=window.ogMeta[property])
-		
+
 		title #{title}
 
-		link(href='//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.css', media='all', rel='stylesheet', type='text/css')
-		script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js')
-		script(src='//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.js')
+		link(href='//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css', media='all', rel='stylesheet', type='text/css')
+		script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js')
+		script(src='//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.js')
 		script(type='text/javascript', src='/assets/vendors.js')
 
 		script.
@@ -23,5 +23,5 @@ html
 		block head
 
 	body
-	
+
 		block body
