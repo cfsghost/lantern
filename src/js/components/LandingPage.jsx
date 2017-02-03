@@ -57,7 +57,7 @@ class LandingPage extends React.Component {
 						<I18n sign='landing_page.entry_button'>What's this</I18n>
 					</button>
 				</div>
-	
+
 				<section style={sectionStyle} ref='app_section'>
 					<div className={'ui basic center aligned very padded segment'}>
 						<div className={'ui two column middle aligned stackable grid'}>
@@ -141,7 +141,7 @@ class LandingPage extends React.Component {
 									</h2>
 								</div>
 							</div>
-							
+
 						</div>
 					</div>
 				</section>

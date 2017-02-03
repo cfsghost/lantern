@@ -49,6 +49,7 @@ class RoleItem extends React.Component {
 	}
 }
 
+@flux
 class SearchBar extends React.Component {
 
 	componentDidMount = () => {
@@ -123,7 +124,7 @@ class NewRoleModal extends React.Component {
 			this.refs.name.value = '';
 			this.refs.desc.value = '';
 
-			$(this.refs.component).modal({				
+			$(this.refs.component).modal({
 			    onApprove: this.onCreate
 			}).modal('show');
 		} else {
