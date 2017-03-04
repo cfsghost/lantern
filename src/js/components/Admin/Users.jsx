@@ -55,6 +55,7 @@ class UserItem extends React.Component {
 	}
 }
 
+@flux
 class SearchBar extends React.Component {
 
 	componentDidMount = () => {

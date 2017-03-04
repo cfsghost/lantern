@@ -53,7 +53,7 @@ export default function *() {
 		for (var index in state.users) {
 			var user = state.users[index];
 
-			if (id = user._id) {
+			if (id == user._id) {
 				state.users.splice(index, 1);
 				break;
 			}
