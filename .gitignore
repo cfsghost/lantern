@@ -32,3 +32,4 @@ locales
 
 # local configuration file
 configs/general.json
+configs/payment-stripe.json
