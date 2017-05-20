@@ -14,8 +14,6 @@ module.exports = {
 	apps : [{
 	    "script": "./app.js",
 	    "name": settings.general.service.name,
-	    "exec_interpreter": "node",
-	    "interpreter_args": "--harmony",
 	    "exec_mode": "cluster",
 	    "instances": 1,
 		"env": {
