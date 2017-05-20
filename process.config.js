@@ -17,7 +17,7 @@ module.exports = {
 	    "exec_interpreter": "node",
 	    "interpreter_args": "--harmony",
 	    "exec_mode": "cluster",
-	    "instances": 2,
+	    "instances": 1,
 		"env": {
 			"NODE_ENV": "development",
 		},
