@@ -51,7 +51,7 @@ class ForgotPage extends React.Component {
 		this.setState({
 			busy: true
 		});
-		
+
 		this.flux.dispatch('action.User.forgotPassword',
 			this.refs.email.value, function(err, success) {
 
@@ -102,7 +102,7 @@ class ForgotPage extends React.Component {
 			}
 
 			content = (
-				<div className='column'>
+				<div className='sixteen wide mobile eight wide tablet six wide computer column'>
 					<h1 className='ui header'>
 						<i className='lock icon' />
 						<div className='content'>
