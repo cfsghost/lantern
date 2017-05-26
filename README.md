@@ -51,7 +51,7 @@ NODE_ENV=production node app.js
 
 If the PM2 you are using for production, just run it with `process.json` provided and `--env production` options.
 ```
-pm2 start process.json --env production
+pm2 start process.config.js --env production
 ```
 
 ## Features
